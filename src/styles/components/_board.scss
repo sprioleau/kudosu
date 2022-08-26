@@ -1,0 +1,33 @@
+.board {
+  --board-size: 80vmin;
+  width: var(--board-size);
+  height: var(--board-size);
+
+  &__cells {
+    display: grid;
+    grid-template-columns: repeat(9, 50px);
+    grid-template-rows: repeat(9, 50px);
+    gap: 0.25em;
+  }
+
+  &__cell {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.05);
+    font-size: 1.5em;
+
+    &:nth-child(3n):not(:nth-child(9n)) {
+      border-right: 1px solid white;
+    }
+  }
+
+  &__button {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border-radius: 0;
+  }
+}

@@ -1,0 +1,16 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ol, li {
+  list-style: none;
+}
+
+body { 
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  
+}
