@@ -12,7 +12,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sass": "^1.54.5",
-    "sudoku": "^0.0.3"
+    "sudoku-gen": "^1.0.0",
+    "zustand": "^4.1.1"
   },
   "devDependencies": {
     "@types/node": "^18.6.4",
