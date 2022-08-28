@@ -1,11 +1,12 @@
 import "@/styles/styles.scss";
-import { Board } from "@/components";
+import { Board, NumberSelect } from "@/components";
 
 function App() {
   return (
-    <div className="App">
-      {/* <h1>Kudosu</h1> */}
+    <div className="app">
+      <h1>Kudosu</h1>
       <Board />
+      <NumberSelect />
     </div>
   );
 }

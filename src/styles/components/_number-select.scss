@@ -1,0 +1,21 @@
+.number-select {
+  &__options {
+    display: grid;
+    grid-template-columns: repeat(9, var(--cell-size));
+    grid-template-rows: var(--cell-size);
+    gap: 0.25em;
+  }
+
+  &__button {
+    --opacity: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(white, var(--opacity));
+    font-size: 1.5em;
+    padding: 0;
+
+    &:hover {
+      --opacity: 0.05;
+    }
+  }
+}
