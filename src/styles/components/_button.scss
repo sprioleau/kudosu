@@ -1,0 +1,23 @@
+button {
+  --border-opacity: 0;
+  --border-width: 3px;
+  border: none;
+  box-shadow: 0 0 0 var(--border-width) hsla(var(--c-accent-hsl), var(--border-opacity));
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: box-shadow 0.25s;
+}
+
+button:hover {
+  --border-opacity: 0.8;
+}
+
+button:focus,
+button:focus-visible {
+  --border-opacity: 1;
+  outline: none;
+  // outline: 4px auto -webkit-focus-ring-color;
+}
