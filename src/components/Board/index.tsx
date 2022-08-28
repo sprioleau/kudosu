@@ -1,50 +1,26 @@
-import { makepuzzle, solvepuzzle, ratepuzzle } from "sudoku";
-
-type PuzzleArray = number[];
-
-const SUDOKU_PUZZLE_SIZE = 9;
+import useStore from "@/store";
+import { useEffect } from "react";
+import Cell from "../Cell";
 
 const index = () => {
-  const puzzle = makepuzzle();
-  const solution = solvepuzzle(puzzle);
+  const board = useStore((s) => s.board);
+  const createBoard = useStore((s) => s.createBoard);
 
-  const getBoardLayout = (puzzleArray: PuzzleArray, solutionsArray: PuzzleArray) => {
-    const cells = [];
-    let count = 0;
+  useEffect(() => createBoard("easy"), []);
 
-    for (let row = 0; row < SUDOKU_PUZZLE_SIZE; row++) {
-      for (let col = 0; col < SUDOKU_PUZZLE_SIZE; col++) {
-        const initialValue = puzzleArray[count];
-        const correctValue = solutionsArray[count];
-
-        cells.push({
-          key: count,
-          row,
-          col,
-          initialValue,
-          correctValue,
-        });
-
-        count++;
-      }
-    }
-
-    return cells;
-  };
-
-  const board = getBoardLayout(puzzle, solution);
-  console.log({ board, puzzle, solution });
+  if (!board) return null;
 
   return (
     <div className="board">
       <ol className="board__cells">
-        {board.map(({ key, initialValue }) => (
-          <li
+        {board.map(({ key, initialValue, row, col, region, correctValue }) => (
+          <Cell
             key={key}
-            className="board__cell"
-          >
-            <button className="board__button">{initialValue ?? ""}</button>
-          </li>
+            row={row}
+            col={col}
+            region={region}
+            value={initialValue ?? undefined}
+          />
         ))}
       </ol>
     </div>
