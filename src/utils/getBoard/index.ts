@@ -6,7 +6,7 @@ export interface PuzzleCell {
   row: number;
   col: number;
   region: number;
-  initialValue: number | null;
+  value: number | null;
   correctValue: number;
 }
 
@@ -28,7 +28,7 @@ export default function getBoard(puzzleString: string, solutionsString: string):
         key: count,
         row: row + 1,
         col: col + 1,
-        initialValue,
+        value: initialValue,
         correctValue,
         region: getBoardRegion(count + 1),
       });

@@ -1,4 +1,3 @@
-import { Cell } from "@/components/Cell";
 import { getBoard } from "@/utils";
 import { PuzzleCell } from "@/utils/getBoard";
 import { getSudoku } from "sudoku-gen";
@@ -7,21 +6,15 @@ import create from "zustand";
 type TDifficulty = "easy" | "medium" | "hard" | "expert";
 
 interface GlobalState {
-  selectedNumber: number | undefined;
-  selectedRow: number | undefined;
-  selectedCol: number | undefined;
-  selectedRegion: number | undefined;
+  selectedCell: PuzzleCell | undefined;
   board: PuzzleCell[] | undefined;
   difficulty: TDifficulty;
   createBoard: (difficulty: TDifficulty) => void;
-  selectCell: ({ row, col, value, region }: Cell) => void;
+  selectCell: (cell: PuzzleCell) => void;
 }
 
 const useStore = create<GlobalState>((set) => ({
-  selectedNumber: undefined,
-  selectedRow: undefined,
-  selectedCol: undefined,
-  selectedRegion: undefined,
+  selectedCell: undefined,
   board: undefined,
   difficulty: "easy",
 
@@ -30,14 +23,7 @@ const useStore = create<GlobalState>((set) => ({
     set({ board: getBoard(puzzle, solution), difficulty });
   },
 
-  selectCell: ({ row, col, value, region }) => {
-    set({
-      selectedNumber: value,
-      selectedRow: row,
-      selectedCol: col,
-      selectedRegion: region,
-    });
-  },
+  selectCell: (cell) => set({ selectedCell: cell }),
 }));
 
 export default useStore;

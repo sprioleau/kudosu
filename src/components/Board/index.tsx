@@ -1,4 +1,5 @@
 import useStore from "@/store";
+import { PuzzleCell } from "@/utils/getBoard";
 import { useEffect } from "react";
 import Cell from "../Cell";
 
@@ -9,17 +10,15 @@ const index = () => {
   useEffect(() => createBoard("easy"), []);
 
   if (!board) return null;
+  console.log("board:", board);
 
   return (
     <div className="board">
       <ol className="board__cells">
-        {board.map(({ key, initialValue, row, col, region, correctValue }) => (
+        {board.map((cell: PuzzleCell) => (
           <Cell
-            key={key}
-            row={row}
-            col={col}
-            region={region}
-            value={initialValue ?? undefined}
+            key={cell.key}
+            cell={cell}
           />
         ))}
       </ol>

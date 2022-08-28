@@ -18,7 +18,7 @@
     &[data-region-selected="true"],
     &[data-row-selected="true"],
     &[data-col-selected="true"],
-    &[data-number-selected="true"] {
+    &[data-value-selected="true"] {
       background-color: hsla(var(--c-accent-h), var(--c-accent-s), var(--c-accent-l), var(--opacity));
     }
 
@@ -31,7 +31,7 @@
       --opacity: 0.30;
     }
 
-    &[data-number-selected="true"] {
+    &[data-value-selected="true"] {
       --opacity: 0.20;
       --border-opacity: 0.8;
       --border-width: 1px;
