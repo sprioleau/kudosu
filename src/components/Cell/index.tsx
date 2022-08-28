@@ -1,12 +1,11 @@
 import useStore from "@/store";
+import { getIsTruthyEqual } from "@/utils";
 import { PuzzleCell } from "@/utils/getBoard";
 
 export interface Props {
   key: number;
   cell: PuzzleCell;
 }
-
-type TIsEqualValue = number | undefined | null;
 
 const Cell = ({ cell }: Props) => {
   const selectedCell = useStore((s) => s.selectedCell);
@@ -19,15 +18,16 @@ const Cell = ({ cell }: Props) => {
   const selectedRegion = selectedCell?.region;
   const selectedValue = selectedCell?.value;
 
-  const getIsEqual = (number1: TIsEqualValue, number2: TIsEqualValue) => {
-    return number1 && number2 && number1 === number2;
-  };
-
-  const isSelected = getIsEqual(row, selectedRow) && getIsEqual(col, selectedCol);
+  const isSelected = getIsTruthyEqual(row, selectedRow) && getIsTruthyEqual(col, selectedCol);
 
   let buttonClasses = "cell__button";
 
   if (isSelected) buttonClasses += " selected";
+  if (cell.isCorrect) {
+    buttonClasses += " correct";
+  } else if (!cell.isCorrect && !cell.isGiven) {
+    buttonClasses += " incorrect";
+  }
 
   const handleSelect = () => {
     selectCell(cell);
@@ -40,10 +40,10 @@ const Cell = ({ cell }: Props) => {
         data-row={row}
         data-col={col}
         data-region={region % 2 === 0 ? "even" : "odd"}
-        data-row-selected={getIsEqual(row, selectedRow)}
-        data-col-selected={getIsEqual(col, selectedCol)}
-        data-region-selected={getIsEqual(region, selectedRegion)}
-        data-value-selected={getIsEqual(value, selectedValue)}
+        data-row-selected={getIsTruthyEqual(row, selectedRow)}
+        data-col-selected={getIsTruthyEqual(col, selectedCol)}
+        data-region-selected={getIsTruthyEqual(region, selectedRegion)}
+        data-value-selected={getIsTruthyEqual(value, selectedValue)}
         onClick={handleSelect}
       >
         {value ?? ""}

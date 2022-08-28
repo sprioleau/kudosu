@@ -1,9 +1,9 @@
 .number-select {
   &__options {
     display: grid;
-    grid-template-columns: repeat(9, var(--cell-size));
+    grid-template-columns: repeat(9, 1fr);
     grid-template-rows: var(--cell-size);
-    gap: 0.25em;
+    gap: var(--board-gap);
   }
 
   &__button {

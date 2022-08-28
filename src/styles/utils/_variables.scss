@@ -1,5 +1,7 @@
 :root {
-  --cell-size: 50px;
+  --cell-size: 45px;
+  --board-size: calc(var(--cell-size) * 9);
+  --board-gap: 0.25em;
   --c-accent-h: 273;
   --c-accent-s: 98%;
   --c-accent-l: 60%;

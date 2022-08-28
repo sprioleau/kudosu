@@ -1,5 +1,6 @@
 // Utils
 @import "./utils/variables";
+@import "./utils/base";
 @import "./utils/app";
 
 // Components
@@ -7,3 +8,5 @@
 @import "./components/board";
 @import "./components/cell";
 @import "./components/number-select";
+@import "./components/game-info";
+@import "./components/game-result";

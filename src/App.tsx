@@ -1,12 +1,14 @@
 import "@/styles/styles.scss";
-import { Board, NumberSelect } from "@/components";
+import { Board, GameInfo, GameResult, NumberSelect } from "@/components";
 
 function App() {
   return (
     <div className="app">
       <h1>Kudosu</h1>
+      <GameInfo />
       <Board />
       <NumberSelect />
+      <GameResult />
     </div>
   );
 }

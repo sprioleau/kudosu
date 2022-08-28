@@ -4,8 +4,9 @@
 
   &__cells {
     display: grid;
-    grid-template-columns: repeat(9, 50px);
-    grid-template-rows: repeat(9, 50px);
-    gap: 0.25em;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    height: 100%;
+    gap: var(--board-gap);
   }
 }

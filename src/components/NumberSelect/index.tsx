@@ -1,12 +1,12 @@
 import { SUDOKU_PUZZLE_SIZE } from "@/constants";
+import useStore from "@/store";
 
-interface Props {}
-
-const NumberSelect = ({}: Props) => {
+const NumberSelect = () => {
+  const selectNumberOption = useStore((s) => s.selectNumberOption);
   const options = [...Array(SUDOKU_PUZZLE_SIZE).keys()].map((_, i) => i + 1);
 
-  const handleNumberSelect = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    console.log(e.target);
+  const handleNumberSelect = (value: number) => {
+    selectNumberOption(value);
   };
 
   return (
@@ -19,7 +19,7 @@ const NumberSelect = ({}: Props) => {
           >
             <button
               className="number-select__button"
-              onClick={handleNumberSelect}
+              onClick={() => handleNumberSelect(number)}
             >
               {number}
             </button>
