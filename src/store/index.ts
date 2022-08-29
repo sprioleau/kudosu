@@ -1,9 +1,11 @@
-import { getBoard } from "@/utils";
+import { getBoard, checkGameIsWon, getRemainingOptions } from "@/utils";
 import { Board, PuzzleCell } from "@/utils/getBoard";
 import { getSudoku } from "sudoku-gen";
 import create from "zustand";
 
 export type TDifficulty = "easy" | "medium" | "hard" | "expert";
+
+export type TRemainingOptions = Record<string, number>;
 
 interface InitialState {
   selectedCell: PuzzleCell | undefined;
@@ -11,6 +13,7 @@ interface InitialState {
   difficulty: TDifficulty;
   mistakes: [number, number];
   result: string | undefined;
+  remainingOptions: TRemainingOptions | undefined;
 }
 
 const RESULT = {
@@ -34,6 +37,7 @@ const initalState: InitialState = {
   difficulty: "easy",
   mistakes: [0, MISTAKES_ALLOWED],
   result: undefined,
+  remainingOptions: undefined,
 };
 
 const useStore = create<GlobalState>((set) => ({
@@ -41,10 +45,15 @@ const useStore = create<GlobalState>((set) => ({
 
   createBoard: (difficulty) => {
     const { puzzle, solution } = getSudoku(difficulty);
+    const board = getBoard(puzzle, solution);
+
+    const remainingOptions = getRemainingOptions(board);
+    console.log("remainingOptions:", remainingOptions);
 
     set({
-      board: getBoard(puzzle, solution),
+      board,
       difficulty,
+      remainingOptions,
     });
   },
 
@@ -62,15 +71,23 @@ const useStore = create<GlobalState>((set) => ({
         value,
       };
 
+      const newBoard: Board = {
+        ...s.board,
+        [newCell.key]: newCell,
+      };
+
+      const remainingOptions = getRemainingOptions(newBoard);
+
       if (newCell.value !== s.selectedCell.correctValue) {
         s.incrementMistakes();
       }
 
+      const newResult = checkGameIsWon(newBoard) ? RESULT.WIN : undefined;
+
       return {
-        board: {
-          ...s.board,
-          [newCell.key]: newCell,
-        },
+        board: newBoard,
+        result: newResult,
+        remainingOptions,
       };
     });
   },
@@ -96,10 +113,13 @@ const useStore = create<GlobalState>((set) => ({
   resetGame: () => {
     set((s) => {
       const { puzzle, solution } = getSudoku(s.difficulty);
+      const board = getBoard(puzzle, solution);
+      const remainingOptions = getRemainingOptions(board);
 
       return {
         ...initalState,
-        board: getBoard(puzzle, solution),
+        board,
+        remainingOptions,
       };
     });
   },

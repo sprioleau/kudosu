@@ -10,6 +10,7 @@ export interface Props {
 const Cell = ({ cell }: Props) => {
   const selectedCell = useStore((s) => s.selectedCell);
   const selectCell = useStore((s) => s.selectCell);
+  const selectNumberOption = useStore((s) => s.selectNumberOption);
 
   const { row, col, region, value } = cell;
 
@@ -33,6 +34,12 @@ const Cell = ({ cell }: Props) => {
     selectCell(cell);
   };
 
+  const handleSelectWithKeyboard = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    const key = e.key;
+    if (!["1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(key)) return;
+    selectNumberOption(Number(key));
+  };
+
   return (
     <li className="cell">
       <button
@@ -45,6 +52,7 @@ const Cell = ({ cell }: Props) => {
         data-region-selected={getIsTruthyEqual(region, selectedRegion)}
         data-value-selected={getIsTruthyEqual(value, selectedValue)}
         onClick={handleSelect}
+        onKeyDown={handleSelectWithKeyboard}
       >
         {value ?? ""}
       </button>
