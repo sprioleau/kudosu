@@ -9,9 +9,13 @@
   gap: 0.5em;
   align-items: center;
   justify-content: center;
-  background-color: hsla(0, 0%, 23%, 0.25);
+  background-color: hsla(0, 0%, 15%, 0.25);
 
   &__message {
     font-size: 5em;
+  }
+
+  &__button {
+    background-color: hsl(var(--c-accent-hsl));
   }
 }

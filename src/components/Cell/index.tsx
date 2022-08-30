@@ -13,7 +13,7 @@ const Cell = ({ cell }: Props) => {
   const selectNumberOption = useStore((s) => s.selectNumberOption);
   const navigateToNextCell = useStore((s) => s.navigateToNextCell);
 
-  const { row, col, region, value } = cell;
+  const { row, col, region, value, isCorrect, isGiven } = cell;
 
   const selectedRow = selectedCell?.row;
   const selectedCol = selectedCell?.col;
@@ -25,9 +25,10 @@ const Cell = ({ cell }: Props) => {
   let buttonClasses = "cell__button";
 
   if (isSelected) buttonClasses += " selected";
+
   if (cell.isCorrect) {
     buttonClasses += " correct";
-  } else if (!cell.isCorrect && !cell.isGiven) {
+  } else if (cell.value && !isCorrect && !isGiven) {
     buttonClasses += " incorrect";
   }
 
