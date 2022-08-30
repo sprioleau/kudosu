@@ -9,12 +9,6 @@ const NumberSelect = () => {
     selectNumberOption(value);
   };
 
-  // const handleNumberSelectWithKey = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-  //   console.log(e.key);
-
-  //   selectNumberOption(2);
-  // };
-
   return (
     <div className="number-select">
       <ol className="number-select__options">
@@ -26,7 +20,6 @@ const NumberSelect = () => {
             <button
               className="number-select__button"
               onClick={() => handleNumberSelect(number)}
-              // onKeyDown={handleNumberSelectWithKey}
             >
               {number}
             </button>

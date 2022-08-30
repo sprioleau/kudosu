@@ -1,3 +1,4 @@
+import { SUDOKU_PUZZLE_SIZE } from "@/constants";
 import { getBoard, checkGameIsWon, getRemainingOptions } from "@/utils";
 import { Board, PuzzleCell } from "@/utils/getBoard";
 import { getSudoku } from "sudoku-gen";
@@ -6,6 +7,8 @@ import create from "zustand";
 export type TDifficulty = "easy" | "medium" | "hard" | "expert";
 
 export type TRemainingOptions = Record<string, number>;
+
+export type Direction = "Up" | "Down" | "Left" | "Right";
 
 interface InitialState {
   selectedCell: PuzzleCell | undefined;
@@ -29,6 +32,7 @@ interface GlobalState extends InitialState {
   selectNumberOption: (value: number) => void;
   incrementMistakes: () => void;
   resetGame: () => void;
+  navigateToNextCell: (direction: Direction) => void;
 }
 
 const initalState: InitialState = {
@@ -48,7 +52,6 @@ const useStore = create<GlobalState>((set) => ({
     const board = getBoard(puzzle, solution);
 
     const remainingOptions = getRemainingOptions(board);
-    console.log("remainingOptions:", remainingOptions);
 
     set({
       board,
@@ -121,6 +124,24 @@ const useStore = create<GlobalState>((set) => ({
         board,
         remainingOptions,
       };
+    });
+  },
+
+  navigateToNextCell: (direction) => {
+    set((s) => {
+      if (!s.selectedCell || !s.board) return s;
+
+      const key = s.selectedCell.key;
+
+      let nextCellInDirection = undefined;
+      if (direction === "Up") nextCellInDirection = s.board[key - SUDOKU_PUZZLE_SIZE];
+      if (direction === "Down") nextCellInDirection = s.board[key + SUDOKU_PUZZLE_SIZE];
+      if (direction === "Left") nextCellInDirection = s.board[key - 1];
+      if (direction === "Right") nextCellInDirection = s.board[key + 1];
+
+      const newSelectedCell = nextCellInDirection ?? s.selectedCell;
+
+      return { selectedCell: newSelectedCell };
     });
   },
 }));

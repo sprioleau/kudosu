@@ -1,4 +1,4 @@
-import useStore from "@/store";
+import useStore, { Direction } from "@/store";
 import { getIsTruthyEqual } from "@/utils";
 import { PuzzleCell } from "@/utils/getBoard";
 
@@ -11,6 +11,7 @@ const Cell = ({ cell }: Props) => {
   const selectedCell = useStore((s) => s.selectedCell);
   const selectCell = useStore((s) => s.selectCell);
   const selectNumberOption = useStore((s) => s.selectNumberOption);
+  const navigateToNextCell = useStore((s) => s.navigateToNextCell);
 
   const { row, col, region, value } = cell;
 
@@ -30,14 +31,23 @@ const Cell = ({ cell }: Props) => {
     buttonClasses += " incorrect";
   }
 
-  const handleSelect = () => {
+  const handleSelectCell = () => {
     selectCell(cell);
   };
 
   const handleSelectWithKeyboard = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    const validNumberKeys = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    const arrowKeys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+
     const key = e.key;
-    if (!["1", "2", "3", "4", "5", "6", "7", "8", "9"].includes(key)) return;
-    selectNumberOption(Number(key));
+
+    if (!selectedCell) return;
+    if (![...validNumberKeys, ...arrowKeys].includes(key)) return;
+    if (validNumberKeys.includes(key)) selectNumberOption(Number(key));
+    if (arrowKeys.includes(key)) {
+      const direction = key.replace("Arrow", "") as Direction;
+      navigateToNextCell(direction);
+    }
   };
 
   return (
@@ -51,7 +61,7 @@ const Cell = ({ cell }: Props) => {
         data-col-selected={getIsTruthyEqual(col, selectedCol)}
         data-region-selected={getIsTruthyEqual(region, selectedRegion)}
         data-value-selected={getIsTruthyEqual(value, selectedValue)}
-        onClick={handleSelect}
+        onClick={handleSelectCell}
         onKeyDown={handleSelectWithKeyboard}
       >
         {value ?? ""}
