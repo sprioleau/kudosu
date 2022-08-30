@@ -1,6 +1,6 @@
 :root {
   --cell-size: 45px;
-  --board-size: calc(var(--cell-size) * 9);
+  --board-size: min(calc(var(--cell-size) * 9), calc(100vw - 2em));
   --board-gap: 0.25em;
   --c-accent-h: 273;
   --c-accent-s: 98%;
