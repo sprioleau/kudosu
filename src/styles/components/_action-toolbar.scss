@@ -1,0 +1,30 @@
+.action-toolbar {
+  &__options {
+    display: flex;
+    gap: var(--board-gap);
+  }
+
+  &__option {
+    flex: 1;
+  }
+  
+  &__button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    gap: calc(var(--board-gap));
+    background-color: transparent;
+    transition: 0.3 background-color ease-out;
+
+    &:active {
+      background-color: hsl(var(--c-accent-hsl));
+    }
+  };
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
