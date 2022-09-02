@@ -7,7 +7,7 @@ import create from "zustand";
 
 export type TDifficulty = "easy" | "medium" | "hard" | "expert";
 
-export type TRemainingOptions = Record<string, number>;
+export type TRemainingOptions = number[];
 
 export type Direction = "Up" | "Down" | "Left" | "Right";
 
@@ -19,8 +19,8 @@ interface InitialState {
   difficulty: TDifficulty;
   mistakes: NumberTuple;
   result: string | undefined;
-  remainingOptions: TRemainingOptions | undefined;
-  notesVisible: boolean;
+  remainingNumberOptions: TRemainingOptions | undefined;
+  notesModeActive: boolean;
 }
 
 const RESULT = {
@@ -45,8 +45,8 @@ const initalState: InitialState = {
   difficulty: "easy",
   mistakes: [0, MISTAKES_ALLOWED],
   result: undefined,
-  remainingOptions: undefined,
-  notesVisible: false,
+  remainingNumberOptions: undefined,
+  notesModeActive: false,
 };
 
 const useStore = create<GlobalState>((set) => ({
@@ -56,12 +56,12 @@ const useStore = create<GlobalState>((set) => ({
     const { puzzle, solution } = getSudoku(difficulty);
     const board = getBoard(puzzle, solution);
 
-    const remainingOptions = getRemainingOptions(board);
+    const remainingNumberOptions = getRemainingOptions(board);
 
     set({
       board,
       difficulty,
-      remainingOptions,
+      remainingNumberOptions,
     });
   },
 
@@ -77,7 +77,7 @@ const useStore = create<GlobalState>((set) => ({
 
       let newCell = undefined;
 
-      if (s.notesVisible) {
+      if (s.notesModeActive) {
         newCell = {
           ...currentCell,
           notes: currentCell.notes.includes(value)
@@ -88,6 +88,7 @@ const useStore = create<GlobalState>((set) => ({
         newCell = {
           ...currentCell,
           isCorrect: value === currentCell.correctValue,
+          notes: [],
           value,
         };
       }
@@ -97,12 +98,12 @@ const useStore = create<GlobalState>((set) => ({
         [newCell.key]: newCell,
       };
 
-      const remainingOptions = getRemainingOptions(newBoard);
+      const remainingNumberOptions = getRemainingOptions(newBoard);
 
       let newMistakes: NumberTuple = [mistakes, totalMistakes];
       let newResult = checkGameIsWon(newBoard) ? RESULT.WIN : s.result;
 
-      if (!s.notesVisible && newCell.value !== currentCell.correctValue) {
+      if (!s.notesModeActive && newCell.value !== currentCell.correctValue) {
         newMistakes[0] = Math.min(mistakes + 1, totalMistakes);
         if (newMistakes[0] === totalMistakes) newResult = RESULT.LOSE;
       }
@@ -111,7 +112,7 @@ const useStore = create<GlobalState>((set) => ({
         board: newBoard,
         result: newResult,
         mistakes: newMistakes,
-        remainingOptions,
+        remainingNumberOptions,
       };
     });
   },
@@ -120,12 +121,12 @@ const useStore = create<GlobalState>((set) => ({
     set((s) => {
       const { puzzle, solution } = getSudoku(s.difficulty);
       const board = getBoard(puzzle, solution);
-      const remainingOptions = getRemainingOptions(board);
+      const remainingNumberOptions = getRemainingOptions(board);
 
       return {
         ...initalState,
         board,
-        remainingOptions,
+        remainingNumberOptions,
       };
     });
   },
@@ -176,7 +177,7 @@ const useStore = create<GlobalState>((set) => ({
       }
 
       if (actionId === ACTION_IDS.NOTES) {
-        return { notesVisible: !s.notesVisible };
+        return { notesModeActive: !s.notesModeActive };
       }
 
       if (actionId === ACTION_IDS.HINT) {
