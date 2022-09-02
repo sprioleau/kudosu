@@ -3,3 +3,4 @@ export { default as getBoardRegion } from "./getBoardRegion";
 export { default as getIsTruthyEqual } from "./getIsTruthyEqual";
 export { default as checkGameIsWon } from "./checkGameIsWon";
 export { default as getRemainingOptions } from "./getRemainingOptions";
+export { default as getNumberOptions } from "./getNumberOptions";

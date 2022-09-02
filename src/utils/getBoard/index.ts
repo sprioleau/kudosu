@@ -10,6 +10,7 @@ export interface PuzzleCell {
   isCorrect?: boolean;
   value: number | null;
   correctValue: number;
+  notes: number[];
 }
 
 export type Board = Record<string, PuzzleCell>;
@@ -36,6 +37,7 @@ export default function getBoard(puzzleString: string, solutionsString: string):
         isGiven: initialValue !== null,
         value: initialValue,
         correctValue,
+        notes: [],
       };
 
       count++;

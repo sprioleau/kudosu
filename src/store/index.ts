@@ -1,3 +1,4 @@
+import { Action, ACTION_IDS } from "@/components/ActionToolbar";
 import { SUDOKU_PUZZLE_SIZE } from "@/constants";
 import { getBoard, checkGameIsWon, getRemainingOptions } from "@/utils";
 import { Board, PuzzleCell } from "@/utils/getBoard";
@@ -10,13 +11,16 @@ export type TRemainingOptions = Record<string, number>;
 
 export type Direction = "Up" | "Down" | "Left" | "Right";
 
+type NumberTuple = [number, number];
+
 interface InitialState {
   selectedCell: PuzzleCell | undefined;
   board: Board | undefined;
   difficulty: TDifficulty;
-  mistakes: [number, number];
+  mistakes: NumberTuple;
   result: string | undefined;
   remainingOptions: TRemainingOptions | undefined;
+  notesVisible: boolean;
 }
 
 const RESULT = {
@@ -30,9 +34,9 @@ interface GlobalState extends InitialState {
   createBoard: (difficulty: TDifficulty) => void;
   selectCell: (cell: PuzzleCell) => void;
   selectNumberOption: (value: number) => void;
-  incrementMistakes: () => void;
   resetGame: () => void;
   navigateToNextCell: (direction: Direction) => void;
+  selectAction: (action: Action) => void;
 }
 
 const initalState: InitialState = {
@@ -42,6 +46,7 @@ const initalState: InitialState = {
   mistakes: [0, MISTAKES_ALLOWED],
   result: undefined,
   remainingOptions: undefined,
+  notesVisible: false,
 };
 
 const useStore = create<GlobalState>((set) => ({
@@ -65,14 +70,27 @@ const useStore = create<GlobalState>((set) => ({
   selectNumberOption: (value) => {
     set((s) => {
       if (!s.board || !s.selectedCell) return s;
+      const currentCell = s.board[s.selectedCell.key];
+      const [mistakes, totalMistakes] = s.mistakes;
 
-      if (s.selectedCell.isGiven) return s;
+      if (currentCell.isGiven) return s;
 
-      const newCell: PuzzleCell = {
-        ...s.selectedCell,
-        isCorrect: value === s.selectedCell.correctValue,
-        value,
-      };
+      let newCell = undefined;
+
+      if (s.notesVisible) {
+        newCell = {
+          ...currentCell,
+          notes: currentCell.notes.includes(value)
+            ? currentCell.notes.filter((v) => v !== value)
+            : [...currentCell.notes, value],
+        };
+      } else {
+        newCell = {
+          ...currentCell,
+          isCorrect: value === currentCell.correctValue,
+          value,
+        };
+      }
 
       const newBoard: Board = {
         ...s.board,
@@ -81,34 +99,19 @@ const useStore = create<GlobalState>((set) => ({
 
       const remainingOptions = getRemainingOptions(newBoard);
 
-      if (newCell.value !== s.selectedCell.correctValue) {
-        s.incrementMistakes();
-      }
+      let newMistakes: NumberTuple = [mistakes, totalMistakes];
+      let newResult = checkGameIsWon(newBoard) ? RESULT.WIN : s.result;
 
-      const newResult = checkGameIsWon(newBoard) ? RESULT.WIN : undefined;
+      if (!s.notesVisible && newCell.value !== currentCell.correctValue) {
+        newMistakes[0] = Math.min(mistakes + 1, totalMistakes);
+        if (newMistakes[0] === totalMistakes) newResult = RESULT.LOSE;
+      }
 
       return {
         board: newBoard,
         result: newResult,
+        mistakes: newMistakes,
         remainingOptions,
-      };
-    });
-  },
-
-  incrementMistakes: () => {
-    set((s) => {
-      const [mistakes, totalMistakes] = s.mistakes;
-
-      if (mistakes + 1 === totalMistakes) {
-        return {
-          result: RESULT.LOSE,
-        };
-      }
-
-      if (mistakes === totalMistakes) return s;
-
-      return {
-        mistakes: [mistakes + 1, totalMistakes],
       };
     });
   },
@@ -142,6 +145,46 @@ const useStore = create<GlobalState>((set) => ({
       const newSelectedCell = nextCellInDirection ?? s.selectedCell;
 
       return { selectedCell: newSelectedCell };
+    });
+  },
+
+  selectAction: (action) => {
+    set((s) => {
+      const actionId = action.id;
+
+      if (actionId === ACTION_IDS.UNDO) {
+        // TODO: Implement logic
+        // Update object values "key", "fromValue", "toValue"
+        return s;
+      }
+
+      if (actionId === ACTION_IDS.ERASE) {
+        if (!s.selectedCell || !s.board) return s;
+        if (s.selectedCell.isGiven) return s;
+
+        s.board[s.selectedCell.key].value = null;
+
+        const newBoard = {
+          ...s.board,
+          [s.selectedCell.key]: {
+            ...s.board[s.selectedCell.key],
+            value: null,
+          },
+        };
+
+        return { board: newBoard };
+      }
+
+      if (actionId === ACTION_IDS.NOTES) {
+        return { notesVisible: !s.notesVisible };
+      }
+
+      if (actionId === ACTION_IDS.HINT) {
+        // TODO: Implement logic
+        return s;
+      }
+
+      return { ...s, selectedAction: action };
     });
   },
 }));

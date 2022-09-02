@@ -1,5 +1,5 @@
 import useStore, { Direction } from "@/store";
-import { getIsTruthyEqual } from "@/utils";
+import { getIsTruthyEqual, getNumberOptions } from "@/utils";
 import { PuzzleCell } from "@/utils/getBoard";
 
 export interface Props {
@@ -12,8 +12,9 @@ const Cell = ({ cell }: Props) => {
   const selectCell = useStore((s) => s.selectCell);
   const selectNumberOption = useStore((s) => s.selectNumberOption);
   const navigateToNextCell = useStore((s) => s.navigateToNextCell);
+  const notesVisible = useStore((s) => s.notesVisible);
 
-  const { row, col, region, value, isCorrect, isGiven } = cell;
+  const { row, col, region, value, isCorrect, isGiven, notes } = cell;
 
   const selectedRow = selectedCell?.row;
   const selectedCol = selectedCell?.col;
@@ -51,6 +52,8 @@ const Cell = ({ cell }: Props) => {
     }
   };
 
+  const numberOptions = getNumberOptions();
+
   return (
     <li className="cell">
       <button
@@ -65,7 +68,21 @@ const Cell = ({ cell }: Props) => {
         onClick={handleSelectCell}
         onKeyDown={handleSelectWithKeyboard}
       >
-        {value ?? ""}
+        {notesVisible && !isGiven ? (
+          <ol className="cell__notes">
+            {numberOptions.map((number: number) => (
+              <div
+                key={number}
+                className="cell__note"
+                data-is-visible={notes.includes(number)}
+              >
+                {number}
+              </div>
+            ))}
+          </ol>
+        ) : (
+          <>{value ?? ""}</>
+        )}
       </button>
     </li>
   );

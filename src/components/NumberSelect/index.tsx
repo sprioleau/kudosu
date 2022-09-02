@@ -1,9 +1,9 @@
-import { SUDOKU_PUZZLE_SIZE } from "@/constants";
 import useStore from "@/store";
+import { getNumberOptions } from "@/utils";
 
 const NumberSelect = () => {
   const selectNumberOption = useStore((s) => s.selectNumberOption);
-  const options = [...Array(SUDOKU_PUZZLE_SIZE).keys()].map((_, i) => i + 1);
+  const options = getNumberOptions();
 
   const handleNumberSelect = (value: number) => {
     selectNumberOption(value);
