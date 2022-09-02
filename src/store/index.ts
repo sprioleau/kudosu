@@ -113,6 +113,7 @@ const useStore = create<GlobalState>((set) => ({
         result: newResult,
         mistakes: newMistakes,
         remainingNumberOptions,
+        selectedCell: newCell,
       };
     });
   },
