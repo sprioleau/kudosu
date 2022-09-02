@@ -56,7 +56,7 @@
     }
 
     &.incorrect {
-      color: hsl(353, 85%, 51%);
+      color: var(--c-incorrect);
     }
   }
 
