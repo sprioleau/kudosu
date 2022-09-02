@@ -9,6 +9,7 @@ button {
   font-family: inherit;
   cursor: pointer;
   transition: box-shadow 0.25s;
+  user-select: none;
 }
 
 button:hover {

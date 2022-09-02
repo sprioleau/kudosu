@@ -46,7 +46,7 @@ const availableActions: Action[] = [
 
 const ActionToolbar = () => {
   const selectAction = useStore((s) => s.selectAction);
-  const notesVisible = useStore((s) => s.notesVisible);
+  const notesModeActive = useStore((s) => s.notesModeActive);
 
   const handleActionSelect = (action: Action) => {
     selectAction(action);
@@ -58,8 +58,6 @@ const ActionToolbar = () => {
         {availableActions.map((action: Action) => {
           const { id, label, icon, iconAlt } = action;
 
-          let buttonClasses = "action-toolbar__button";
-
           return (
             <li
               key={id}
@@ -67,11 +65,11 @@ const ActionToolbar = () => {
             >
               <button
                 id={id}
-                className={buttonClasses}
+                className="action-toolbar__button"
                 onClick={() => handleActionSelect(action)}
               >
                 <span className="action-toolbar__icon">
-                  {id === ACTION_IDS.NOTES && notesVisible ? iconAlt : icon}
+                  {id === ACTION_IDS.NOTES && notesModeActive ? iconAlt : icon}
                 </span>
                 <span className="action-toolbar__label">{label}</span>
               </button>

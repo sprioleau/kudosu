@@ -12,7 +12,6 @@ const Cell = ({ cell }: Props) => {
   const selectCell = useStore((s) => s.selectCell);
   const selectNumberOption = useStore((s) => s.selectNumberOption);
   const navigateToNextCell = useStore((s) => s.navigateToNextCell);
-  const notesVisible = useStore((s) => s.notesVisible);
 
   const { row, col, region, value, isCorrect, isGiven, notes } = cell;
 
@@ -52,6 +51,7 @@ const Cell = ({ cell }: Props) => {
     }
   };
 
+  const shouldShowNotes = !isGiven && value == null;
   const numberOptions = getNumberOptions();
 
   return (
@@ -68,7 +68,7 @@ const Cell = ({ cell }: Props) => {
         onClick={handleSelectCell}
         onKeyDown={handleSelectWithKeyboard}
       >
-        {notesVisible && !isGiven ? (
+        {shouldShowNotes ? (
           <ol className="cell__notes">
             {numberOptions.map((number: number) => (
               <div
