@@ -1,6 +1,7 @@
 .board {
   width: var(--board-size);
   height: var(--board-size);
+  margin-bottom: 1em;
 
   &__cells {
     display: grid;

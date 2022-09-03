@@ -4,7 +4,7 @@ import { ActionToolbar, Board, GameInfo, GameResult, NumberSelect } from "@/comp
 function App() {
   return (
     <div className="app">
-      <h1>Kudosu</h1>
+      <h1 className="app__title">Kudosu</h1>
       <GameInfo />
       <Board />
       <ActionToolbar />

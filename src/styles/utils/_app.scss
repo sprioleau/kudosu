@@ -1,6 +1,9 @@
 .app {
   display: flex;
   flex-direction: column;
-  gap: 1em;
   position: relative;
+
+  &__title {
+    margin-bottom: 0.125em;
+  }
 }

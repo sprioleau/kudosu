@@ -1,4 +1,6 @@
 .action-toolbar {
+  margin-bottom: 0;
+
   &__options {
     display: flex;
     gap: var(--board-gap);
