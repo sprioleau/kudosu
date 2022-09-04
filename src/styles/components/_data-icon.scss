@@ -1,0 +1,27 @@
+.data-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  &::before {
+    content: attr(data-icon-label);
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 0.5em;
+    font-weight: 700;
+    text-transform: uppercase;
+    background-color: var(--c-ui-bg);
+    box-shadow: 0 0 0 0.125em var(--c-white);
+    border-radius: 100vmax;
+    color: var(--c-white);
+    padding: 0.325em 0.35em 0.125em;
+    transform: translate(-50%, -40%);
+    line-height: 1;
+  }
+
+  &[data-icon-label=""]::before {
+    display: none;
+  }
+}

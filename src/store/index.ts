@@ -21,7 +21,7 @@ interface InitialState {
   result: string | undefined;
   remainingNumberOptions: TRemainingOptions | undefined;
   notesModeActive: boolean;
-  hints: number;
+  hintsRemaining: number;
 }
 
 const RESULT = {
@@ -49,7 +49,7 @@ const initalState: InitialState = {
   result: undefined,
   remainingNumberOptions: undefined,
   notesModeActive: false,
-  hints: HINTS_ALLOWED,
+  hintsRemaining: HINTS_ALLOWED,
 };
 
 const useStore = create<GlobalState>((set) => ({
@@ -156,7 +156,6 @@ const useStore = create<GlobalState>((set) => ({
   selectAction: (action) => {
     set((s) => {
       const actionId = action.id;
-      if (!s.selectedCell || !s.board) return s;
 
       if (actionId === ACTION_IDS.UNDO) {
         // TODO: Implement logic
@@ -165,6 +164,7 @@ const useStore = create<GlobalState>((set) => ({
       }
 
       if (actionId === ACTION_IDS.ERASE) {
+        if (!s.selectedCell || !s.board) return s;
         if (s.selectedCell.isGiven) return s;
 
         s.board[s.selectedCell.key].value = null;
@@ -185,10 +185,13 @@ const useStore = create<GlobalState>((set) => ({
       }
 
       if (actionId === ACTION_IDS.HINT) {
-        if (s.hints === 0) return s;
-        if (!s.selectedCell) return s;
+        console.log("here");
+        if (!s.selectedCell || !s.board) return s;
+        if (s.hintsRemaining === 0) return s;
 
         const currentCell = s.board[s.selectedCell.key];
+
+        if (currentCell.value === currentCell.correctValue) return s;
 
         const newCell = {
           ...currentCell,
@@ -205,11 +208,11 @@ const useStore = create<GlobalState>((set) => ({
         return {
           board: newBoard,
           selectedCell: newCell,
-          hints: s.hints - 1,
+          hintsRemaining: s.hintsRemaining - 1,
         };
       }
 
-      return { ...s, selectedAction: action };
+      return s;
     });
   },
 }));
