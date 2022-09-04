@@ -44,13 +44,14 @@ const availableActions: Action[] = [
 const ActionToolbar = () => {
   const selectAction = useStore((s) => s.selectAction);
   const hintsRemaining = useStore((s) => s.hintsRemaining);
+  const previousMoves = useStore((s) => s.previousMoves);
 
   const handleActionSelect = (action: Action) => {
     selectAction(action);
   };
 
   const getIsDisabled = (id: string): boolean => {
-    if (![ACTION_IDS.HINT, ACTION_IDS.UNDO].includes(id)) return false;
+    if (id === ACTION_IDS.UNDO) return previousMoves.length === 0;
     if (id === ACTION_IDS.HINT) return hintsRemaining === 0;
     return false;
   };

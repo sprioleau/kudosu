@@ -22,6 +22,7 @@ interface InitialState {
   remainingNumberOptions: TRemainingOptions | undefined;
   notesModeActive: boolean;
   hintsRemaining: number;
+  previousMoves: PuzzleCell[];
 }
 
 const RESULT = {
@@ -50,6 +51,7 @@ const initalState: InitialState = {
   remainingNumberOptions: undefined,
   notesModeActive: false,
   hintsRemaining: HINTS_ALLOWED,
+  previousMoves: [],
 };
 
 const useStore = create<GlobalState>((set) => ({
@@ -111,12 +113,15 @@ const useStore = create<GlobalState>((set) => ({
         if (newMistakes[0] === totalMistakes) newResult = RESULT.LOSE;
       }
 
+      const newPreviousMoves = [currentCell, ...s.previousMoves];
+
       return {
         board: newBoard,
         result: newResult,
         mistakes: newMistakes,
         remainingNumberOptions,
         selectedCell: newCell,
+        previousMoves: newPreviousMoves,
       };
     });
   },
@@ -158,26 +163,46 @@ const useStore = create<GlobalState>((set) => ({
       const actionId = action.id;
 
       if (actionId === ACTION_IDS.UNDO) {
-        // TODO: Implement logic
-        // Update object values "key", "fromValue", "toValue"
-        return s;
+        if (!s.selectedCell || !s.board) return s;
+        if (s.previousMoves.length === 0) return s;
+
+        const [previousMove, ...remainingMoves] = s.previousMoves;
+        const cellValueFromLastMove = previousMove;
+
+        const newBoard = {
+          ...s.board,
+          [cellValueFromLastMove.key]: cellValueFromLastMove,
+        };
+
+        return {
+          board: newBoard,
+          selectedCell: cellValueFromLastMove,
+          previousMoves: remainingMoves,
+        };
       }
 
       if (actionId === ACTION_IDS.ERASE) {
         if (!s.selectedCell || !s.board) return s;
         if (s.selectedCell.isGiven) return s;
 
-        s.board[s.selectedCell.key].value = null;
+        const currentCell = s.board[s.selectedCell.key];
+
+        const newCell = {
+          ...currentCell,
+          value: null,
+        };
+
+        const newPreviousMoves = [currentCell, ...s.previousMoves];
 
         const newBoard = {
           ...s.board,
-          [s.selectedCell.key]: {
-            ...s.board[s.selectedCell.key],
-            value: null,
-          },
+          [s.selectedCell.key]: newCell,
         };
 
-        return { board: newBoard };
+        return {
+          board: newBoard,
+          previousMoves: newPreviousMoves,
+        };
       }
 
       if (actionId === ACTION_IDS.NOTES) {
@@ -185,7 +210,6 @@ const useStore = create<GlobalState>((set) => ({
       }
 
       if (actionId === ACTION_IDS.HINT) {
-        console.log("here");
         if (!s.selectedCell || !s.board) return s;
         if (s.hintsRemaining === 0) return s;
 
@@ -200,6 +224,8 @@ const useStore = create<GlobalState>((set) => ({
           notes: [],
         };
 
+        const newPreviousMoves = [currentCell, ...s.previousMoves];
+
         const newBoard = {
           ...s.board,
           [s.selectedCell.key]: newCell,
@@ -209,6 +235,7 @@ const useStore = create<GlobalState>((set) => ({
           board: newBoard,
           selectedCell: newCell,
           hintsRemaining: s.hintsRemaining - 1,
+          previousMoves: newPreviousMoves,
         };
       }
 
