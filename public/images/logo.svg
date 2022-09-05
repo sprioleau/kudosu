@@ -1,8 +1,5 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect x="32.125" y="84.5394" width="133.854" height="133.854" transform="rotate(-7.5 32.125 84.5394)" fill="#6F00C9"/>
-  <rect x="297.543" y="49.5965" width="133.854" height="133.854" transform="rotate(-7.5 297.543 49.5965)" fill="#6F00C9"/>
-  <rect x="49.5964" y="217.248" width="133.854" height="133.854" transform="rotate(-7.5 49.5964 217.248)" fill="#6F00C9"/>
-  <rect x="182.306" y="199.777" width="133.854" height="133.854" transform="rotate(-7.5 182.306 199.777)" fill="#6F00C9"/>
-  <rect x="67.0679" y="349.957" width="133.854" height="133.854" transform="rotate(-7.5 67.0679 349.957)" fill="#6F00C9"/>
-  <rect x="332.486" y="315.015" width="133.854" height="133.854" transform="rotate(-7.5 332.486 315.015)" fill="#6F00C9"/>
+<rect x="296.418" y="48.4715" width="133.854" height="133.854" transform="rotate(-7.5 296.418 48.4715)" fill="#6F00C9"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M163.709 65.943L31 83.4144L48.4714 216.123L65.9429 348.832L83.4144 481.541L216.123 464.07L198.652 331.361L331.361 313.89L313.89 181.18L181.181 198.652L163.709 65.943Z" fill="#6F00C9"/>
+<rect x="331.361" y="313.89" width="133.854" height="133.854" transform="rotate(-7.5 331.361 313.89)" fill="#6F00C9"/>
 </svg>
