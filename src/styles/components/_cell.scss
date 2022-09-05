@@ -80,3 +80,29 @@
     }
   }
 }
+
+@media (prefers-color-scheme: light) {
+  .cell {
+    &__button {
+      --lightness: 0%;
+
+      &[data-region-selected="true"] {
+        --opacity: 0.25;
+      }
+
+      &[data-row-selected="true"],
+      &[data-col-selected="true"]{
+        --opacity: 0.4;
+      }
+
+      &[data-value-selected="true"] {
+        --opacity: 0.35;
+      }
+      
+      &.selected {
+        --opacity: 0.4;
+      }
+
+    }
+  }
+}
