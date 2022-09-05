@@ -21,6 +21,12 @@ const Board = () => {
           />
         ))}
       </ol>
+      <ul className="board__grid">
+        <li className="board__grid-line horizontal"></li>
+        <li className="board__grid-line horizontal"></li>
+        <li className="board__grid-line vertical"></li>
+        <li className="board__grid-line vertical"></li>
+      </ul>
     </div>
   );
 };

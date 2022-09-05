@@ -1,7 +1,7 @@
 :root {
   --cell-size: 45px;
   --board-size: min(calc(var(--cell-size) * 9), calc(100vw - 2em));
-  --board-gap: 0.25em;
+  --board-gap: clamp(3px, 0.3em, 5px);
   --min-font-size: 8px;
 
   // Accent color
@@ -16,8 +16,6 @@
   --c-text: hsl(var(--c-accent-h), var(--c-accent-s), var(--c-text-l));
   
   // Background Color
-  --c-ui-bg-h: 0
-  --c-ui-bg-s: 0%;
   --c-ui-bg-l: 14%;
   --c-ui-bg: hsl(0, 0%, var(--c-ui-bg-l));
   
