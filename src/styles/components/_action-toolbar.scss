@@ -22,10 +22,10 @@
     font-size: clamp(0.675em, 0.5em + 1.75vw, 1.125em);
     padding: 0.5em;
     min-height: 2.25em;
-    color: var(--c-white);
+    color: var(--c-text);
     
     &:active {
-      background-color: hsl(var(--c-accent-hsl));
+      background-color: var(--c-accent);
     }
   };
 

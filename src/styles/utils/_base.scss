@@ -6,11 +6,9 @@
 
 :root {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
   background-color: var(--c-ui-bg);
-
+  color: var(--c-text);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -36,13 +34,7 @@ h1 {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
+    --c-text-l: 10%;
+    --c-ui-bg-l: 100%;
   }
 }

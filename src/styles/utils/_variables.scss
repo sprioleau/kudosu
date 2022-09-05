@@ -2,12 +2,24 @@
   --cell-size: 45px;
   --board-size: min(calc(var(--cell-size) * 9), calc(100vw - 2em));
   --board-gap: 0.25em;
-  --c-accent-h: 273;
-  --c-accent-s: 98%;
-  --c-accent-l: 60%;
-  --c-accent-hsl: var(--c-accent-h), var(--c-accent-s), var(--c-accent-l);
-  --c-white: hsl(255, 100%, 90%);
-  --c-incorrect: hsl(327, 100%, 50%);
-  --c-ui-bg: hsl(0, 0%, 14%);
   --min-font-size: 8px;
+
+  // Accent color
+  --c-accent-h: 273;
+  --c-accent-s: 100%;
+  --c-accent-l: 55%;
+  --c-accent-hsl: var(--c-accent-h), var(--c-accent-s), var(--c-accent-l);
+  --c-accent: hsl(var(--c-accent--hsl));
+
+  // Text Color
+  --c-text-l: 100%;
+  --c-text: hsl(var(--c-accent-h), var(--c-accent-s), var(--c-text-l));
+  
+  // Background Color
+  --c-ui-bg-h: 0
+  --c-ui-bg-s: 0%;
+  --c-ui-bg-l: 14%;
+  --c-ui-bg: hsl(0, 0%, var(--c-ui-bg-l));
+  
+  --c-incorrect-h: max(calc(var(--c-accent-h) + 100), 345);
 }

@@ -1,5 +1,5 @@
 .cell {
-  --opacity: 0.125;
+  --opacity: 0.1;
   width: 100%;
   height: 100%;
   min-width: 100%;
@@ -9,12 +9,13 @@
   align-items: center;
   
   &__button {
-    background-color: rgba(255, 255, 255, var(--opacity));
+    --lightness: 87.5%;
+    background-color: hsla(0, 0%, var(--lightness), var(--opacity));
     width: 100%;
     height: 100%;
     padding: 0;
     border-radius: 0;
-    color: white;
+    color: var(--c-text);
   
     &[data-region="odd"] {
       --opacity: 0.05;
@@ -24,39 +25,37 @@
     &[data-row-selected="true"],
     &[data-col-selected="true"],
     &[data-value-selected="true"] {
-      background-color: hsla(var(--c-accent-h), var(--c-accent-s), var(--c-accent-l), var(--opacity));
+      background-color: hsla(var(--c-accent-hsl), var(--opacity));
     }
 
     &[data-region-selected="true"] {
-      --opacity: 0.25;
+      --opacity: 0.3;
     }
 
     &[data-row-selected="true"],
     &[data-col-selected="true"]{
-      --opacity: 0.45;
+      --opacity: 0.5;
     }
 
     &[data-value-selected="true"] {
-      --opacity: 0.20;
+      --opacity: 0.25;
       --border-opacity: 0.8;
       --border-width: 1px;
-      background-color: hsla(var(--c-accent-hsl), var(--opacity));
     }
     
     &.selected {
-      --opacity: 0.30;
+      --opacity: 0.5;
       --border-opacity: 1;
-      --border-width: 4px;
-      --c-accent-l: 50%;
-      background-color: hsla(var(--c-accent-h), var(--c-accent-s), var(--c-accent-l), var(--opacity));
+      --border-width: min(0.175em, 4px);
     }
 
     &.correct {
-      color: hsl(var(--c-accent-hsl));
+      --c-accent-l: 65%;
+      color: hsl(var(--c-accent-h), var(--c-accent-s), var(--c-accent-l));
     }
 
     &.incorrect {
-      color: var(--c-incorrect);
+      color: hsl(var(--c-incorrect-h), var(--c-accent-s), var(--c-accent-l));
     }
   }
 
@@ -77,7 +76,7 @@
     color: var(--c-white);
 
     &[data-is-visible="true"] {
-      --opacity: 0.75;
+      --opacity: 0.85;
     }
   }
 }

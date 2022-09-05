@@ -1,11 +1,10 @@
 import "@/styles/styles.scss";
-import { ActionToolbar, Board, GameInfo, GameResult, NumberSelect } from "@/components";
+import { ActionToolbar, Board, GameResult, Header, NumberSelect } from "@/components";
 
 function App() {
   return (
     <div className="app">
-      <h1 className="app__title">Kudosu</h1>
-      <GameInfo />
+      <Header />
       <Board />
       <ActionToolbar />
       <NumberSelect />
