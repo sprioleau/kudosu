@@ -1,7 +1,7 @@
 import { SUDOKU_PUZZLE_SIZE } from "@/constants";
 import { getBoardRegion } from "@/utils";
 
-export interface PuzzleCell {
+export interface IPuzzleCell {
   key: number;
   row: number;
   col: number;
@@ -13,15 +13,15 @@ export interface PuzzleCell {
   notes: number[];
 }
 
-export type Board = Record<string, PuzzleCell>;
+export type TBoard = Record<string, IPuzzleCell>;
 
-export default function getBoard(puzzleString: string, solutionsString: string): Board {
+export default function getBoard(puzzleString: string, solutionsString: string): TBoard {
   const puzzleArray: (number | null)[] = puzzleString.split("").map((s) => {
     return s === "-" ? null : Number(s);
   });
   const solutionsArray: number[] = solutionsString.split("").map((s) => Number(s));
 
-  const cells: Board = {};
+  const cells: TBoard = {};
   let count = 0;
 
   for (let row = 0; row < SUDOKU_PUZZLE_SIZE; row++) {

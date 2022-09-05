@@ -1,7 +1,7 @@
-import { Board, PuzzleCell } from "../getBoard";
+import { TBoard, IPuzzleCell } from "../getBoard";
 
-const checkGameIsWon = (board: Board): boolean => {
-  return Object.values(board).every(({ correctValue, value }: PuzzleCell) => {
+const checkGameIsWon = (board: TBoard): boolean => {
+  return Object.values(board).every(({ correctValue, value }: IPuzzleCell) => {
     return value === correctValue;
   });
 };

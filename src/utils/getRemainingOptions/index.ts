@@ -1,9 +1,9 @@
 import { TRemainingOptions } from "@/store";
-import { Board, PuzzleCell } from "../getBoard";
+import { TBoard, IPuzzleCell } from "../getBoard";
 
-const getRemainingOptions = (board: Board): TRemainingOptions => {
+const getRemainingOptions = (board: TBoard): TRemainingOptions => {
   const result = Object.values(board).reduce(
-    (acc: Record<string, number>, { value }: PuzzleCell) => {
+    (acc: Record<string, number>, { value }: IPuzzleCell) => {
       if (!value) return acc;
 
       if (!acc[value]) {

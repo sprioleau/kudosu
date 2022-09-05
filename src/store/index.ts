@@ -1,7 +1,7 @@
-import { Action, ACTION_IDS } from "@/components/ActionToolbar";
+import { IAction, ACTION_IDS } from "@/components/ActionToolbar";
 import { SUDOKU_PUZZLE_SIZE } from "@/constants";
 import { getBoard, checkGameIsWon, getRemainingOptions } from "@/utils";
-import { Board, PuzzleCell } from "@/utils/getBoard";
+import { TBoard, IPuzzleCell } from "@/utils/getBoard";
 import { getSudoku } from "sudoku-gen";
 import create from "zustand";
 
@@ -9,20 +9,20 @@ export type TDifficulty = "easy" | "medium" | "hard" | "expert";
 
 export type TRemainingOptions = number[];
 
-export type Direction = "Up" | "Down" | "Left" | "Right";
+export type TDirection = "Up" | "Down" | "Left" | "Right";
 
-type NumberTuple = [number, number];
+type TNumberTuple = [number, number];
 
-interface InitialState {
-  selectedCell: PuzzleCell | undefined;
-  board: Board | undefined;
+interface IInitialState {
+  selectedCell: IPuzzleCell | undefined;
+  board: TBoard | undefined;
   difficulty: TDifficulty;
-  mistakes: NumberTuple;
+  mistakes: TNumberTuple;
   result: string | undefined;
   remainingNumberOptions: TRemainingOptions | undefined;
   notesModeActive: boolean;
   hintsRemaining: number;
-  previousMoves: PuzzleCell[];
+  previousMoves: IPuzzleCell[];
 }
 
 const RESULT = {
@@ -33,16 +33,16 @@ const RESULT = {
 const MISTAKES_ALLOWED = 3;
 const HINTS_ALLOWED = 3;
 
-interface GlobalState extends InitialState {
+interface IGlobalState extends IInitialState {
   createBoard: (difficulty: TDifficulty) => void;
-  selectCell: (cell: PuzzleCell) => void;
+  selectCell: (cell: IPuzzleCell) => void;
   selectNumberOption: (value: number) => void;
   resetGame: () => void;
-  navigateToNextCell: (direction: Direction) => void;
-  selectAction: (action: Action) => void;
+  navigateToNextCell: (direction: TDirection) => void;
+  selectAction: (action: IAction) => void;
 }
 
-const initalState: InitialState = {
+const initalState: IInitialState = {
   selectedCell: undefined,
   board: undefined,
   difficulty: "easy",
@@ -54,7 +54,7 @@ const initalState: InitialState = {
   previousMoves: [],
 };
 
-const useStore = create<GlobalState>((set) => ({
+const useStore = create<IGlobalState>((set) => ({
   ...initalState,
 
   createBoard: (difficulty) => {
@@ -98,14 +98,14 @@ const useStore = create<GlobalState>((set) => ({
         };
       }
 
-      const newBoard: Board = {
+      const newBoard: TBoard = {
         ...s.board,
         [newCell.key]: newCell,
       };
 
       const remainingNumberOptions = getRemainingOptions(newBoard);
 
-      let newMistakes: NumberTuple = [mistakes, totalMistakes];
+      let newMistakes: TNumberTuple = [mistakes, totalMistakes];
       let newResult = checkGameIsWon(newBoard) ? RESULT.WIN : s.result;
 
       if (!s.notesModeActive && newCell.value !== currentCell.correctValue) {

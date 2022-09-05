@@ -12,13 +12,13 @@ export const ACTION_IDS = {
   HINT: "hint",
 };
 
-export interface Action {
+export interface IAction {
   id: string;
   label: string;
   icon: JSX.Element;
 }
 
-const availableActions: Action[] = [
+const availableActions: IAction[] = [
   {
     id: ACTION_IDS.UNDO,
     label: "Undo",
@@ -46,7 +46,7 @@ const ActionToolbar = () => {
   const hintsRemaining = useStore((s) => s.hintsRemaining);
   const previousMoves = useStore((s) => s.previousMoves);
 
-  const handleActionSelect = (action: Action) => {
+  const handleActionSelect = (action: IAction) => {
     selectAction(action);
   };
 
@@ -59,7 +59,7 @@ const ActionToolbar = () => {
   return (
     <div className="action-toolbar">
       <ul className="action-toolbar__options">
-        {availableActions.map((action: Action) => {
+        {availableActions.map((action: IAction) => {
           const { id, label, icon } = action;
 
           return (

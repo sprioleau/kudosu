@@ -1,13 +1,13 @@
-import useStore, { Direction } from "@/store";
+import useStore, { TDirection } from "@/store";
 import { getIsTruthyEqual, getNumberOptions } from "@/utils";
-import { PuzzleCell } from "@/utils/getBoard";
+import { IPuzzleCell } from "@/utils/getBoard";
 
-export interface Props {
+export interface IProps {
   key: number;
-  cell: PuzzleCell;
+  cell: IPuzzleCell;
 }
 
-const Cell = ({ cell }: Props) => {
+const Cell = ({ cell }: IProps) => {
   const selectedCell = useStore((s) => s.selectedCell);
   const selectCell = useStore((s) => s.selectCell);
   const selectNumberOption = useStore((s) => s.selectNumberOption);
@@ -46,7 +46,7 @@ const Cell = ({ cell }: Props) => {
     if (![...validNumberKeys, ...arrowKeys].includes(key)) return;
     if (validNumberKeys.includes(key)) selectNumberOption(Number(key));
     if (arrowKeys.includes(key)) {
-      const direction = key.replace("Arrow", "") as Direction;
+      const direction = key.replace("Arrow", "") as TDirection;
       navigateToNextCell(direction);
     }
   };

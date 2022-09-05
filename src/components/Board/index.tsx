@@ -1,5 +1,5 @@
 import useStore from "@/store";
-import { PuzzleCell } from "@/utils/getBoard";
+import { IPuzzleCell } from "@/utils/getBoard";
 import { useEffect } from "react";
 import Cell from "../Cell";
 
@@ -14,7 +14,7 @@ const Board = () => {
   return (
     <div className="board">
       <ol className="board__cells">
-        {Object.values(board).map((cell: PuzzleCell) => (
+        {Object.values(board).map((cell: IPuzzleCell) => (
           <Cell
             key={cell.key}
             cell={cell}
