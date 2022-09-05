@@ -2,7 +2,20 @@
   "name": "kudosu",
   "private": true,
   "version": "0.0.0",
+  "description": "Endless Sudoku challenges for you!",
+  "author": "San'Quan Prioleau <sq.prioleau@gmail.com>",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sprioleau/kudosu.git"
+  },
+  "keywords": [
+    "sudoku",
+    "game",
+    "puzzle"
+  ],
+  "homepage": "https://kudosu.netlify.app",
+  "contributors": [],
   "scripts": {
     "dev": "vite --port=3000",
     "build": "tsc && vite build",
