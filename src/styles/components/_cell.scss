@@ -69,7 +69,7 @@
 
   &__note {
     --opacity: 0;
-    font-size: max(0.4em, 8px);
+    font-size: max(0.4em, var(--min-font-size));
     line-height: 1;
     width: 100%;
     height: 100%;
