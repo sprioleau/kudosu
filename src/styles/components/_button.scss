@@ -10,6 +10,7 @@ button {
   cursor: pointer;
   transition: box-shadow 0.25s;
   user-select: none;
+  background-color: var(--c-accent);
 
   &:disabled {
     opacity: 0.575;
