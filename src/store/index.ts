@@ -1,6 +1,6 @@
 import { IAction, ACTION_IDS } from "@/components/ActionToolbar";
 import { SUDOKU_PUZZLE_SIZE } from "@/constants";
-import { getBoard, checkGameIsWon, getRemainingOptions } from "@/utils";
+import { getBoard, checkGameIsWon, getRemainingOptions, getMatchingCells } from "@/utils";
 import { TBoard, IPuzzleCell } from "@/utils/getBoard";
 import { getSudoku } from "sudoku-gen";
 import create from "zustand";
@@ -98,8 +98,18 @@ const useStore = create<IGlobalState>((set) => ({
         };
       }
 
-      const newBoard: TBoard = {
+      let cellsInMatchingRow = {};
+      let cellsInMatchingCol = {};
+
+      if (!s.notesModeActive) {
+        cellsInMatchingRow = getMatchingCells(newCell, value, s.board, "row");
+        cellsInMatchingCol = getMatchingCells(newCell, value, s.board, "col");
+      }
+
+      const newBoard = {
         ...s.board,
+        ...cellsInMatchingRow,
+        ...cellsInMatchingCol,
         [newCell.key]: newCell,
       };
 
