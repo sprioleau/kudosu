@@ -5,3 +5,5 @@ export { default as checkGameIsWon } from "./checkGameIsWon";
 export { default as getRemainingOptions } from "./getRemainingOptions";
 export { default as getNumberOptions } from "./getNumberOptions";
 export { default as getMatchingCells } from "./getMatchingCells";
+export { default as formatTime } from "./formatTime";
+export { default as showConfetti } from "./showConfetti";
