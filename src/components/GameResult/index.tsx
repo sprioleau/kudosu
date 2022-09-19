@@ -1,34 +1,32 @@
 import useStore from "@/store";
-import FocusTrap from "focus-trap-react";
-import JSConfetti from "js-confetti";
+import { formatTime } from "@/utils";
 
 const GameResult = () => {
-  const result = useStore((s) => s.result);
   const resetGame = useStore((s) => s.resetGame);
+  const elapsedTimeSeconds = useStore((s) => s.elapsedTimeSeconds);
+  const result = useStore((s) => s.result);
+  const updateModalContent = useStore((s) => s.updateModalContent);
+  const timerResetFunction = useStore((s) => s.timerResetFunction);
 
   if (!result) return null;
 
-  if (result === "Win") {
-    const jsConfetti = new JSConfetti();
-    jsConfetti.addConfetti({
-      emojis: ["🎉"],
-      emojiSize: 100,
-      confettiNumber: 30,
-    });
-  }
+  const handleResetGame = () => {
+    resetGame();
+    updateModalContent();
+    timerResetFunction();
+  };
 
   return (
-    <FocusTrap>
-      <div className="game-result">
-        <h2 className="game-result__message">You {result}!</h2>
-        <button
-          className="game-result__button"
-          onClick={resetGame}
-        >
-          Reset
-        </button>
-      </div>
-    </FocusTrap>
+    <div className="game-result">
+      <h2 className="game-result__message">You {result}!</h2>
+      <p className="game-result__time">Time: {formatTime(elapsedTimeSeconds)}</p>
+      <button
+        className="game-result__button"
+        onClick={handleResetGame}
+      >
+        Reset
+      </button>
+    </div>
   );
 };
 

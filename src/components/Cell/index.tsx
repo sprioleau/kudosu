@@ -12,6 +12,7 @@ const Cell = ({ cell }: IProps) => {
   const selectCell = useStore((s) => s.selectCell);
   const selectNumberOption = useStore((s) => s.selectNumberOption);
   const navigateToNextCell = useStore((s) => s.navigateToNextCell);
+  const timerIsRunning = useStore((s) => s.timerIsRunning);
 
   const { row, col, region, value, isCorrect, isGiven, notes } = cell;
 
@@ -20,7 +21,9 @@ const Cell = ({ cell }: IProps) => {
   const selectedRegion = selectedCell?.region;
   const selectedValue = selectedCell?.value;
 
-  const isSelected = getIsTruthyEqual(row, selectedRow) && getIsTruthyEqual(col, selectedCol);
+  const isSelected =
+    getIsTruthyEqual(row, selectedRow, timerIsRunning) &&
+    getIsTruthyEqual(col, selectedCol, timerIsRunning);
 
   let buttonClasses = "cell__button";
 
@@ -61,27 +64,31 @@ const Cell = ({ cell }: IProps) => {
         data-row={row}
         data-col={col}
         data-region={region % 2 === 0 ? "even" : "odd"}
-        data-row-selected={getIsTruthyEqual(row, selectedRow)}
-        data-col-selected={getIsTruthyEqual(col, selectedCol)}
-        data-region-selected={getIsTruthyEqual(region, selectedRegion)}
-        data-value-selected={getIsTruthyEqual(value, selectedValue)}
+        data-row-selected={getIsTruthyEqual(row, selectedRow, timerIsRunning)}
+        data-col-selected={getIsTruthyEqual(col, selectedCol, timerIsRunning)}
+        data-region-selected={getIsTruthyEqual(region, selectedRegion, timerIsRunning)}
+        data-value-selected={getIsTruthyEqual(value, selectedValue, timerIsRunning)}
         onClick={handleSelectCell}
         onKeyDown={handleSelectWithKeyboard}
       >
-        {shouldShowNotes ? (
-          <ol className="cell__notes">
-            {numberOptions.map((number: number) => (
-              <div
-                key={number}
-                className="cell__note"
-                data-is-visible={notes.includes(number)}
-              >
-                {number}
-              </div>
-            ))}
-          </ol>
-        ) : (
-          <>{value ?? ""}</>
+        {timerIsRunning && (
+          <>
+            {shouldShowNotes ? (
+              <ol className="cell__notes">
+                {numberOptions.map((number: number) => (
+                  <div
+                    key={number}
+                    className="cell__note"
+                    data-is-visible={notes.includes(number)}
+                  >
+                    {number}
+                  </div>
+                ))}
+              </ol>
+            ) : (
+              <>{value ?? ""}</>
+            )}
+          </>
         )}
       </button>
     </li>
