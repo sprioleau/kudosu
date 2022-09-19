@@ -32,6 +32,12 @@ h1 {
   line-height: 1;
 }
 
+p {
+  &:not(:last-child) {
+    margin-bottom: 0.5em;
+  }
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     --c-text-l: 10%;

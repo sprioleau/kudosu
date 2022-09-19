@@ -12,6 +12,7 @@ button {
   user-select: none;
   color: var(--c-text);
   background-color: var(--c-accent);
+  border-radius: 0.5em;
 
   &:disabled {
     opacity: 0.575;
