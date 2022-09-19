@@ -11,6 +11,13 @@ export type TRemainingOptions = number[];
 
 export type TDirection = "Up" | "Down" | "Left" | "Right";
 
+export enum EGameResult {
+  Win = "Win",
+  Lose = "Lose",
+}
+
+type ModalContent = JSX.Element | undefined;
+
 type TNumberTuple = [number, number];
 
 interface IInitialState {
@@ -18,17 +25,16 @@ interface IInitialState {
   board: TBoard | undefined;
   difficulty: TDifficulty;
   mistakes: TNumberTuple;
-  result: string | undefined;
+  result: EGameResult | undefined;
   remainingNumberOptions: TRemainingOptions | undefined;
   notesModeActive: boolean;
   hintsRemaining: number;
   previousMoves: IPuzzleCell[];
+  elapsedTimeSeconds: number;
+  timerResetFunction: () => void;
+  timerIsRunning: boolean;
+  modalContent: ModalContent;
 }
-
-const RESULT = {
-  WIN: "Win",
-  LOSE: "Lose",
-};
 
 const MISTAKES_ALLOWED = 3;
 const HINTS_ALLOWED = 3;
@@ -40,6 +46,10 @@ interface IGlobalState extends IInitialState {
   resetGame: () => void;
   navigateToNextCell: (direction: TDirection) => void;
   selectAction: (action: IAction) => void;
+  updateElapsedTimeSeconds: (elapsedTime: number) => void;
+  setTimerResetFunction: (timerResetFunction: () => void) => void;
+  setTimerIsRunning: (timerState: boolean) => void;
+  updateModalContent: (modalContent?: ModalContent) => void;
 }
 
 const initalState: IInitialState = {
@@ -52,6 +62,10 @@ const initalState: IInitialState = {
   notesModeActive: false,
   hintsRemaining: HINTS_ALLOWED,
   previousMoves: [],
+  elapsedTimeSeconds: 0,
+  timerResetFunction: () => {},
+  timerIsRunning: true,
+  modalContent: undefined,
 };
 
 const useStore = create<IGlobalState>((set) => ({
@@ -116,11 +130,11 @@ const useStore = create<IGlobalState>((set) => ({
       const remainingNumberOptions = getRemainingOptions(newBoard);
 
       let newMistakes: TNumberTuple = [mistakes, totalMistakes];
-      let newResult = checkGameIsWon(newBoard) ? RESULT.WIN : s.result;
+      let newResult = checkGameIsWon(newBoard) ? EGameResult.Win : s.result;
 
       if (!s.notesModeActive && newCell.value !== currentCell.correctValue) {
         newMistakes[0] = Math.min(mistakes + 1, totalMistakes);
-        if (newMistakes[0] === totalMistakes) newResult = RESULT.LOSE;
+        if (newMistakes[0] === totalMistakes) newResult = EGameResult.Lose;
       }
 
       const newPreviousMoves = [currentCell, ...s.previousMoves];
@@ -142,10 +156,14 @@ const useStore = create<IGlobalState>((set) => ({
       const board = getBoard(puzzle, solution);
       const remainingNumberOptions = getRemainingOptions(board);
 
+      if (s.timerResetFunction) s.timerResetFunction();
+
       return {
         ...initalState,
         board,
         remainingNumberOptions,
+        timerIsRunning: false,
+        result: undefined,
       };
     });
   },
@@ -251,6 +269,22 @@ const useStore = create<IGlobalState>((set) => ({
 
       return s;
     });
+  },
+
+  updateElapsedTimeSeconds: (elapsedTime) => {
+    set({ elapsedTimeSeconds: elapsedTime });
+  },
+
+  setTimerResetFunction: (timerResetFunction) => {
+    set({ timerResetFunction });
+  },
+
+  setTimerIsRunning: (timerIsRunning) => {
+    set({ timerIsRunning });
+  },
+
+  updateModalContent: (modalContent = undefined) => {
+    set({ modalContent });
   },
 }));
 
