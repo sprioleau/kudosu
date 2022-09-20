@@ -21,9 +21,7 @@ const Cell = ({ cell }: IProps) => {
   const selectedRegion = selectedCell?.region;
   const selectedValue = selectedCell?.value;
 
-  const isSelected =
-    getIsTruthyEqual(row, selectedRow, timerIsRunning) &&
-    getIsTruthyEqual(col, selectedCol, timerIsRunning);
+  const isSelected = getIsTruthyEqual(row, selectedRow) && getIsTruthyEqual(col, selectedCol);
 
   let buttonClasses = "cell__button";
 
@@ -64,10 +62,11 @@ const Cell = ({ cell }: IProps) => {
         data-row={row}
         data-col={col}
         data-region={region % 2 === 0 ? "even" : "odd"}
-        data-row-selected={getIsTruthyEqual(row, selectedRow, timerIsRunning)}
-        data-col-selected={getIsTruthyEqual(col, selectedCol, timerIsRunning)}
-        data-region-selected={getIsTruthyEqual(region, selectedRegion, timerIsRunning)}
-        data-value-selected={getIsTruthyEqual(value, selectedValue, timerIsRunning)}
+        data-row-selected={getIsTruthyEqual(row, selectedRow)}
+        data-col-selected={getIsTruthyEqual(col, selectedCol)}
+        data-region-selected={getIsTruthyEqual(region, selectedRegion)}
+        data-value-selected={getIsTruthyEqual(value, selectedValue)}
+        data-value-incorrect={value && !isCorrect && !isGiven}
         onClick={handleSelectCell}
         onKeyDown={handleSelectWithKeyboard}
       >
