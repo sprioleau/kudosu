@@ -1,5 +1,5 @@
 {
-  "background_color": "#4A0087",
+  "background_color": "hsl(0, 0%, 14%)",
   "description": "Endless Sudoku challenges for you!",
   "display": "fullscreen",
   "icons": [
@@ -23,5 +23,6 @@
   "name": "Kudosu",
   "short_name": "Kudosu",
   "start_url": "/",
+  "orientation": "portrait",
   "theme_color": "#4A0087"
 }
