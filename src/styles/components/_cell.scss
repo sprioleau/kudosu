@@ -42,13 +42,20 @@
       --border-opacity: 0.8;
       --border-width: 1px;
     }
-    
+
     &.selected {
       --opacity: 0.5;
       --border-opacity: 1;
       --border-width: min(0.175em, 4px);
     }
-
+    
+    &[data-value-incorrect="true"] {
+      --opacity: 0.25;
+      --border-opacity: 0.8;
+      box-shadow: 0 0 0 var(--border-width) hsl(var(--c-incorrect-h), var(--c-accent-s), var(--c-accent-l));
+      background-color: hsla(var(--c-incorrect-h), var(--c-accent-s), var(--c-accent-l), var(--opacity));
+    }
+    
     &.correct {
       --c-accent-l: 65%;
       color: hsl(var(--c-accent-h), var(--c-accent-s), var(--c-accent-l));
