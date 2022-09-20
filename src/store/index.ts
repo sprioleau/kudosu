@@ -89,6 +89,7 @@ const useStore = create<IGlobalState>((set) => ({
   selectNumberOption: (value) => {
     set((s) => {
       if (!s.board || !s.selectedCell) return s;
+      if (s.selectedCell.isCorrect) return s;
       const currentCell = s.board[s.selectedCell.key];
       const [mistakes, totalMistakes] = s.mistakes;
 
