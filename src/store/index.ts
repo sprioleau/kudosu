@@ -34,6 +34,7 @@ interface IInitialState {
   timerResetFunction: () => void;
   timerIsRunning: boolean;
   modalContent: ModalContent;
+  lastSelectedCell: IPuzzleCell | undefined;
 }
 
 const MISTAKES_ALLOWED = 3;
@@ -41,15 +42,16 @@ const HINTS_ALLOWED = 3;
 
 interface IGlobalState extends IInitialState {
   createBoard: (difficulty: TDifficulty) => void;
-  selectCell: (cell: IPuzzleCell) => void;
+  selectCell: (cell: IPuzzleCell | undefined) => void;
   selectNumberOption: (value: number) => void;
   resetGame: () => void;
   navigateToNextCell: (direction: TDirection) => void;
   selectAction: (action: IAction) => void;
   updateElapsedTimeSeconds: (elapsedTime: number) => void;
   setTimerResetFunction: (timerResetFunction: () => void) => void;
-  setTimerIsRunning: (timerState: boolean) => void;
   updateModalContent: (modalContent?: ModalContent) => void;
+  pauseGame: ({ modalOverlay }: { modalOverlay?: ModalContent }) => void;
+  resumeGame: () => void;
 }
 
 const initalState: IInitialState = {
@@ -66,6 +68,7 @@ const initalState: IInitialState = {
   timerResetFunction: () => {},
   timerIsRunning: true,
   modalContent: undefined,
+  lastSelectedCell: undefined,
 };
 
 const useStore = create<IGlobalState>((set) => ({
@@ -138,13 +141,28 @@ const useStore = create<IGlobalState>((set) => ({
         if (newMistakes[0] === totalMistakes) newResult = EGameResult.Lose;
       }
 
+      const gameIsWon = newResult === EGameResult.Win;
+
       const newPreviousMoves = [currentCell, ...s.previousMoves];
+
+      if (gameIsWon) {
+        return {
+          board: newBoard,
+          result: newResult,
+          mistakes: newMistakes,
+          remainingNumberOptions,
+          timerIsRunning: false,
+          selectedCell: undefined,
+          previousMoves: newPreviousMoves,
+        };
+      }
 
       return {
         board: newBoard,
         result: newResult,
         mistakes: newMistakes,
         remainingNumberOptions,
+        timerIsRunning: s.timerIsRunning,
         selectedCell: newCell,
         previousMoves: newPreviousMoves,
       };
@@ -163,7 +181,7 @@ const useStore = create<IGlobalState>((set) => ({
         ...initalState,
         board,
         remainingNumberOptions,
-        timerIsRunning: false,
+        timerIsRunning: true,
         result: undefined,
       };
     });
@@ -280,12 +298,25 @@ const useStore = create<IGlobalState>((set) => ({
     set({ timerResetFunction });
   },
 
-  setTimerIsRunning: (timerIsRunning) => {
-    set({ timerIsRunning });
-  },
-
   updateModalContent: (modalContent = undefined) => {
     set({ modalContent });
+  },
+
+  pauseGame: ({ modalOverlay }) => {
+    set((s) => ({
+      timerIsRunning: false,
+      selectedCell: undefined,
+      modalContent: modalOverlay,
+      lastSelectedCell: s.selectedCell,
+    }));
+  },
+
+  resumeGame: () => {
+    set((s) => ({
+      timerIsRunning: true,
+      selectedCell: s.lastSelectedCell,
+      modalContent: undefined,
+    }));
   },
 }));
 
