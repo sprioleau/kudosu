@@ -6,12 +6,9 @@ enum AdvanceDirection {
 }
 
 export default function InstructionsModal() {
-  const setTimerIsRunning = useStore((s) => s.setTimerIsRunning);
   const updateModalContent = useStore((s) => s.updateModalContent);
 
   const handleAdvance = (direction: AdvanceDirection) => {
-    console.log("direction:", direction);
-    setTimerIsRunning(true);
     updateModalContent();
   };
 

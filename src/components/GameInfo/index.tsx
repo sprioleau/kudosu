@@ -9,28 +9,24 @@ const GameInfo = () => {
   const difficulty = useStore((s) => s.difficulty);
   const result = useStore((s) => s.result);
   const timerIsRunning = useStore((s) => s.timerIsRunning);
-  const setTimerIsRunning = useStore((s) => s.setTimerIsRunning);
   const setTimerResetFunction = useStore((s) => s.setTimerResetFunction);
+  const pauseGame = useStore((s) => s.pauseGame);
   const updateElapsedTimeSeconds = useStore((s) => s.updateElapsedTimeSeconds);
-  const updateModalContent = useStore((s) => s.updateModalContent);
 
-  const { elapsedTime, reset: resetElapsedTime } = useElapsedTime({
+  const { elapsedTime, reset } = useElapsedTime({
     isPlaying: timerIsRunning,
-    updateInterval: 1, // seconds
+    updateInterval: 1, // in secondss
     onUpdate(elapsedTime) {
       updateElapsedTimeSeconds(elapsedTime);
     },
   });
 
   useEffect(() => {
-    setTimerResetFunction(() => resetElapsedTime(0));
-  }, []);
-
-  if (result) setTimerIsRunning(false);
+    setTimerResetFunction(() => reset(0));
+  }, [result]);
 
   const handlePause = () => {
-    setTimerIsRunning(false);
-    updateModalContent(<PauseModal />);
+    pauseGame({ modalOverlay: <PauseModal /> });
   };
 
   const formatDifficulty = (difficulty: TDifficulty) => {

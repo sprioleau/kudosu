@@ -5,15 +5,11 @@ const GameResult = () => {
   const resetGame = useStore((s) => s.resetGame);
   const elapsedTimeSeconds = useStore((s) => s.elapsedTimeSeconds);
   const result = useStore((s) => s.result);
-  const updateModalContent = useStore((s) => s.updateModalContent);
-  const timerResetFunction = useStore((s) => s.timerResetFunction);
 
   if (!result) return null;
 
   const handleResetGame = () => {
     resetGame();
-    updateModalContent();
-    timerResetFunction();
   };
 
   return (

@@ -1,12 +1,10 @@
 import useStore from "@/store";
 
 export default function PauseModal() {
-  const setTimerIsRunning = useStore((s) => s.setTimerIsRunning);
-  const updateModalContent = useStore((s) => s.updateModalContent);
+  const resumeGame = useStore((s) => s.resumeGame);
 
   const handleResume = () => {
-    setTimerIsRunning(true);
-    updateModalContent(undefined);
+    resumeGame();
   };
 
   return (
