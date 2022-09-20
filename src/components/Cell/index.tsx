@@ -1,4 +1,4 @@
-import useStore, { TDirection } from "@/store";
+import useStore, { EGameResult, TDirection } from "@/store";
 import { getIsTruthyEqual, getNumberOptions } from "@/utils";
 import { IPuzzleCell } from "@/utils/getBoard";
 
@@ -13,6 +13,7 @@ const Cell = ({ cell }: IProps) => {
   const selectNumberOption = useStore((s) => s.selectNumberOption);
   const navigateToNextCell = useStore((s) => s.navigateToNextCell);
   const timerIsRunning = useStore((s) => s.timerIsRunning);
+  const result = useStore((s) => s.result);
 
   const { row, col, region, value, isCorrect, isGiven, notes } = cell;
 
@@ -53,6 +54,7 @@ const Cell = ({ cell }: IProps) => {
   };
 
   const shouldShowNotes = !isGiven && value == null;
+  const shouldShowValue = timerIsRunning || result === EGameResult.Win;
   const numberOptions = getNumberOptions();
 
   return (
@@ -70,7 +72,7 @@ const Cell = ({ cell }: IProps) => {
         onClick={handleSelectCell}
         onKeyDown={handleSelectWithKeyboard}
       >
-        {timerIsRunning && (
+        {shouldShowValue && (
           <>
             {shouldShowNotes ? (
               <ol className="cell__notes">
@@ -85,7 +87,7 @@ const Cell = ({ cell }: IProps) => {
                 ))}
               </ol>
             ) : (
-              <>{value ?? ""}</>
+              <>{value}</>
             )}
           </>
         )}
