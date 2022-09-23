@@ -15,6 +15,7 @@ export default function useActionOnBlur({
       setTabHasFocus(true);
       onFocus();
     };
+
     const handleBlur = () => {
       setTabHasFocus(false);
       onBlur();

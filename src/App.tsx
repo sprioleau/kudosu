@@ -24,14 +24,10 @@ function App() {
     updateModalContent(<GameResult />);
   }
 
-  const { tabHasFocus } = useActionOnBlur({
+  useActionOnBlur({
     onBlur: () => pauseGame({ modalOverlay: <PauseModal /> }),
-    onFocus: () => resumeGame(),
+    onFocus: resumeGame,
   });
-
-  if (!tabHasFocus) {
-    pauseGame({ modalOverlay: <PauseModal /> });
-  }
 
   return (
     <div className="app">

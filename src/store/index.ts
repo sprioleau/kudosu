@@ -304,9 +304,9 @@ const useStore = create<IGlobalState>((set) => ({
 
   pauseGame: ({ modalOverlay }) => {
     set((s) => ({
-      timerIsRunning: false,
+      timerIsRunning: false, //newTimerIsRunning,
       selectedCell: undefined,
-      modalContent: modalOverlay,
+      modalContent: import.meta.env.DEV ? undefined : modalOverlay,
       lastSelectedCell: s.selectedCell,
     }));
   },

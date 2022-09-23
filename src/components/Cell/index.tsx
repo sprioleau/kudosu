@@ -54,7 +54,7 @@ const Cell = ({ cell }: IProps) => {
   };
 
   const shouldShowNotes = !isGiven && value == null;
-  const shouldShowValue = timerIsRunning || result === EGameResult.Win;
+  const shouldShowValue = timerIsRunning || result === EGameResult.Win || import.meta.env.DEV;
   const numberOptions = getNumberOptions();
 
   return (
