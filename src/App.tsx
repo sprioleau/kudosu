@@ -30,7 +30,7 @@ function App() {
   });
 
   useEffect(() => {
-    if (localStorage.getItem("hasSeenInstructions")) return;
+    if (JSON.parse(localStorage.getItem("hasSeenInstructions") ?? "{}")) return;
     updateModalContent(<InstructionsModal />);
   }, []);
 
