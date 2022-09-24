@@ -4,6 +4,7 @@ import {
   Board,
   GameResult,
   Header,
+  InstructionsModal,
   Modal,
   NumberSelect,
   PauseModal,
@@ -12,12 +13,12 @@ import { EGameResult } from "./store";
 import useStore from "@/store";
 import { showConfetti } from "@/utils";
 import { useActionOnBlur } from "./hooks";
+import { useEffect } from "react";
 
 function App() {
   const result = useStore((s) => s.result);
   const updateModalContent = useStore((s) => s.updateModalContent);
   const pauseGame = useStore((s) => s.pauseGame);
-  const resumeGame = useStore((s) => s.resumeGame);
 
   if (result === EGameResult.Win) {
     showConfetti();
@@ -26,8 +27,12 @@ function App() {
 
   useActionOnBlur({
     onBlur: () => pauseGame({ modalOverlay: <PauseModal /> }),
-    onFocus: resumeGame,
   });
+
+  useEffect(() => {
+    if (localStorage.getItem("hasSeenInstructions")) return;
+    updateModalContent(<InstructionsModal />);
+  }, []);
 
   return (
     <div className="app">

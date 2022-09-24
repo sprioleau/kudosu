@@ -21,6 +21,10 @@
       --opacity: 0.05;
     }
 
+    &:focus {
+      box-shadow: none;
+    }
+
     &[data-region-selected="true"],
     &[data-row-selected="true"],
     &[data-col-selected="true"],
@@ -47,6 +51,7 @@
       --opacity: 0.5;
       --border-opacity: 1;
       --border-width: min(0.175em, 4px);
+      box-shadow: 0 0 0 var(--border-width) hsla(var(--c-accent-hsl), var(--border-opacity));
     }
     
     &[data-value-incorrect="true"] {

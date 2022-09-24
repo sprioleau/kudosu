@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 
 export default function useActionOnBlur({
   onBlur,
-  onFocus,
+  onFocus = () => {},
 }: {
   onBlur: () => void;
-  onFocus: () => void;
+  onFocus?: () => void;
 }) {
   const [tabHasFocus, setTabHasFocus] = useState(true);
 

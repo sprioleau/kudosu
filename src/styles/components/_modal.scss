@@ -17,7 +17,23 @@
     padding: 1.5em;
     margin-bottom: 1em;
     border-radius: 0.5em;
-    min-width: 250px;
+    width: min(290px, 80vw);
+  }
+
+  &__close-button {
+    position: absolute;
+    top: 0.375em;
+    right: 0.375em;
+    padding: 0.125em;
+    font-size: 1.2em;
+    width: 1.125em;
+    height: 1.125em;
+    border-radius: 0.25em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: var(--c-text);
   }
 }
 

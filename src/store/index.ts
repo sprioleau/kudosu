@@ -10,7 +10,6 @@ export type TDifficulty = "easy" | "medium" | "hard" | "expert";
 export type TRemainingOptions = number[];
 
 export type TDirection = "Up" | "Down" | "Left" | "Right";
-
 export enum EGameResult {
   Win = "Win",
   Lose = "Lose",
@@ -304,7 +303,7 @@ const useStore = create<IGlobalState>((set) => ({
 
   pauseGame: ({ modalOverlay }) => {
     set((s) => ({
-      timerIsRunning: false, //newTimerIsRunning,
+      timerIsRunning: false,
       selectedCell: undefined,
       modalContent: import.meta.env.DEV ? undefined : modalOverlay,
       lastSelectedCell: s.selectedCell,

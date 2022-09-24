@@ -1,6 +1,7 @@
 import useStore, { EGameResult, TDirection } from "@/store";
 import { getIsTruthyEqual, getNumberOptions } from "@/utils";
 import { IPuzzleCell } from "@/utils/getBoard";
+import { useRef } from "react";
 
 export interface IProps {
   key: number;
@@ -14,6 +15,7 @@ const Cell = ({ cell }: IProps) => {
   const navigateToNextCell = useStore((s) => s.navigateToNextCell);
   const timerIsRunning = useStore((s) => s.timerIsRunning);
   const result = useStore((s) => s.result);
+  const cellRef = useRef(null);
 
   const { row, col, region, value, isCorrect, isGiven, notes } = cell;
 
@@ -39,16 +41,24 @@ const Cell = ({ cell }: IProps) => {
   };
 
   const handleSelectWithKeyboard = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if ([" ", "Enter"].includes(e.key)) e.preventDefault();
+
     const validNumberKeys = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
     const arrowKeys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+    const tabKey = "Tab";
+    const validKeys = [...validNumberKeys, ...arrowKeys, tabKey];
 
     const key = e.key;
 
     if (!selectedCell) return;
-    if (![...validNumberKeys, ...arrowKeys].includes(key)) return;
+    if (!validKeys.includes(key)) return;
     if (validNumberKeys.includes(key)) selectNumberOption(Number(key));
     if (arrowKeys.includes(key)) {
       const direction = key.replace("Arrow", "") as TDirection;
+      navigateToNextCell(direction);
+    }
+    if (tabKey === key) {
+      const direction = e.shiftKey ? "Left" : "Right";
       navigateToNextCell(direction);
     }
   };
@@ -60,6 +70,7 @@ const Cell = ({ cell }: IProps) => {
   return (
     <li className="cell">
       <button
+        ref={cellRef}
         className={buttonClasses}
         data-row={row}
         data-col={col}

@@ -33,3 +33,15 @@ button:focus-visible {
   --border-opacity: 1;
   outline: none;
 }
+
+// button:hover,
+// button:focus,
+// button:focus-visible {
+//   --border-opacity: 1;
+//   outline: none;
+//   box-shadow: 
+//     0 0 0 var(--border-width) var(--c-ui-bg),
+//     0 0 0 calc(var(--border-width) * 2.5) hsla(var(--c-accent-hsl), var(--border-opacity));
+// }
+
+
