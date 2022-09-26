@@ -7,3 +7,5 @@ export { default as getNumberOptions } from "./getNumberOptions";
 export { default as getMatchingCells } from "./getMatchingCells";
 export { default as formatTime } from "./formatTime";
 export { default as showConfetti } from "./showConfetti";
+export { default as getCellButtonClasses } from "./getCellButtonClasses";
+export { default as handleSelectCellWithKeyboard } from "./handleSelectCellWithKeyboard";
