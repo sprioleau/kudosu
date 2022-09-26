@@ -14,8 +14,8 @@ export interface IProps {
 }
 
 const Cell = ({ cell }: IProps) => {
-  const selectedCell = useStore((s) => s.selectedCell);
   const selectCell = useStore((s) => s.selectCell);
+  const selectedCell = useStore((s) => s.selectedCell);
   const selectNumberOption = useStore((s) => s.selectNumberOption);
   const navigateToNextCell = useStore((s) => s.navigateToNextCell);
   const timerIsRunning = useStore((s) => s.timerIsRunning);
@@ -23,10 +23,9 @@ const Cell = ({ cell }: IProps) => {
   const cellRef = createRef<HTMLButtonElement>();
 
   useEffect(() => {
-    if (cellRef.current && selectedCell?.key === cell.key) {
-      cellRef.current.focus();
-    }
-  }, [selectedCell]);
+    if (!cellRef.current) return;
+    if (cell.key === selectedCell?.key) cellRef.current.focus();
+  }, [selectedCell, cell.key, cellRef]);
 
   const { row, col, region, value, isCorrect, isGiven, notes } = cell;
 
@@ -35,25 +34,20 @@ const Cell = ({ cell }: IProps) => {
   const selectedRegion = selectedCell?.region;
   const selectedValue = selectedCell?.value;
 
-  const buttonClasses = getCellButtonClasses({ cell, selectedCell });
-
-  const handleSelectCell = () => {
-    selectCell(cell);
+  const handleSelectCell = () => selectCell(cell);
+  const handleKeyDownSelectCell = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    handleSelectCellWithKeyboard(e, { selectedCell, navigateToNextCell, selectNumberOption });
   };
 
   const shouldShowNotes = !isGiven && value == null;
   const shouldShowValue = timerIsRunning || result === EGameResult.Win || import.meta.env.DEV;
   const numberOptions = getNumberOptions();
 
-  const handleKeyDownSelectCell = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    handleSelectCellWithKeyboard(e, { selectedCell, navigateToNextCell, selectNumberOption });
-  };
-
   return (
     <li className="cell">
       <button
         ref={cellRef}
-        className={buttonClasses}
+        className={getCellButtonClasses({ cell, selectedCell })}
         data-row={row}
         data-col={col}
         data-region={region % 2 === 0 ? "even" : "odd"}
