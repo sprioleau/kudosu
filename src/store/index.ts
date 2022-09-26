@@ -1,4 +1,4 @@
-import { IAction, ACTION_IDS } from "@/components/ActionToolbar";
+import { EAction } from "@/components/ActionToolbar";
 import { SUDOKU_PUZZLE_SIZE } from "@/constants";
 import { getBoard, checkGameIsWon, getRemainingOptions, getMatchingCells } from "@/utils";
 import { TBoard, IPuzzleCell } from "@/utils/getBoard";
@@ -45,7 +45,7 @@ interface IGlobalState extends IInitialState {
   selectNumberOption: (value: number) => void;
   resetGame: () => void;
   navigateToNextCell: (direction: TDirection) => void;
-  selectAction: (action: IAction) => void;
+  selectAction: (action: EAction) => void;
   updateElapsedTimeSeconds: (elapsedTime: number) => void;
   setTimerResetFunction: (timerResetFunction: () => void) => void;
   updateModalContent: (modalContent?: ModalContent) => void;
@@ -206,9 +206,7 @@ const useStore = create<IGlobalState>((set) => ({
 
   selectAction: (action) => {
     set((s) => {
-      const actionId = action.id;
-
-      if (actionId === ACTION_IDS.UNDO) {
+      if (action === EAction.Undo) {
         if (!s.selectedCell || !s.board) return s;
         if (s.previousMoves.length === 0) return s;
 
@@ -227,7 +225,7 @@ const useStore = create<IGlobalState>((set) => ({
         };
       }
 
-      if (actionId === ACTION_IDS.ERASE) {
+      if (action === EAction.Erase) {
         if (!s.selectedCell || !s.board) return s;
         if (s.selectedCell.isGiven) return s;
 
@@ -251,11 +249,11 @@ const useStore = create<IGlobalState>((set) => ({
         };
       }
 
-      if (actionId === ACTION_IDS.NOTES) {
+      if (action === EAction.Notes) {
         return { notesModeActive: !s.notesModeActive };
       }
 
-      if (actionId === ACTION_IDS.HINT) {
+      if (action === EAction.Hint) {
         if (!s.selectedCell || !s.board) return s;
         if (s.hintsRemaining === 0) return s;
 

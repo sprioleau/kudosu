@@ -5,12 +5,12 @@ import { AiOutlineUndo } from "react-icons/ai";
 import NotesIcon from "../NotesIcon";
 import HintIcon from "../HintIcon";
 
-export const ACTION_IDS = {
-  UNDO: "undo",
-  ERASE: "erase",
-  NOTES: "notes",
-  HINT: "hint",
-};
+export enum EAction {
+  Undo = "undo",
+  Erase = "erase",
+  Notes = "notes",
+  Hint = "hint",
+}
 
 export interface IAction {
   id: string;
@@ -20,22 +20,22 @@ export interface IAction {
 
 const availableActions: IAction[] = [
   {
-    id: ACTION_IDS.UNDO,
+    id: EAction.Undo,
     label: "Undo",
     icon: <AiOutlineUndo />,
   },
   {
-    id: ACTION_IDS.ERASE,
+    id: EAction.Erase,
     label: "Erase",
     icon: <BsEraser />,
   },
   {
-    id: ACTION_IDS.NOTES,
+    id: EAction.Notes,
     label: "Notes",
     icon: <NotesIcon />,
   },
   {
-    id: ACTION_IDS.HINT,
+    id: EAction.Hint,
     label: "Hint",
     icon: <HintIcon />,
   },
@@ -51,8 +51,8 @@ const ActionToolbar = () => {
   };
 
   const getIsDisabled = (id: string): boolean => {
-    if (id === ACTION_IDS.UNDO) return previousMoves.length === 0;
-    if (id === ACTION_IDS.HINT) return hintsRemaining === 0;
+    if (id === EAction.Undo) return previousMoves.length === 0;
+    if (id === EAction.Hint) return hintsRemaining === 0;
     return false;
   };
 
