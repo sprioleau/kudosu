@@ -19,6 +19,9 @@ function App() {
   const result = useStore((s) => s.result);
   const updateModalContent = useStore((s) => s.updateModalContent);
   const pauseGame = useStore((s) => s.pauseGame);
+  const selectCell = useStore((s) => s.selectCell);
+  const selectedCell = useStore((s) => s.selectedCell);
+  const board = useStore((s) => s.board);
 
   if (result === EGameResult.Win) {
     showConfetti();
@@ -35,6 +38,17 @@ function App() {
       if (!import.meta.env.DEV) updateModalContent(<InstructionsModal />);
     }
   }, []);
+
+  useEffect(() => {
+    const handleSelectFirstCell = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      if (!board || selectedCell) return;
+      selectCell(board["1"]);
+    };
+
+    window.addEventListener("keydown", handleSelectFirstCell);
+    return () => window.removeEventListener("keydown", handleSelectFirstCell);
+  }, [board, selectedCell, selectCell]);
 
   return (
     <div className="app">
