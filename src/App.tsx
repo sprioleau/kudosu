@@ -30,8 +30,10 @@ function App() {
   });
 
   useEffect(() => {
-    if (JSON.parse(localStorage.getItem("hasSeenInstructions") ?? "{}")) return;
-    updateModalContent(<InstructionsModal />);
+    if (!localStorage.getItem("hasSeenInstructions")) {
+      localStorage.setItem("hasSeenInstructions", JSON.stringify(true));
+      if (!import.meta.env.DEV) updateModalContent(<InstructionsModal />);
+    }
   }, []);
 
   return (

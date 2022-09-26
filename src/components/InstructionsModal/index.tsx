@@ -44,10 +44,6 @@ const pages: TInstructionsPage[] = [
 export default function InstructionsModal() {
   const [currentPageIndex, setCurentPageIndex] = useState(0);
 
-  useEffect(() => {
-    localStorage.setItem("hasSeenInstructions", JSON.stringify(true));
-  }, []);
-
   const handleAdvance = (direction: AdvanceDirection) => {
     setCurentPageIndex((i) => i + direction);
   };
