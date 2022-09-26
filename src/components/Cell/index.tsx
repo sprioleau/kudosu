@@ -1,7 +1,12 @@
-import useStore, { EGameResult, TDirection } from "@/store";
-import { getIsTruthyEqual, getNumberOptions } from "@/utils";
+import useStore, { EGameResult } from "@/store";
+import {
+  getCellButtonClasses,
+  getIsTruthyEqual,
+  getNumberOptions,
+  handleSelectCellWithKeyboard,
+} from "@/utils";
 import { IPuzzleCell } from "@/utils/getBoard";
-import { useRef } from "react";
+import { useEffect, createRef } from "react";
 
 export interface IProps {
   key: number;
@@ -15,7 +20,13 @@ const Cell = ({ cell }: IProps) => {
   const navigateToNextCell = useStore((s) => s.navigateToNextCell);
   const timerIsRunning = useStore((s) => s.timerIsRunning);
   const result = useStore((s) => s.result);
-  const cellRef = useRef(null);
+  const cellRef = createRef<HTMLButtonElement>();
+
+  useEffect(() => {
+    if (cellRef.current && selectedCell?.key === cell.key) {
+      cellRef.current.focus();
+    }
+  }, [selectedCell]);
 
   const { row, col, region, value, isCorrect, isGiven, notes } = cell;
 
@@ -24,48 +35,19 @@ const Cell = ({ cell }: IProps) => {
   const selectedRegion = selectedCell?.region;
   const selectedValue = selectedCell?.value;
 
-  const isSelected = getIsTruthyEqual(row, selectedRow) && getIsTruthyEqual(col, selectedCol);
-
-  let buttonClasses = "cell__button";
-
-  if (isSelected) buttonClasses += " selected";
-
-  if (cell.isCorrect) {
-    buttonClasses += " correct";
-  } else if (cell.value && !isCorrect && !isGiven) {
-    buttonClasses += " incorrect";
-  }
+  const buttonClasses = getCellButtonClasses({ cell, selectedCell });
 
   const handleSelectCell = () => {
     selectCell(cell);
   };
 
-  const handleSelectWithKeyboard = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    if ([" ", "Enter"].includes(e.key)) e.preventDefault();
-
-    const validNumberKeys = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    const arrowKeys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
-    const tabKey = "Tab";
-    const validKeys = [...validNumberKeys, ...arrowKeys, tabKey];
-
-    const key = e.key;
-
-    if (!selectedCell) return;
-    if (!validKeys.includes(key)) return;
-    if (validNumberKeys.includes(key)) selectNumberOption(Number(key));
-    if (arrowKeys.includes(key)) {
-      const direction = key.replace("Arrow", "") as TDirection;
-      navigateToNextCell(direction);
-    }
-    if (tabKey === key) {
-      const direction = e.shiftKey ? "Left" : "Right";
-      navigateToNextCell(direction);
-    }
-  };
-
   const shouldShowNotes = !isGiven && value == null;
   const shouldShowValue = timerIsRunning || result === EGameResult.Win || import.meta.env.DEV;
   const numberOptions = getNumberOptions();
+
+  const handleKeyDownSelectCell = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    handleSelectCellWithKeyboard(e, { selectedCell, navigateToNextCell, selectNumberOption });
+  };
 
   return (
     <li className="cell">
@@ -81,7 +63,7 @@ const Cell = ({ cell }: IProps) => {
         data-value-selected={getIsTruthyEqual(value, selectedValue)}
         data-value-incorrect={value && !isCorrect && !isGiven}
         onClick={handleSelectCell}
-        onKeyDown={handleSelectWithKeyboard}
+        onKeyDown={handleKeyDownSelectCell}
       >
         {shouldShowValue && (
           <>
