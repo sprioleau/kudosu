@@ -1,14 +1,24 @@
 import { createPortal } from "react-dom";
 import useStore from "@/store";
 import FocusTrap from "focus-trap-react";
+import { useCallback, useEffect } from "react";
 
 export default function Modal() {
   const modalContent = useStore((s) => s.modalContent);
   const updateModalContent = useStore((s) => s.updateModalContent);
 
-  if (!modalContent) return null;
+  const handleClose = useCallback(() => updateModalContent(), [updateModalContent]);
 
-  const handleClose = () => updateModalContent();
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") updateModalContent();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleClose]);
+
+  if (!modalContent) return null;
 
   return createPortal(
     <FocusTrap>
