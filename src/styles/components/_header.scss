@@ -1,20 +1,26 @@
 .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: min(1em, calc(var(--min-font-size) * 2));
   margin-bottom: 0.125em;
+  margin-bottom: 2em;
 
-  &__title-wrapper {
+  &__action-buttons {
+    display: flex;
+    gap: 0.5em;
+  }
+
+  &__action-button {
+    --size: 1.5em;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5em;
-    margin-bottom: 1em;
-  }
-
-  &__logo {
-    width: 3em;
-  }
-
-  &__title {
-    margin-top: 4px;
+    width: var(--size);
+    height: var(--size);
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
   }
 }

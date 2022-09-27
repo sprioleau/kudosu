@@ -1,0 +1,42 @@
+.daily-challenge-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25em;
+  width: max-content;
+  margin: 0 auto;
+  padding: 1em;
+  border: 1px solid var(--c-accent);
+  background-color: transparent;
+  border-radius: 0.5em;
+  font-weight: normal;
+  transition: background-color 0.25s ease-out;
+
+  &:hover,
+  &:focus {
+    background-color: hsla(var(--c-accent-hsl), 0.3);
+  }
+
+  &__icon {
+    font-size: 2em;
+    color: var(--c-accent);
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+  }
+
+  &__date {
+    font-size: 0.9em;
+  }
+
+  &__action {
+    padding: 0.125em 0.75em;
+    border-radius: 100vmax;
+    font-size: 0.8em;
+    background-color: hsla(var(--c-accent-hsl), 0.6);
+  };
+}

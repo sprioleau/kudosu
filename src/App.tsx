@@ -2,13 +2,16 @@ import "@/styles/styles.scss";
 import {
   ActionToolbar,
   Board,
+  GameInfo,
   GameResult,
   Header,
   InstructionsModal,
   Modal,
   NumberSelect,
   PauseModal,
+  Welcome,
 } from "@/components";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { EGameResult } from "./store";
 import useStore from "@/store";
 import { showConfetti } from "@/utils";
@@ -73,11 +76,27 @@ function App() {
 
   return (
     <div className="app">
-      <Header />
-      <Board />
-      <ActionToolbar />
-      <NumberSelect />
-      <Modal />
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={<Welcome />}
+          />
+          <Route
+            path="/game"
+            element={
+              <>
+                <Header />
+                <GameInfo />
+                <Board />
+                <ActionToolbar />
+                <NumberSelect />
+                <Modal />
+              </>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
