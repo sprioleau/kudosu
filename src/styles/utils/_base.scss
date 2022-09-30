@@ -7,8 +7,8 @@
 :root {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   color-scheme: light dark;
-  background-color: var(--c-ui-bg);
   color: var(--c-text);
+  background-color: var(--c-ui-bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -25,6 +25,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overscroll-behavior: none;
 }
 
 h1 {
