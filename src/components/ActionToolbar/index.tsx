@@ -6,37 +6,32 @@ import NotesIcon from "../NotesIcon";
 import HintIcon from "../HintIcon";
 
 export enum EAction {
-  Undo = "undo",
-  Erase = "erase",
-  Notes = "notes",
-  Hint = "hint",
+  Undo = "Undo",
+  Erase = "Erase",
+  Notes = "Notes",
+  Hint = "Hint",
 }
 
 export interface IAction {
-  id: string;
-  label: string;
+  label: EAction;
   icon: JSX.Element;
 }
 
 const availableActions: IAction[] = [
   {
-    id: EAction.Undo,
-    label: "Undo",
+    label: EAction.Undo,
     icon: <AiOutlineUndo />,
   },
   {
-    id: EAction.Erase,
-    label: "Erase",
+    label: EAction.Erase,
     icon: <BsEraser />,
   },
   {
-    id: EAction.Notes,
-    label: "Notes",
+    label: EAction.Notes,
     icon: <NotesIcon />,
   },
   {
-    id: EAction.Hint,
-    label: "Hint",
+    label: EAction.Hint,
     icon: <HintIcon />,
   },
 ];
@@ -46,13 +41,13 @@ const ActionToolbar = () => {
   const hintsRemaining = useStore((s) => s.hintsRemaining);
   const previousMoves = useStore((s) => s.previousMoves);
 
-  const handleActionSelect = (action: IAction) => {
+  const handleActionSelect = (action: EAction) => {
     selectAction(action);
   };
 
-  const getIsDisabled = (id: string): boolean => {
-    if (id === EAction.Undo) return previousMoves.length === 0;
-    if (id === EAction.Hint) return hintsRemaining === 0;
+  const getIsDisabled = (label: string): boolean => {
+    if (label === EAction.Undo) return previousMoves.length === 0;
+    if (label === EAction.Hint) return hintsRemaining === 0;
     return false;
   };
 
@@ -60,18 +55,17 @@ const ActionToolbar = () => {
     <div className="action-toolbar">
       <ul className="action-toolbar__options">
         {availableActions.map((action: IAction) => {
-          const { id, label, icon } = action;
+          const { label, icon } = action;
 
           return (
             <li
-              key={id}
+              key={label}
               className="action-toolbar__option"
             >
               <button
-                id={id}
                 className="action-toolbar__button"
-                onClick={() => handleActionSelect(action)}
-                disabled={getIsDisabled(id)}
+                onClick={() => handleActionSelect(label)}
+                disabled={getIsDisabled(label)}
               >
                 <span className="action-toolbar__icon">{icon}</span>
                 <span className="action-toolbar__label">{label}</span>
