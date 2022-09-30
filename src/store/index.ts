@@ -117,16 +117,19 @@ const useStore = create<IGlobalState>((set) => ({
 
       let cellsInMatchingRow = {};
       let cellsInMatchingCol = {};
+      let cellsInMatchingRegion = {};
 
       if (!s.notesModeActive) {
         cellsInMatchingRow = getMatchingCells(newCell, value, s.board, "row");
         cellsInMatchingCol = getMatchingCells(newCell, value, s.board, "col");
+        cellsInMatchingRegion = getMatchingCells(newCell, value, s.board, "region");
       }
 
       const newBoard = {
         ...s.board,
         ...cellsInMatchingRow,
         ...cellsInMatchingCol,
+        ...cellsInMatchingRegion,
         [newCell.key]: newCell,
       };
 
