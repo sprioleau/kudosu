@@ -21,7 +21,8 @@ export enum EGameResult {
   Lose = "Lose",
 }
 
-type ModalContent = JSX.Element | undefined;
+type TModalContent = JSX.Element;
+type TModalOnDismiss = () => void;
 
 type TNumberTuple = [number, number];
 
@@ -38,7 +39,8 @@ interface IInitialState {
   elapsedTimeSeconds: number;
   timerResetFunction: () => void;
   timerIsRunning: boolean;
-  modalContent?: ModalContent;
+  modalContent: TModalContent | undefined;
+  modalOnDismiss: TModalOnDismiss | undefined;
   lastSelectedCell: IPuzzleCell | undefined;
 }
 
@@ -54,8 +56,8 @@ interface IGlobalState extends IInitialState {
   selectAction: (action: EAction) => void;
   updateElapsedTimeSeconds: (elapsedTime: number) => void;
   setTimerResetFunction: (timerResetFunction: () => void) => void;
-  updateModalContent: (modalContent?: ModalContent) => void;
-  pauseGame: ({ modalOverlay }: { modalOverlay?: ModalContent }) => void;
+  updateModalContent: (modalContent?: TModalContent, modalOnDismiss?: TModalOnDismiss) => void;
+  pauseGame: ({ modalOverlay }: { modalOverlay?: TModalContent }) => void;
   resumeGame: () => void;
   setElapsedTimeSeconds: (elapsedTimeSeconds: number) => void;
 }
@@ -74,6 +76,7 @@ const initialState: IInitialState = {
   timerResetFunction: () => {},
   timerIsRunning: true,
   modalContent: undefined,
+  modalOnDismiss: undefined,
   lastSelectedCell: undefined,
 };
 
@@ -153,7 +156,6 @@ const useStore = create(
             if (newMistakes[0] === totalMistakes) newResult = EGameResult.Lose;
           }
           
-          console.log('newResult:', newResult)
           const gameIsWon = newResult === EGameResult.Win;
 
           const newPreviousMoves = [currentCell, ...s.previousMoves];
@@ -295,8 +297,8 @@ const useStore = create(
         set({ timerResetFunction });
       },
 
-      updateModalContent: (modalContent = undefined) => {
-        set({ modalContent });
+      updateModalContent: (modalContent = undefined, modalOnDismiss = undefined) => {
+        set({ modalContent, modalOnDismiss });
       },
 
       pauseGame: ({ modalOverlay }) => {
