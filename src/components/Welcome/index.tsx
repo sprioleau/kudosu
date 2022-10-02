@@ -1,20 +1,27 @@
 import { BiTimeFive } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import { DailyChallengeCard, Logo } from "@/components";
+import { DailyChallengeCard, DifficultySelectModal, Logo } from "@/components";
+import useStore from "@/store";
+import { formatTime } from "@/utils";
 
 export default function Welcome() {
   const navigate = useNavigate();
-  const previousGameStatus = {
-    elapsedTime: "1:06",
-    difficulty: "Easy",
-  };
-
-  const { elapsedTime, difficulty } = previousGameStatus;
+  const updateModalContent = useStore((s) => s.updateModalContent);
+  const elapsedTimeSeconds = useStore((s) => s.elapsedTimeSeconds);
+  const resetGame = useStore((s) => s.resetGame);
+  const resumeGame = useStore((s) => s.resumeGame);
+  const difficulty = useStore((s) => s.difficulty);
 
   const handleStartNewGame = () => {
-    navigate("/game");
+    resetGame();
+    updateModalContent(<DifficultySelectModal />)
   };
-
+  
+  const handleContinueGame = () => {
+    resumeGame();
+    navigate("/game");
+  }
+  
   return (
     <div className="welcome">
       <DailyChallengeCard />
@@ -31,13 +38,15 @@ export default function Welcome() {
         </span>
       </header>
       <div className="welcome__buttons">
-        <button className="welcome__button">
-          Continue Game{" "}
-          <span className="welcome__button-secondary text-muted">
-            <BiTimeFive />
-            &nbsp;{elapsedTime} - {difficulty}
-          </span>
-        </button>
+        {elapsedTimeSeconds > 0 && (
+          <button className="welcome__button" onClick={handleContinueGame}>
+            Continue Game{" "}
+            <span className="welcome__button-secondary text-muted">
+              <BiTimeFive />
+              &nbsp;{formatTime(elapsedTimeSeconds)} - {difficulty}
+            </span>
+          </button>
+        )}
         <button
           className="welcome__button ghost"
           onClick={handleStartNewGame}
