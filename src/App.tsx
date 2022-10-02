@@ -32,10 +32,12 @@ function App() {
       updateModalContent(<GameResult />);
     }
   }, [result, updateModalContent, showConfetti])
-  
 
   useActionOnBlur({
-    onBlur: () => pauseGame({ modalOverlay: <PauseModal /> }),
+    onBlur: () => {
+      if (window.location.pathname !== "/game") return;
+      pauseGame({ modalOverlay: <PauseModal /> })
+    },
   });
 
   useEffect(() => {
