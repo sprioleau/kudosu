@@ -4,7 +4,7 @@
   gap: 1em;
   text-align: center;
   justify-content: space-between;
-  min-height: 500px;
+  min-height: min(500px, 100vh);
 
   &__title {
     font-size: 1.5em;
