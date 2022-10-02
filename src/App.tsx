@@ -27,10 +27,9 @@ function App() {
   const selectAction = useStore((s) => s.selectAction);
 
   useEffect(() => {
-    if (result) {
-      if (result === EGameResult.Win) showConfetti();
-      updateModalContent(<GameResult />);
-    }
+    if (!result) return;
+    if (result === EGameResult.Win) showConfetti();
+    updateModalContent(<GameResult />);
   }, [result, updateModalContent, showConfetti])
 
   useActionOnBlur({
