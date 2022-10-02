@@ -1,15 +1,14 @@
 import useStore from "@/store";
 import { formatTime } from "@/utils";
+import { DifficultySelectModal } from "@/components";
 
 const GameResult = () => {
-  const resetGame = useStore((s) => s.resetGame);
-  const elapsedTimeSeconds = useStore((s) => s.elapsedTimeSeconds);
   const result = useStore((s) => s.result);
+  const elapsedTimeSeconds = useStore((s) => s.elapsedTimeSeconds);
+  const updateModalContent = useStore((s) => s.updateModalContent);
 
-  if (!result) return null;
-
-  const handleResetGame = () => {
-    resetGame();
+  const handleStartNewGame = () => {
+    updateModalContent(<DifficultySelectModal />);
   };
 
   return (
@@ -18,9 +17,9 @@ const GameResult = () => {
       <p className="game-result__time">Time: {formatTime(elapsedTimeSeconds)}</p>
       <button
         className="game-result__button"
-        onClick={handleResetGame}
+        onClick={handleStartNewGame}
       >
-        Reset
+        Start a New Game
       </button>
     </div>
   );
