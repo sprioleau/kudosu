@@ -5,9 +5,7 @@
   flex-direction: column;
   justify-content: center;
   position: relative;
-  // width: calc(var(--board-size) + 2 * var(--padding));
-  width: min(700px, 100vw);
-  min-height: 100vh;
+  width: min(calc(var(--board-size) + 2 * var(--padding)), 100vw);
   padding: 1.25em;
   aspect-ratio: 9 / 16;
   box-shadow: 0 0 0 1px hsla(var(--c-accent-hsl), var(--border-opacity));
@@ -18,5 +16,6 @@
 @media (max-width: 700px) {
   .app {
       --border-opacity: 0;
+      height: 100vh;
   }
 }
