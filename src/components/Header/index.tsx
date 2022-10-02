@@ -1,16 +1,30 @@
-import { GameInfo } from "@/components";
+import { RiArrowLeftSLine, RiSettingsLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { Logo } from "@/components";
 
 const Header = () => {
+  const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate("/");
+  };
+
   return (
     <header className="header">
-      <div className="header__title-wrapper">
-        <img
-          src="/images/logo.svg"
-          className="header__logo"
-        />
-        <h1 className="header__title">Kudosu</h1>
+      <div className="header__action-buttons">
+        <button
+          className="header__action-button"
+          onClick={handleGoBack}
+        >
+          <RiArrowLeftSLine />
+        </button>
       </div>
-      <GameInfo />
+      <Logo />
+      <div className="header__action-buttons">
+        <button className="header__action-button">
+          <RiSettingsLine />
+        </button>
+      </div>
     </header>
   );
 };

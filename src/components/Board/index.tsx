@@ -1,13 +1,18 @@
 import useStore from "@/store";
 import { IPuzzleCell } from "@/utils/getBoard";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Cell from "../Cell";
 
 const Board = () => {
   const board = useStore((s) => s.board);
-  const createBoard = useStore((s) => s.createBoard);
+  const navigate = useNavigate();
 
-  useEffect(() => createBoard("easy"), []);
+  useEffect(() => {
+    if (!board || !localStorage.getItem("gameState")) {
+      navigate("/");
+    }
+  })
 
   if (!board) return null;
 

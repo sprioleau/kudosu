@@ -7,8 +7,8 @@
 :root {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   color-scheme: light dark;
-  background-color: var(--c-ui-bg);
   color: var(--c-text);
+  background-color: var(--c-ui-bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -25,6 +25,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  overscroll-behavior: none;
+  transition: padding 0.25s ease;
+  position: relative;
 }
 
 h1 {
@@ -37,6 +41,24 @@ p {
     margin-bottom: 0.5em;
   }
 }
+
+a {
+  color: hsl(var(--c-accent-h), var(--c-accent-s), 85%);
+  text-decoration: none;
+}
+
+.text-muted {
+  color: var(--c-text);
+  opacity: 0.6;
+}
+
+@media (max-width: 700px) {
+  body {
+    padding: 0;
+    justify-content: flex-start;
+  }
+}
+
 
 @media (prefers-color-scheme: light) {
   :root {

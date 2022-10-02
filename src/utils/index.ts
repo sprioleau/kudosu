@@ -9,3 +9,5 @@ export { default as formatTime } from "./formatTime";
 export { default as showConfetti } from "./showConfetti";
 export { default as getCellButtonClasses } from "./getCellButtonClasses";
 export { default as handleSelectCellWithKeyboard } from "./handleSelectCellWithKeyboard";
+export { default as toTitleCase } from "./toTitleCase";
+export { default as getRandomDifficulty } from "./getRandomDifficulty";

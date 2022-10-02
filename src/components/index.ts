@@ -8,3 +8,7 @@ export { default as ActionToolbar } from "./ActionToolbar";
 export { default as Modal } from "./Modal";
 export { default as PauseModal } from "./PauseModal";
 export { default as InstructionsModal } from "./InstructionsModal";
+export { default as Welcome } from "./Welcome";
+export { default as DailyChallengeCard } from "./DailyChallengeCard";
+export { default as Logo } from "./Logo";
+export { default as DifficultySelectModal } from "./DifficultySelectModal";

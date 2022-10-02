@@ -2,15 +2,16 @@ import "@/styles/styles.scss";
 import {
   ActionToolbar,
   Board,
+  GameInfo,
   GameResult,
   Header,
-  InstructionsModal,
   Modal,
   NumberSelect,
   PauseModal,
+  Welcome,
 } from "@/components";
-import { EGameResult } from "./store";
-import useStore from "@/store";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import useStore, { EGameResult } from "@/store";
 import { showConfetti } from "@/utils";
 import { useActionOnBlur } from "./hooks";
 import { useEffect } from "react";
@@ -25,21 +26,17 @@ function App() {
   const board = useStore((s) => s.board);
   const selectAction = useStore((s) => s.selectAction);
 
-  if (result === EGameResult.Win) {
-    showConfetti();
-    updateModalContent(<GameResult />);
-  }
+  useEffect(() => {
+    if (result) {
+      if (result === EGameResult.Win) showConfetti();
+      updateModalContent(<GameResult />);
+    }
+  }, [result, updateModalContent, showConfetti])
+  
 
   useActionOnBlur({
     onBlur: () => pauseGame({ modalOverlay: <PauseModal /> }),
   });
-
-  useEffect(() => {
-    if (!localStorage.getItem("hasSeenInstructions")) {
-      localStorage.setItem("hasSeenInstructions", JSON.stringify(true));
-      if (!import.meta.env.DEV) updateModalContent(<InstructionsModal />);
-    }
-  }, []);
 
   useEffect(() => {
     const handleSelectFirstCell = (e: KeyboardEvent) => {
@@ -73,12 +70,33 @@ function App() {
 
   return (
     <div className="app">
-      <Header />
-      <Board />
-      <ActionToolbar />
-      <NumberSelect />
-      <Modal />
-    </div>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <Welcome />
+                  <Modal />
+                </>
+              }
+            />
+            <Route
+              path="/game"
+              element={
+                <>
+                  <Header />
+                  <GameInfo />
+                  <Board />
+                  <ActionToolbar />
+                  <NumberSelect />
+                  <Modal />
+                </>
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+      </div>
   );
 }
 

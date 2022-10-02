@@ -8,7 +8,7 @@ button {
   font-weight: 500;
   font-family: inherit;
   cursor: pointer;
-  transition: box-shadow 0.25s;
+  transition: box-shadow 0.25s, transform 0.25s;
   user-select: none;
   color: var(--c-text);
   background-color: var(--c-accent);
@@ -22,6 +22,11 @@ button {
   &:disabled:hover {
     --border-opacity: 0;
   }
+
+  &.ghost {
+    background-color: transparent;
+    border: 2px solid hsla(var(--c-accent-hsl));
+  }
 }
 
 button:hover {
@@ -34,14 +39,14 @@ button:focus-visible {
   outline: none;
 }
 
-// button:hover,
-// button:focus,
-// button:focus-visible {
-//   --border-opacity: 1;
-//   outline: none;
-//   box-shadow: 
-//     0 0 0 var(--border-width) var(--c-ui-bg),
-//     0 0 0 calc(var(--border-width) * 2.5) hsla(var(--c-accent-hsl), var(--border-opacity));
-// }
+button:not(.cell__button):hover, 
+button:not(.cell__button):focus {
+  --border-width: 2px;
+  box-shadow: 
+    0 0 0 var(--border-width) var(--c-ui-bg),
+    0 0 0 calc(var(--border-width) * 2) hsla(var(--c-accent-hsl), var(--border-opacity));
+}
 
-
+button:active {
+  transform: scale(0.95);
+}

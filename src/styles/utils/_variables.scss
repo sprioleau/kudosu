@@ -16,8 +16,8 @@
   --c-text: hsl(var(--c-accent-h), var(--c-accent-s), var(--c-text-l));
   
   // Background Color
-  --c-ui-bg-l: 14%;
-  --c-ui-bg: hsl(0, 0%, var(--c-ui-bg-l));
+  --c-ui-bg-l: 11;
+  --c-ui-bg: hsl(0, 0%, calc(var(--c-ui-bg-l) * 1%));
   
   --c-incorrect-h: max(calc(var(--c-accent-h) + 100), 345);
 }

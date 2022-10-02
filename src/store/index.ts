@@ -4,8 +4,14 @@ import { getBoard, checkGameIsWon, getRemainingOptions, getMatchingCells } from 
 import { TBoard, IPuzzleCell } from "@/utils/getBoard";
 import { getSudoku } from "sudoku-gen";
 import create from "zustand";
+import { persist } from 'zustand/middleware'
 
-export type TDifficulty = "easy" | "medium" | "hard" | "expert";
+export enum EDifficulty {
+  easy = "easy",
+  medium = "medium",
+  hard = "hard",
+  expert = "expert",
+}
 
 export type TRemainingOptions = number[];
 
@@ -22,7 +28,7 @@ type TNumberTuple = [number, number];
 interface IInitialState {
   selectedCell: IPuzzleCell | undefined;
   board: TBoard | undefined;
-  difficulty: TDifficulty;
+  difficulty: EDifficulty;
   mistakes: TNumberTuple;
   result: EGameResult | undefined;
   remainingNumberOptions: TRemainingOptions | undefined;
@@ -32,7 +38,7 @@ interface IInitialState {
   elapsedTimeSeconds: number;
   timerResetFunction: () => void;
   timerIsRunning: boolean;
-  modalContent: ModalContent;
+  modalContent?: ModalContent;
   lastSelectedCell: IPuzzleCell | undefined;
 }
 
@@ -40,7 +46,7 @@ const MISTAKES_ALLOWED = 3;
 const HINTS_ALLOWED = 3;
 
 interface IGlobalState extends IInitialState {
-  createBoard: (difficulty: TDifficulty) => void;
+  createBoard: (difficulty: EDifficulty, callback?: () => void) => void;
   selectCell: (cell: IPuzzleCell | undefined) => void;
   selectNumberOption: (value: number) => void;
   resetGame: () => void;
@@ -51,12 +57,13 @@ interface IGlobalState extends IInitialState {
   updateModalContent: (modalContent?: ModalContent) => void;
   pauseGame: ({ modalOverlay }: { modalOverlay?: ModalContent }) => void;
   resumeGame: () => void;
+  setElapsedTimeSeconds: (elapsedTimeSeconds: number) => void;
 }
 
-const initalState: IInitialState = {
+const initialState: IInitialState = {
   selectedCell: undefined,
   board: undefined,
-  difficulty: "easy",
+  difficulty: EDifficulty.easy,
   mistakes: [0, MISTAKES_ALLOWED],
   result: undefined,
   remainingNumberOptions: undefined,
@@ -70,251 +77,258 @@ const initalState: IInitialState = {
   lastSelectedCell: undefined,
 };
 
-const useStore = create<IGlobalState>((set) => ({
-  ...initalState,
+const useStore = create(
+  persist<IGlobalState >((set) => ({
+      ...initialState,
 
-  createBoard: (difficulty) => {
-    const { puzzle, solution } = getSudoku(difficulty);
-    const board = getBoard(puzzle, solution);
+      createBoard: (difficulty, callback) => {
+        const { puzzle, solution, difficulty: appliedDifficulty } = getSudoku(difficulty);
+        const board = getBoard(puzzle, solution);
 
-    const remainingNumberOptions = getRemainingOptions(board);
+        const remainingNumberOptions = getRemainingOptions(board);
 
-    set({
-      board,
-      difficulty,
-      remainingNumberOptions,
-    });
-  },
-
-  selectCell: (cell) => set({ selectedCell: cell }),
-
-  selectNumberOption: (value) => {
-    set((s) => {
-      if (!s.board || !s.selectedCell) return s;
-      if (s.selectedCell.isCorrect) return s;
-      const currentCell = s.board[s.selectedCell.key];
-      const [mistakes, totalMistakes] = s.mistakes;
-
-      if (currentCell.isGiven) return s;
-
-      let newCell = undefined;
-
-      if (s.notesModeActive) {
-        newCell = {
-          ...currentCell,
-          notes: currentCell.notes.includes(value)
-            ? currentCell.notes.filter((v) => v !== value)
-            : [...currentCell.notes, value],
-        };
-      } else {
-        newCell = {
-          ...currentCell,
-          isCorrect: value === currentCell.correctValue,
-          notes: [],
-          value,
-        };
-      }
-
-      let cellsInMatchingRow = {};
-      let cellsInMatchingCol = {};
-
-      if (!s.notesModeActive) {
-        cellsInMatchingRow = getMatchingCells(newCell, value, s.board, "row");
-        cellsInMatchingCol = getMatchingCells(newCell, value, s.board, "col");
-      }
-
-      const newBoard = {
-        ...s.board,
-        ...cellsInMatchingRow,
-        ...cellsInMatchingCol,
-        [newCell.key]: newCell,
-      };
-
-      const remainingNumberOptions = getRemainingOptions(newBoard);
-
-      let newMistakes: TNumberTuple = [mistakes, totalMistakes];
-      let newResult = checkGameIsWon(newBoard) ? EGameResult.Win : s.result;
-
-      if (!s.notesModeActive && newCell.value !== currentCell.correctValue) {
-        newMistakes[0] = Math.min(mistakes + 1, totalMistakes);
-        if (newMistakes[0] === totalMistakes) newResult = EGameResult.Lose;
-      }
-
-      const gameIsWon = newResult === EGameResult.Win;
-
-      const newPreviousMoves = [currentCell, ...s.previousMoves];
-
-      if (gameIsWon) {
-        return {
-          board: newBoard,
-          result: newResult,
-          mistakes: newMistakes,
+        set({
+          board,
+          difficulty: EDifficulty[appliedDifficulty],
           remainingNumberOptions,
+        });
+
+        if (callback) callback();
+      },
+
+      selectCell: (cell) => set({ selectedCell: cell }),
+
+      selectNumberOption: (value) => {
+        set((s) => {
+          if (!s.board || !s.selectedCell) return s;
+          if (s.selectedCell.isCorrect) return s;
+          const currentCell = s.board[s.selectedCell.key];
+          const [mistakes, totalMistakes] = s.mistakes;
+
+          if (currentCell.isGiven) return s;
+
+          let newCell = undefined;
+
+          if (s.notesModeActive) {
+            newCell = {
+              ...currentCell,
+              notes: currentCell.notes.includes(value)
+                ? currentCell.notes.filter((v) => v !== value)
+                : [...currentCell.notes, value],
+            };
+          } else {
+            newCell = {
+              ...currentCell,
+              isCorrect: value === currentCell.correctValue,
+              notes: [],
+              value,
+            };
+          }
+
+          let cellsInMatchingRow = {};
+          let cellsInMatchingCol = {};
+          let cellsInMatchingRegion = {};
+
+          if (!s.notesModeActive) {
+            cellsInMatchingRow = getMatchingCells(newCell, value, s.board, "row");
+            cellsInMatchingCol = getMatchingCells(newCell, value, s.board, "col");
+            cellsInMatchingRegion = getMatchingCells(newCell, value, s.board, "region");
+          }
+
+          const newBoard = {
+            ...s.board,
+            ...cellsInMatchingRow,
+            ...cellsInMatchingCol,
+            ...cellsInMatchingRegion,
+            [newCell.key]: newCell,
+          };
+
+          const remainingNumberOptions = getRemainingOptions(newBoard);
+
+          let newMistakes: TNumberTuple = [mistakes, totalMistakes];
+          let newResult = checkGameIsWon(newBoard) ? EGameResult.Win : s.result;
+          
+          if (!s.notesModeActive && newCell.value !== currentCell.correctValue) {
+            newMistakes[0] = Math.min(mistakes + 1, totalMistakes);
+            if (newMistakes[0] === totalMistakes) newResult = EGameResult.Lose;
+          }
+          
+          console.log('newResult:', newResult)
+          const gameIsWon = newResult === EGameResult.Win;
+
+          const newPreviousMoves = [currentCell, ...s.previousMoves];
+
+          if (gameIsWon) {
+            return {
+              board: newBoard,
+              result: newResult,
+              mistakes: newMistakes,
+              remainingNumberOptions,
+              timerIsRunning: false,
+              selectedCell: undefined,
+              previousMoves: newPreviousMoves,
+            };
+          }
+
+          return {
+            board: newBoard,
+            result: newResult,
+            mistakes: newMistakes,
+            remainingNumberOptions,
+            timerIsRunning: newResult === EGameResult.Lose ? false : s.timerIsRunning,
+            selectedCell: newCell,
+            previousMoves: newPreviousMoves,
+          };
+        });
+      },
+
+      resetGame: () => {
+        set({...initialState});
+      },
+
+      navigateToNextCell: (direction) => {
+        set((s) => {
+          if (!s.selectedCell || !s.board) return s;
+
+          const key = s.selectedCell.key;
+
+          let nextCellInDirection = undefined;
+          if (direction === "Up") nextCellInDirection = s.board[key - SUDOKU_PUZZLE_SIZE];
+          if (direction === "Down") nextCellInDirection = s.board[key + SUDOKU_PUZZLE_SIZE];
+          if (direction === "Left") nextCellInDirection = s.board[key - 1];
+          if (direction === "Right") nextCellInDirection = s.board[key + 1];
+
+          const newSelectedCell = nextCellInDirection ?? s.selectedCell;
+
+          return { selectedCell: newSelectedCell };
+        });
+      },
+
+      selectAction: (action) => {
+        set((s) => {
+          if (action === EAction.Undo) {
+            if (!s.selectedCell || !s.board) return s;
+            if (s.previousMoves.length === 0) return s;
+
+            const [previousMove, ...remainingMoves] = s.previousMoves;
+            const cellValueFromLastMove = previousMove;
+
+            const newBoard = {
+              ...s.board,
+              [cellValueFromLastMove.key]: cellValueFromLastMove,
+            };
+
+            return {
+              board: newBoard,
+              selectedCell: cellValueFromLastMove,
+              previousMoves: remainingMoves,
+            };
+          }
+
+          if (action === EAction.Erase) {
+            if (!s.selectedCell || !s.board) return s;
+            if (s.selectedCell.isGiven) return s;
+
+            const currentCell = s.board[s.selectedCell.key];
+
+            const newCell = {
+              ...currentCell,
+              value: null,
+            };
+
+            const newPreviousMoves = [currentCell, ...s.previousMoves];
+
+            const newBoard = {
+              ...s.board,
+              [s.selectedCell.key]: newCell,
+            };
+
+            return {
+              board: newBoard,
+              previousMoves: newPreviousMoves,
+            };
+          }
+
+          if (action === EAction.Notes) {
+            return { notesModeActive: !s.notesModeActive };
+          }
+
+          if (action === EAction.Hint) {
+            if (!s.selectedCell || !s.board) return s;
+            if (s.hintsRemaining === 0) return s;
+
+            const currentCell = s.board[s.selectedCell.key];
+
+            if (currentCell.value === currentCell.correctValue) return s;
+
+            const newCell = {
+              ...currentCell,
+              value: currentCell.correctValue,
+              isCorrect: true,
+              notes: [],
+            };
+
+            const newPreviousMoves = [currentCell, ...s.previousMoves];
+
+            const newBoard = {
+              ...s.board,
+              [s.selectedCell.key]: newCell,
+            };
+
+            return {
+              board: newBoard,
+              selectedCell: newCell,
+              hintsRemaining: s.hintsRemaining - 1,
+              previousMoves: newPreviousMoves,
+            };
+          }
+
+          return s;
+        });
+      },
+
+      updateElapsedTimeSeconds: (elapsedTime) => {
+        set({ elapsedTimeSeconds: elapsedTime });
+      },
+
+      setTimerResetFunction: (timerResetFunction) => {
+        set({ timerResetFunction });
+      },
+
+      updateModalContent: (modalContent = undefined) => {
+        set({ modalContent });
+      },
+
+      pauseGame: ({ modalOverlay }) => {
+        set((s) => ({
           timerIsRunning: false,
           selectedCell: undefined,
-          previousMoves: newPreviousMoves,
-        };
+          modalContent: import.meta.env.DEV ? undefined : modalOverlay,
+          lastSelectedCell: s.selectedCell,
+        }));
+      },
+
+      resumeGame: () => {
+        set((s) => ({
+          timerIsRunning: true,
+          selectedCell: s.lastSelectedCell,
+          modalContent: undefined,
+        }));
+      },
+      
+      setElapsedTimeSeconds: (elapsedTimeSeconds) => {
+        set({ elapsedTimeSeconds });
       }
-
-      return {
-        board: newBoard,
-        result: newResult,
-        mistakes: newMistakes,
-        remainingNumberOptions,
-        timerIsRunning: s.timerIsRunning,
-        selectedCell: newCell,
-        previousMoves: newPreviousMoves,
-      };
-    });
-  },
-
-  resetGame: () => {
-    set((s) => {
-      const { puzzle, solution } = getSudoku(s.difficulty);
-      const board = getBoard(puzzle, solution);
-      const remainingNumberOptions = getRemainingOptions(board);
-
-      if (s.timerResetFunction) s.timerResetFunction();
-
-      return {
-        ...initalState,
-        board,
-        remainingNumberOptions,
-        timerIsRunning: true,
-        result: undefined,
-      };
-    });
-  },
-
-  navigateToNextCell: (direction) => {
-    set((s) => {
-      if (!s.selectedCell || !s.board) return s;
-
-      const key = s.selectedCell.key;
-
-      let nextCellInDirection = undefined;
-      if (direction === "Up") nextCellInDirection = s.board[key - SUDOKU_PUZZLE_SIZE];
-      if (direction === "Down") nextCellInDirection = s.board[key + SUDOKU_PUZZLE_SIZE];
-      if (direction === "Left") nextCellInDirection = s.board[key - 1];
-      if (direction === "Right") nextCellInDirection = s.board[key + 1];
-
-      const newSelectedCell = nextCellInDirection ?? s.selectedCell;
-
-      return { selectedCell: newSelectedCell };
-    });
-  },
-
-  selectAction: (action) => {
-    set((s) => {
-      if (action === EAction.Undo) {
-        if (!s.selectedCell || !s.board) return s;
-        if (s.previousMoves.length === 0) return s;
-
-        const [previousMove, ...remainingMoves] = s.previousMoves;
-        const cellValueFromLastMove = previousMove;
-
-        const newBoard = {
-          ...s.board,
-          [cellValueFromLastMove.key]: cellValueFromLastMove,
-        };
-
-        return {
-          board: newBoard,
-          selectedCell: cellValueFromLastMove,
-          previousMoves: remainingMoves,
-        };
-      }
-
-      if (action === EAction.Erase) {
-        if (!s.selectedCell || !s.board) return s;
-        if (s.selectedCell.isGiven) return s;
-
-        const currentCell = s.board[s.selectedCell.key];
-
-        const newCell = {
-          ...currentCell,
-          value: null,
-        };
-
-        const newPreviousMoves = [currentCell, ...s.previousMoves];
-
-        const newBoard = {
-          ...s.board,
-          [s.selectedCell.key]: newCell,
-        };
-
-        return {
-          board: newBoard,
-          previousMoves: newPreviousMoves,
-        };
-      }
-
-      if (action === EAction.Notes) {
-        return { notesModeActive: !s.notesModeActive };
-      }
-
-      if (action === EAction.Hint) {
-        if (!s.selectedCell || !s.board) return s;
-        if (s.hintsRemaining === 0) return s;
-
-        const currentCell = s.board[s.selectedCell.key];
-
-        if (currentCell.value === currentCell.correctValue) return s;
-
-        const newCell = {
-          ...currentCell,
-          value: currentCell.correctValue,
-          isCorrect: true,
-          notes: [],
-        };
-
-        const newPreviousMoves = [currentCell, ...s.previousMoves];
-
-        const newBoard = {
-          ...s.board,
-          [s.selectedCell.key]: newCell,
-        };
-
-        return {
-          board: newBoard,
-          selectedCell: newCell,
-          hintsRemaining: s.hintsRemaining - 1,
-          previousMoves: newPreviousMoves,
-        };
-      }
-
-      return s;
-    });
-  },
-
-  updateElapsedTimeSeconds: (elapsedTime) => {
-    set({ elapsedTimeSeconds: elapsedTime });
-  },
-
-  setTimerResetFunction: (timerResetFunction) => {
-    set({ timerResetFunction });
-  },
-
-  updateModalContent: (modalContent = undefined) => {
-    set({ modalContent });
-  },
-
-  pauseGame: ({ modalOverlay }) => {
-    set((s) => ({
-      timerIsRunning: false,
-      selectedCell: undefined,
-      modalContent: import.meta.env.DEV ? undefined : modalOverlay,
-      lastSelectedCell: s.selectedCell,
-    }));
-  },
-
-  resumeGame: () => {
-    set((s) => ({
-      timerIsRunning: true,
-      selectedCell: s.lastSelectedCell,
-      modalContent: undefined,
-    }));
-  },
-}));
+    }),
+    {
+      name: 'gameState',
+      serialize: (s) => JSON.stringify(s),
+      deserialize: (s) => {
+        const savedState = JSON.parse(s);
+        savedState.modalContent = undefined;
+        return savedState;
+      },
+    }
+));
 
 export default useStore;

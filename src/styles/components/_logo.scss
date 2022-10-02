@@ -1,0 +1,17 @@
+.logo {
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+  }
+
+  &__logo {
+    width: 2.5em;
+  }
+
+  &__title {
+    font-size: 2em;
+    margin-top: 4px;
+  }
+}
