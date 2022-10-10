@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 
 enum AdvanceDirection {

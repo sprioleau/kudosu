@@ -21,9 +21,6 @@ export enum EGameResult {
   Lose = "Lose",
 }
 
-type TModalContent = JSX.Element;
-type TModalOnDismiss = () => void;
-
 type TNumberTuple = [number, number];
 
 interface IInitialState {
@@ -38,9 +35,7 @@ interface IInitialState {
   previousMoves: IPuzzleCell[];
   elapsedTimeSeconds: number;
   timerResetFunction: () => void;
-  timerIsRunning: boolean;
-  modalContent: TModalContent | undefined;
-  modalOnDismiss: TModalOnDismiss | undefined;
+  isPaused: boolean;
   lastSelectedCell: IPuzzleCell | undefined;
 }
 
@@ -56,8 +51,7 @@ interface IGlobalState extends IInitialState {
   selectAction: (action: EAction) => void;
   updateElapsedTimeSeconds: (elapsedTime: number) => void;
   setTimerResetFunction: (timerResetFunction: () => void) => void;
-  updateModalContent: (modalContent?: TModalContent, modalOnDismiss?: TModalOnDismiss) => void;
-  pauseGame: ({ modalOverlay }: { modalOverlay?: TModalContent }) => void;
+  pauseGame: () => void;
   resumeGame: () => void;
   setElapsedTimeSeconds: (elapsedTimeSeconds: number) => void;
 }
@@ -74,9 +68,7 @@ const initialState: IInitialState = {
   previousMoves: [],
   elapsedTimeSeconds: 0,
   timerResetFunction: () => {},
-  timerIsRunning: true,
-  modalContent: undefined,
-  modalOnDismiss: undefined,
+  isPaused: false,
   lastSelectedCell: undefined,
 };
 
@@ -166,7 +158,7 @@ const useStore = create(
               result: newResult,
               mistakes: newMistakes,
               remainingNumberOptions,
-              timerIsRunning: false,
+              isPaused: true,
               selectedCell: undefined,
               previousMoves: newPreviousMoves,
             };
@@ -177,7 +169,7 @@ const useStore = create(
             result: newResult,
             mistakes: newMistakes,
             remainingNumberOptions,
-            timerIsRunning: newResult === EGameResult.Lose ? false : s.timerIsRunning,
+            isPaused: newResult === EGameResult.Lose ? true : s.isPaused,
             selectedCell: newCell,
             previousMoves: newPreviousMoves,
           };
@@ -297,24 +289,18 @@ const useStore = create(
         set({ timerResetFunction });
       },
 
-      updateModalContent: (modalContent = undefined, modalOnDismiss = undefined) => {
-        set({ modalContent, modalOnDismiss });
-      },
-
-      pauseGame: ({ modalOverlay }) => {
+      pauseGame: () => {
         set((s) => ({
-          timerIsRunning: false,
+          isPaused: true,
           selectedCell: undefined,
-          modalContent: import.meta.env.DEV ? undefined : modalOverlay,
           lastSelectedCell: s.selectedCell,
         }));
       },
 
       resumeGame: () => {
         set((s) => ({
-          timerIsRunning: true,
+          isPaused: false,
           selectedCell: s.lastSelectedCell,
-          modalContent: undefined,
         }));
       },
       
@@ -324,12 +310,6 @@ const useStore = create(
     }),
     {
       name: 'gameState',
-      serialize: (s) => JSON.stringify(s),
-      deserialize: (s) => {
-        const savedState = JSON.parse(s);
-        savedState.modalContent = undefined;
-        return savedState;
-      },
     }
 ));
 

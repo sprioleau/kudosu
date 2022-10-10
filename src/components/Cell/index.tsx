@@ -18,7 +18,7 @@ const Cell = ({ cell }: IProps) => {
   const selectedCell = useStore((s) => s.selectedCell);
   const selectNumberOption = useStore((s) => s.selectNumberOption);
   const navigateToNextCell = useStore((s) => s.navigateToNextCell);
-  const timerIsRunning = useStore((s) => s.timerIsRunning);
+  const isPaused = useStore((s) => s.isPaused);
   const result = useStore((s) => s.result);
   const cellRef = createRef<HTMLButtonElement>();
 
@@ -40,7 +40,7 @@ const Cell = ({ cell }: IProps) => {
   };
 
   const shouldShowNotes = !isGiven && value == null;
-  const shouldShowValue = timerIsRunning || result === EGameResult.Win || import.meta.env.DEV;
+  const shouldShowValue = !isPaused || result === EGameResult.Win || import.meta.env.DEV;
   const numberOptions = getNumberOptions();
 
   return (

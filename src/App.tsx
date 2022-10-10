@@ -3,9 +3,7 @@ import {
   ActionToolbar,
   Board,
   GameInfo,
-  GameResult,
   Header,
-  Modal,
   NumberSelect,
   PauseModal,
   Welcome,
@@ -19,7 +17,6 @@ import { EAction } from "./components/ActionToolbar";
 
 function App() {
   const result = useStore((s) => s.result);
-  const updateModalContent = useStore((s) => s.updateModalContent);
   const pauseGame = useStore((s) => s.pauseGame);
   const selectCell = useStore((s) => s.selectCell);
   const selectedCell = useStore((s) => s.selectedCell);
@@ -29,13 +26,12 @@ function App() {
   useEffect(() => {
     if (!result) return;
     if (result === EGameResult.Win) showConfetti();
-    updateModalContent(<GameResult />);
-  }, [result, updateModalContent, showConfetti])
+  }, [result, showConfetti]);
 
   useActionOnBlur({
     onBlur: () => {
       if (window.location.pathname !== "/game") return;
-      pauseGame({ modalOverlay: <PauseModal /> })
+      pauseGame();
     },
   });
 
@@ -54,7 +50,7 @@ function App() {
     const handleShortcut = (e: KeyboardEvent) => {
       if (!["u", "e", "n", "h", "p"].includes(e.key)) return;
 
-      if (e.key === "p") pauseGame({ modalOverlay: <PauseModal /> });
+      if (e.key === "p") pauseGame();
 
       let action = undefined;
       if (e.key === "u") action = EAction.Undo;
@@ -71,33 +67,33 @@ function App() {
 
   return (
     <div className="app">
-        <BrowserRouter>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <Welcome />
-                  <Modal />
-                </>
-              }
-            />
-            <Route
-              path="/game"
-              element={
-                <>
-                  <Header />
-                  <GameInfo />
-                  <Board />
-                  <ActionToolbar />
-                  <NumberSelect />
-                  <Modal />
-                </>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Welcome />
+                {/* <Modal /> */}
+              </>
+            }
+          />
+          <Route
+            path="/game"
+            element={
+              <>
+                <Header />
+                <GameInfo />
+                <Board />
+                <ActionToolbar />
+                <NumberSelect />
+                {/* <Modal /> */}
+              </>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 

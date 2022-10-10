@@ -1,20 +1,22 @@
-import { createPortal } from "react-dom";
 import useStore from "@/store";
 import FocusTrap from "focus-trap-react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 
-export default function Modal() {
+interface IProps {
+  children: React.ReactNode;
+  isVisible: boolean;
+  onClose: () => void;
+}
+
+export default function Modal({ children, isVisible, onClose }: IProps) {
   const result = useStore((s) => s.result);
-  const modalContent = useStore((s) => s.modalContent);
-  const modalOnDismiss = useStore((s) => s.modalOnDismiss);
-  const updateModalContent = useStore((s) => s.updateModalContent);
   const navigate = useNavigate();
 
   const handleClose = () => {
-    if (modalOnDismiss) return modalOnDismiss();
+    onClose();
     if (result) navigate("/");
-    updateModalContent();
   };
 
   useEffect(() => {
@@ -26,19 +28,19 @@ export default function Modal() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleClose]);
 
-  if (!modalContent) return null;
+  if (!isVisible) return null;
 
   return createPortal(
-    <FocusTrap>
-      <div
-        className="modal"
-        onClick={handleClose}
+    <div
+      className="modal"
+      onClick={handleClose}
+    >
+      <FocusTrap
+        active
+        focusTrapOptions={{ clickOutsideDeactivates: true }}
       >
-        <div
-          className="modal__content"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {modalContent}
+        <div className="modal__content">
+          {children}
           <button
             className="modal__close-button"
             onClick={handleClose}
@@ -46,8 +48,8 @@ export default function Modal() {
             &times;
           </button>
         </div>
-      </div>
-    </FocusTrap>,
+      </FocusTrap>
+    </div>,
     document.getElementById("modal") as HTMLElement,
   );
 }

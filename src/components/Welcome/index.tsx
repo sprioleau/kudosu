@@ -1,30 +1,46 @@
 import { BiTimeFive } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import { DailyChallengeCard, DifficultySelectModal, Logo } from "@/components";
+import {
+  DailyChallengeCard,
+  DifficultySelectModal,
+  GameResultModal,
+  Logo,
+  Modal,
+} from "@/components";
 import useStore from "@/store";
 import { formatTime, toTitleCase } from "@/utils";
+import { useState } from "react";
 
 export default function Welcome() {
+  const [shouldShowModal, setShouldShowModal] = useState(false);
   const navigate = useNavigate();
-  const updateModalContent = useStore((s) => s.updateModalContent);
   const elapsedTimeSeconds = useStore((s) => s.elapsedTimeSeconds);
   const result = useStore((s) => s.result);
   const resumeGame = useStore((s) => s.resumeGame);
   const difficulty = useStore((s) => s.difficulty);
 
   const handleStartNewGame = () => {
-    updateModalContent(<DifficultySelectModal />)
+    setShouldShowModal(true);
   };
-  
+
+  const handleCloseModal = () => {
+    setShouldShowModal(false);
+  };
+
   const handleContinueGame = () => {
     resumeGame();
     navigate("/game");
-  }
+  };
 
   const shouldShowContinueButton = elapsedTimeSeconds > 0 && !result;
-  
+  const shouldShowGameResultModal = shouldShowModal && Boolean(result);
+  const shouldShowDifficltySelectModal = shouldShowModal && !Boolean(result);
+
   return (
-    <div className="welcome">
+    <div
+      className="welcome"
+      id="welcome"
+    >
       <DailyChallengeCard />
       <header className="welcome__header">
         <Logo />
@@ -40,7 +56,11 @@ export default function Welcome() {
       </header>
       <div className="welcome__buttons">
         {shouldShowContinueButton && (
-          <button className="welcome__button" onClick={handleContinueGame}>
+          <button
+            className="welcome__button"
+            onClick={handleContinueGame}
+            autoFocus
+          >
             Continue Game{" "}
             <span className="welcome__button-secondary text-muted">
               <BiTimeFive />
@@ -55,6 +75,18 @@ export default function Welcome() {
           New Game
         </button>
       </div>
+      <Modal
+        isVisible={shouldShowGameResultModal}
+        onClose={handleCloseModal}
+      >
+        <GameResultModal />
+      </Modal>
+      <Modal
+        isVisible={shouldShowDifficltySelectModal}
+        onClose={handleCloseModal}
+      >
+        <DifficultySelectModal />
+      </Modal>
     </div>
   );
 }
