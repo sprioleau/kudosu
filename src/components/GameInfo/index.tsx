@@ -1,12 +1,11 @@
 import useStore from "@/store";
 import { formatTime, toTitleCase } from "@/utils";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useElapsedTime } from "use-elapsed-time";
-import { Modal, PauseModal } from "@/components";
 import { useNavigate } from "react-router-dom";
+import { AiOutlinePause } from "react-icons/ai";
 
 const GameInfo = () => {
-  const [shouldShowPauseModal, setShouldShowPauseModal] = useState(false);
   const navigate = useNavigate();
   const [mistakes, totalMistakes] = useStore((s) => s.mistakes);
   const difficulty = useStore((s) => s.difficulty);
@@ -15,7 +14,6 @@ const GameInfo = () => {
   const elapsedTimeSeconds = useStore((s) => s.elapsedTimeSeconds);
   const setTimerResetFunction = useStore((s) => s.setTimerResetFunction);
   const pauseGame = useStore((s) => s.pauseGame);
-  const resumeGame = useStore((s) => s.resumeGame);
   const updateElapsedTimeSeconds = useStore((s) => s.updateElapsedTimeSeconds);
 
   const { elapsedTime, reset } = useElapsedTime({
@@ -32,6 +30,18 @@ const GameInfo = () => {
   }, [result]);
 
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Escape" || isPaused) return;
+      pauseGame();
+      navigate("/");
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isPaused]);
+
+  useEffect(() => {
     const handleShortcut = (e: KeyboardEvent) => {
       if (!["b"].includes(e.key)) return;
       if (e.key === "b") navigate("/");
@@ -44,30 +54,20 @@ const GameInfo = () => {
 
   const handlePause = () => {
     pauseGame();
-    setShouldShowPauseModal(true);
-  };
-
-  const handleCloseModal = () => {
-    resumeGame();
-    setShouldShowPauseModal(false);
   };
 
   return (
     <div className="game-info">
       <span className="game-info__difficulty">Difficulty: {toTitleCase(difficulty)}</span>
       <span className="game-info__attempts">Mistakes: {`${mistakes}/${totalMistakes}`}</span>
-      <span
-        className="game-info__time"
-        onClick={handlePause}
-      >
-        Time: {formatTime(elapsedTime)}
+      <span className="game-info__time">
+        <button
+          className="game-info__pause-resume-button"
+          onClick={handlePause}
+        >
+          Time: {formatTime(elapsedTime)} <AiOutlinePause />
+        </button>
       </span>
-      <Modal
-        isVisible={shouldShowPauseModal}
-        onClose={handleCloseModal}
-      >
-        <PauseModal />
-      </Modal>
     </div>
   );
 };

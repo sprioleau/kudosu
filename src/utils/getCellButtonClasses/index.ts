@@ -13,7 +13,8 @@ export default function getCellButtonClasses({
   if (!selectedCell) return buttonClasses;
 
   const isSelected =
-    getIsTruthyEqual(cell.row, selectedCell.row) && getIsTruthyEqual(cell.col, selectedCell.col);
+    getIsTruthyEqual(cell.row, selectedCell.row) &&
+    getIsTruthyEqual(cell.col, selectedCell.col);
 
   if (isSelected) buttonClasses += " selected";
 

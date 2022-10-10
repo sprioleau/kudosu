@@ -31,15 +31,15 @@ export default function Modal({ children, isVisible, onClose }: IProps) {
   if (!isVisible) return null;
 
   return createPortal(
-    <div
-      className="modal"
-      onClick={handleClose}
-    >
-      <FocusTrap
-        active
-        focusTrapOptions={{ clickOutsideDeactivates: true }}
+    <FocusTrap>
+      <div
+        className="modal"
+        onClick={handleClose}
       >
-        <div className="modal__content">
+        <div
+          className="modal__content"
+          onClick={(e) => e.stopPropagation()}
+        >
           {children}
           <button
             className="modal__close-button"
@@ -48,8 +48,8 @@ export default function Modal({ children, isVisible, onClose }: IProps) {
             &times;
           </button>
         </div>
-      </FocusTrap>
-    </div>,
+      </div>
+    </FocusTrap>,
     document.getElementById("modal") as HTMLElement,
   );
 }

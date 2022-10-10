@@ -1,13 +1,5 @@
 import "@/styles/styles.scss";
-import {
-  ActionToolbar,
-  Board,
-  GameInfo,
-  Header,
-  NumberSelect,
-  PauseModal,
-  Welcome,
-} from "@/components";
+import { ActionToolbar, Board, GameInfo, Header, NumberSelect, Welcome } from "@/components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import useStore, { EGameResult } from "@/store";
 import { showConfetti } from "@/utils";
@@ -21,6 +13,7 @@ function App() {
   const selectCell = useStore((s) => s.selectCell);
   const selectedCell = useStore((s) => s.selectedCell);
   const board = useStore((s) => s.board);
+  const isPaused = useStore((s) => s.isPaused);
   const selectAction = useStore((s) => s.selectAction);
 
   useEffect(() => {
@@ -38,7 +31,7 @@ function App() {
   useEffect(() => {
     const handleSelectFirstCell = (e: KeyboardEvent) => {
       if (e.key !== "Tab") return;
-      if (!board || selectedCell) return;
+      if (!board || selectedCell || isPaused) return;
       selectCell(board["1"]);
     };
 
@@ -71,12 +64,7 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={
-              <>
-                <Welcome />
-                {/* <Modal /> */}
-              </>
-            }
+            element={<Welcome />}
           />
           <Route
             path="/game"
@@ -87,7 +75,6 @@ function App() {
                 <Board />
                 <ActionToolbar />
                 <NumberSelect />
-                {/* <Modal /> */}
               </>
             }
           />

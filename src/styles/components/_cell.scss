@@ -7,7 +7,7 @@
   font-size: clamp(1em, 0.8em + 1vw, 1.5em);
   display: flex;
   align-items: center;
-  
+
   &__button {
     --lightness: 87.5%;
     background-color: hsla(0, 0%, var(--lightness), var(--opacity));

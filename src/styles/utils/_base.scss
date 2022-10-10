@@ -46,7 +46,12 @@ p {
 
 a {
   color: hsl(var(--c-accent-h), var(--c-accent-s), 85%);
+  border-radius: 0.125em;
   text-decoration: none;
+
+  &:focus {
+    outline: 2px solid var(--c-accent);
+  }
 }
 
 .text-muted {

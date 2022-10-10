@@ -81,6 +81,6 @@ const Cell = ({ cell }: IProps) => {
       </button>
     </li>
   );
-};
+};;
 
 export default Cell;

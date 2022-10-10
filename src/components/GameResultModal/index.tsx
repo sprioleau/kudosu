@@ -7,11 +7,9 @@ const GameResultModal = () => {
   const [shouldShowModal, setShouldShowModal] = useState(false);
   const result = useStore((s) => s.result);
   const elapsedTimeSeconds = useStore((s) => s.elapsedTimeSeconds);
-  // const updateModalContent = useStore((s) => s.updateModalContent);
 
   const handleStartNewGame = () => {
     setShouldShowModal(true);
-    // updateModalContent(<DifficultySelectModal />);
   };
 
   const handleCloseModal = () => {

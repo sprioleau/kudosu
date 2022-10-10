@@ -17,10 +17,6 @@ const Board = () => {
     }
   }, []);
 
-  const handleCloseModal = () => {
-    resumeGame();
-  };
-
   if (!board) return null;
 
   return (
@@ -41,7 +37,7 @@ const Board = () => {
       </ul>
       <Modal
         isVisible={isPaused}
-        onClose={handleCloseModal}
+        onClose={resumeGame}
       >
         <PauseModal />
       </Modal>

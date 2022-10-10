@@ -19,4 +19,12 @@
   &__time {
     justify-content: flex-end;
   }
+
+  &__pause-resume-button {
+    display: flex;
+    align-items: center;
+    gap: 0.25em;
+    background-color: transparent;
+    padding: 0.125em;
+  }
 }
