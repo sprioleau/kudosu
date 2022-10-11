@@ -6,10 +6,15 @@
   letter-spacing: 0.025em;
   margin-bottom: 1em;
 
+
   & > * {
     width: calc(100% / 3);
     display: flex;
     align-items: center;
+
+    @media (max-width: 400px) {
+      width: unset;
+    }
   }
 
   &__attempts {
