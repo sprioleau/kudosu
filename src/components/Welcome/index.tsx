@@ -6,6 +6,7 @@ import {
   GameResultModal,
   Logo,
   Modal,
+  WelcomeToolbar,
 } from "@/components";
 import useStore from "@/store";
 import { formatTime, toTitleCase } from "@/utils";
@@ -75,6 +76,7 @@ export default function Welcome() {
           New Game
         </button>
       </div>
+      <WelcomeToolbar />
       <Modal
         isVisible={shouldShowGameResultModal}
         onClose={handleCloseModal}
