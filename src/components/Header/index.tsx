@@ -2,7 +2,12 @@ import { RiArrowLeftSLine, RiSettingsLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { Logo } from "@/components";
 
-const Header = () => {
+interface IProps {
+  showBackButton?: boolean;
+  showLogo?: boolean;
+}
+
+const Header = ({ showLogo = false, showBackButton = false }: IProps) => {
   const navigate = useNavigate();
 
   const handleGoBack = () => {
@@ -12,14 +17,16 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header__action-buttons">
-        <button
-          className="header__action-button"
-          onClick={handleGoBack}
-        >
-          <RiArrowLeftSLine />
-        </button>
+        {showBackButton && (
+          <button
+            className="header__action-button"
+            onClick={handleGoBack}
+          >
+            <RiArrowLeftSLine />
+          </button>
+        )}
       </div>
-      <Logo />
+      {showLogo && <Logo />}
       <div className="header__action-buttons">
         <button className="header__action-button">
           <RiSettingsLine />

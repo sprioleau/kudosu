@@ -14,3 +14,5 @@ export { default as WelcomeToolbar } from "./WelcomeToolbar";
 export { default as DailyChallengeCard } from "./DailyChallengeCard";
 export { default as Logo } from "./Logo";
 export { default as DifficultySelectModal } from "./DifficultySelectModal";
+export { default as DailyChallenges } from "./DailyChallenges";
+export { default as Statistics } from "./Statistics";

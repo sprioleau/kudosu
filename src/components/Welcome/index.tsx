@@ -4,6 +4,7 @@ import {
   DailyChallengeCard,
   DifficultySelectModal,
   GameResultModal,
+  Header,
   Logo,
   Modal,
   WelcomeToolbar,
@@ -42,40 +43,43 @@ export default function Welcome() {
       className="welcome"
       id="welcome"
     >
-      <DailyChallengeCard />
-      <header className="welcome__header">
-        <Logo />
-        <span className="welcome__subtitle">
-          by{" "}
-          <a
-            href="https://github.com/sprioleau"
-            target="_blank"
-          >
-            @sprioleau
-          </a>
-        </span>
-      </header>
-      <div className="welcome__buttons">
-        {shouldShowContinueButton && (
+      <Header />
+      <main className="welcome__main-content">
+        <DailyChallengeCard />
+        <header className="welcome__header">
+          <Logo />
+          <span className="welcome__subtitle">
+            by{" "}
+            <a
+              href="https://github.com/sprioleau"
+              target="_blank"
+            >
+              @sprioleau
+            </a>
+          </span>
+        </header>
+        <div className="welcome__buttons">
+          {shouldShowContinueButton && (
+            <button
+              className="welcome__button"
+              onClick={handleContinueGame}
+              autoFocus
+            >
+              Continue Game{" "}
+              <span className="welcome__button-secondary text-muted">
+                <BiTimeFive />
+                &nbsp;{formatTime(elapsedTimeSeconds)} - {toTitleCase(difficulty)}
+              </span>
+            </button>
+          )}
           <button
-            className="welcome__button"
-            onClick={handleContinueGame}
-            autoFocus
+            className="welcome__button ghost"
+            onClick={handleStartNewGame}
           >
-            Continue Game{" "}
-            <span className="welcome__button-secondary text-muted">
-              <BiTimeFive />
-              &nbsp;{formatTime(elapsedTimeSeconds)} - {toTitleCase(difficulty)}
-            </span>
+            New Game
           </button>
-        )}
-        <button
-          className="welcome__button ghost"
-          onClick={handleStartNewGame}
-        >
-          New Game
-        </button>
-      </div>
+        </div>
+      </main>
       <WelcomeToolbar />
       <Modal
         isVisible={shouldShowGameResultModal}

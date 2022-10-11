@@ -3,7 +3,10 @@ import { ActionToolbar, Board, GameInfo, Header, NumberSelect } from "@/componen
 export default function Game() {
   return (
     <>
-      <Header />
+      <Header
+        showLogo
+        showBackButton
+      />
       <GameInfo />
       <Board />
       <ActionToolbar />
