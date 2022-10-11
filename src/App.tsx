@@ -1,5 +1,5 @@
 import "@/styles/styles.scss";
-import { ActionToolbar, Board, GameInfo, Header, NumberSelect, Welcome } from "@/components";
+import { Welcome, Game } from "@/components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import useStore, { EGameResult } from "@/store";
 import { showConfetti } from "@/utils";
@@ -68,15 +68,7 @@ function App() {
           />
           <Route
             path="/game"
-            element={
-              <>
-                <Header />
-                <GameInfo />
-                <Board />
-                <ActionToolbar />
-                <NumberSelect />
-              </>
-            }
+            element={<Game />}
           />
         </Routes>
       </BrowserRouter>
