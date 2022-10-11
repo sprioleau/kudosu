@@ -6,7 +6,7 @@ import {
   handleSelectCellWithKeyboard,
 } from "@/utils";
 import { IPuzzleCell } from "@/utils/getBoard";
-import { useEffect, createRef } from "react";
+import { useEffect, createRef, useCallback } from "react";
 
 export interface IProps {
   key: number;
@@ -34,10 +34,14 @@ const Cell = ({ cell }: IProps) => {
   const selectedRegion = selectedCell?.region;
   const selectedValue = selectedCell?.value;
 
-  const handleSelectCell = () => selectCell(cell);
-  const handleKeyDownSelectCell = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    handleSelectCellWithKeyboard(e, { selectedCell, navigateToNextCell, selectNumberOption });
-  };
+  const handleSelectCell = useCallback(() => selectCell(cell), [cell]);
+
+  const handleKeyDownSelectCell = useCallback(
+    (e: React.KeyboardEvent<HTMLButtonElement>) => {
+      handleSelectCellWithKeyboard(e, { selectedCell, navigateToNextCell, selectNumberOption });
+    },
+    [selectedCell, navigateToNextCell, selectNumberOption],
+  );
 
   const shouldShowNotes = !isGiven && value == null;
   const shouldShowValue = !isPaused || result === EGameResult.Win || import.meta.env.DEV;
