@@ -10,9 +10,7 @@ interface IProps {
 const Header = ({ showLogo = false, showBackButton = false }: IProps) => {
   const navigate = useNavigate();
 
-  const handleGoBack = () => {
-    navigate("/");
-  };
+  const handleGoBack = () => navigate("/");
 
   return (
     <header className="header">

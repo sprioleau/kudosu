@@ -14,6 +14,7 @@
   // Text Color
   --c-text-l: 100%;
   --c-text: hsl(var(--c-accent-h), var(--c-accent-s), var(--c-text-l));
+  --c-accent-text: hsl(var(--c-accent-h), var(--c-accent-s), 70%);
   
   // Background Color
   --c-ui-bg-l: 11;

@@ -11,11 +11,11 @@
   box-shadow: 0 0 0 1px hsla(var(--c-accent-hsl), var(--border-opacity));
   background-color: var(--c-ui-bg);
   transition: box-shadow 0.25s ease;
+  overflow: hidden;
 }
 
 @media (max-width: 700px) {
   .app {
       --border-opacity: 0;
-      height: 100vh;
   }
 }

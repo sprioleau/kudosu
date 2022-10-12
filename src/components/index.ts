@@ -16,3 +16,4 @@ export { default as Logo } from "./Logo";
 export { default as DifficultySelectModal } from "./DifficultySelectModal";
 export { default as DailyChallenges } from "./DailyChallenges";
 export { default as Statistics } from "./Statistics";
+export { default as StatisticsList } from "./StatisticsList";
