@@ -7,6 +7,7 @@ import {
   Header,
   Logo,
   Modal,
+  SettingsButton,
   WelcomeToolbar,
 } from "@/components";
 import useStore from "@/store";
@@ -43,7 +44,7 @@ export default function Welcome() {
       className="welcome"
       id="welcome"
     >
-      <Header />
+      <Header rightContent={<SettingsButton />} />
       <main className="welcome__main-content">
         <DailyChallengeCard />
         <header className="welcome__header">

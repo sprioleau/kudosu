@@ -1,26 +1,21 @@
 .header {
+  --padding: 0.125em; 
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   font-size: min(1em, calc(var(--min-font-size) * 2));
-  margin-bottom: 0.125em;
-  margin-bottom: 2em;
+  padding: var(--padding) 3em;
+  position: relative;
 
-  &__action-buttons {
-    display: flex;
-    gap: 0.5em;
+  &__left, &__right {
+    position: absolute;
   }
 
-  &__action-button {
-    --size: 1.5em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--size);
-    height: var(--size);
-    padding: 0;
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
+  &__left {
+    left: var(--padding);
+  }
+
+  &__right {
+    right: var(--padding);
   }
 }

@@ -1,5 +1,5 @@
 import "@/styles/styles.scss";
-import { Welcome, Game, DailyChallenges, Statistics } from "@/components";
+import { Welcome, Game, DailyChallenges, Statistics, Settings } from "@/components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import useStore, { EGameResult } from "@/store";
 import { showConfetti } from "@/utils";
@@ -77,6 +77,10 @@ function App() {
           <Route
             path="/statistics"
             element={<Statistics />}
+          />
+          <Route
+            path="/settings"
+            element={<Settings />}
           />
         </Routes>
       </BrowserRouter>

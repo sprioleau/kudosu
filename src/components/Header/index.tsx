@@ -1,35 +1,17 @@
-import { RiArrowLeftSLine, RiSettingsLine } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
-import { Logo } from "@/components";
-
 interface IProps {
-  showBackButton?: boolean;
-  showLogo?: boolean;
+  leftContent?: React.ReactNode;
+  centerContent?: React.ReactNode;
+  rightContent?: React.ReactNode;
 }
 
-const Header = ({ showLogo = false, showBackButton = false }: IProps) => {
-  const navigate = useNavigate();
-
-  const handleGoBack = () => navigate("/");
+const Header = ({ leftContent, rightContent, centerContent }: IProps) => {
+  if (!leftContent && !rightContent && !centerContent) return null;
 
   return (
     <header className="header">
-      <div className="header__action-buttons">
-        {showBackButton && (
-          <button
-            className="header__action-button"
-            onClick={handleGoBack}
-          >
-            <RiArrowLeftSLine />
-          </button>
-        )}
-      </div>
-      {showLogo && <Logo />}
-      <div className="header__action-buttons">
-        <button className="header__action-button">
-          <RiSettingsLine />
-        </button>
-      </div>
+      {leftContent && <div className="header__left">{leftContent}</div>}
+      {centerContent && <div className="header__center">{centerContent}</div>}
+      {rightContent && <div className="header__right">{rightContent}</div>}
     </header>
   );
 };

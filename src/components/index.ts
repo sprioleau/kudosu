@@ -17,3 +17,6 @@ export { default as DifficultySelectModal } from "./DifficultySelectModal";
 export { default as DailyChallenges } from "./DailyChallenges";
 export { default as Statistics } from "./Statistics";
 export { default as StatisticsList } from "./StatisticsList";
+export { default as Settings } from "./Settings";
+export { default as SettingsButton } from "./SettingsButton";
+export { default as BackButton } from "./BackButton";

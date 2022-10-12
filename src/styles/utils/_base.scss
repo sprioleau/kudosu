@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+::selection {
+  background-color: var(--c-accent);
+  color: var(--c-text);
+}
+
 :root {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   color-scheme: light dark;
