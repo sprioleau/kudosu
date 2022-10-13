@@ -18,21 +18,25 @@ export default function DifficultySelectModal() {
 
   return (
     <div className="difficulty-select">
-      <h2 className="difficulty-select__title">Select Difficulty</h2>
-      <div
-        className="difficulty-select__buttons"
-        placeholder="Select Difficulty"
-      >
-        {Object.keys(EDifficulty).map((difficulty) => (
-          <button
-            key={difficulty}
-            className="difficulty-select__button"
-            onClick={() => handleDifficultySelect(difficulty)}
-          >
-            {toTitleCase(difficulty)}
-          </button>
-        ))}
-      </div>
+      <header className="difficulty-select__header">
+        <h2 className="difficulty-select__title">New Game</h2>
+        <span className="difficulty-select__subtitle">Select difficulty</span>
+      </header>
+      <main className="difficulty-select__main">
+        <ol className="difficulty-select__buttons-list">
+          {Object.keys(EDifficulty).map((difficulty) => (
+            <li className="difficulty-select__buttons-list-item">
+              <button
+                key={difficulty}
+                className="difficulty-select__button"
+                onClick={() => handleDifficultySelect(difficulty)}
+              >
+                {toTitleCase(difficulty)}
+              </button>
+            </li>
+          ))}
+        </ol>
+      </main>
     </div>
   );
 }

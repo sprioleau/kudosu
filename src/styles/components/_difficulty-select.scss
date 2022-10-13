@@ -1,20 +1,36 @@
 .difficulty-select {
   display: flex;
+  gap: 1em;
   flex-direction: column;
   align-items: center;
 
-  &__title {
-    margin-bottom: 0.5em;
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
-  &__buttons {
+  &__subtitle {
+    opacity: 0.7;
+  }
+
+  &__main {
+    width: 100%;
+  }
+
+  &__buttons-list {
     display: flex;
     flex-direction: column;
     gap: 1em;
     width: 100%;
   }
 
+  &__buttons-list-item {
+    width: 100%;
+  }
+
   &__button {
     border-radius: 100vmax;
+    width: 100%;
   }
 }
