@@ -1,0 +1,39 @@
+.options-menu {
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75em;
+    border-bottom: 1px solid hsla(0, 0%, 20%);
+    background-color: transparent;
+    border-radius: 0;
+    width: 100%;
+    transition: box-shadow 0.25s ease-out;
+    box-shadow: inset 0 0 0 3px transparent;
+    
+    &:active {
+      transform: unset;
+    }
+
+    &:not(.cell__button):hover,
+    &:not(.cell__button):focus {
+      box-shadow: inset 0 0 0 3px var(--c-accent);
+    }
+  }
+
+  &__label-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+
+  &__icon, &__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__icon {
+    color: var(--c-accent-text);
+  }
+}

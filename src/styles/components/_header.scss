@@ -16,6 +16,12 @@
     left: var(--padding);
   }
 
+  &__center {
+    h1 {
+      font-size: 1.25em
+    }
+  }
+
   &__right {
     right: var(--padding);
   }

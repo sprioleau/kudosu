@@ -4,10 +4,10 @@ import {
   DailyChallengeCard,
   DifficultySelectModal,
   GameResultModal,
-  Header,
+  Layout,
   Logo,
   Modal,
-  SettingsButton,
+  OptionsButton,
   WelcomeToolbar,
 } from "@/components";
 import useStore from "@/store";
@@ -40,47 +40,44 @@ export default function Welcome() {
   const shouldShowDifficltySelectModal = shouldShowModal && !Boolean(result);
 
   return (
-    <div
-      className="welcome"
-      id="welcome"
+    <Layout
+      rightContent={<OptionsButton />}
+      parentClassName="welcome"
     >
-      <Header rightContent={<SettingsButton />} />
-      <main className="welcome__main-content">
-        <DailyChallengeCard />
-        <header className="welcome__header">
-          <Logo />
-          <span className="welcome__subtitle">
-            by{" "}
-            <a
-              href="https://github.com/sprioleau"
-              target="_blank"
-            >
-              @sprioleau
-            </a>
-          </span>
-        </header>
-        <div className="welcome__buttons">
-          {shouldShowContinueButton && (
-            <button
-              className="welcome__button"
-              onClick={handleContinueGame}
-              autoFocus
-            >
-              Continue Game{" "}
-              <span className="welcome__button-secondary text-muted">
-                <BiTimeFive />
-                &nbsp;{formatTime(elapsedTimeSeconds)} - {toTitleCase(difficulty)}
-              </span>
-            </button>
-          )}
-          <button
-            className="welcome__button ghost"
-            onClick={handleStartNewGame}
+      <DailyChallengeCard />
+      <header className="welcome__header">
+        <Logo />
+        <span className="welcome__subtitle">
+          by{" "}
+          <a
+            href="https://github.com/sprioleau"
+            target="_blank"
           >
-            New Game
+            @sprioleau
+          </a>
+        </span>
+      </header>
+      <div className="welcome__buttons">
+        {shouldShowContinueButton && (
+          <button
+            className="welcome__button"
+            onClick={handleContinueGame}
+            autoFocus
+          >
+            Continue Game{" "}
+            <span className="welcome__button-secondary text-muted">
+              <BiTimeFive />
+              &nbsp;{formatTime(elapsedTimeSeconds)} - {toTitleCase(difficulty)}
+            </span>
           </button>
-        </div>
-      </main>
+        )}
+        <button
+          className="welcome__button ghost"
+          onClick={handleStartNewGame}
+        >
+          New Game
+        </button>
+      </div>
       <WelcomeToolbar />
       <Modal
         isVisible={shouldShowGameResultModal}
@@ -94,6 +91,6 @@ export default function Welcome() {
       >
         <DifficultySelectModal />
       </Modal>
-    </div>
+    </Layout>
   );
 }

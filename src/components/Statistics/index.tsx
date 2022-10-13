@@ -6,7 +6,7 @@ import { TbAward, TbCrown } from "react-icons/tb";
 import StatisticsList from "../StatisticsList";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../BackButton/index";
-import Header from "../Header";
+import Layout from "../Layout";
 
 const gameTypes = ["Easy", "Medium", "Hard", "Expert", "Daily Challenges"];
 
@@ -60,20 +60,15 @@ const statistics: IStatisticsList[] = [
         icon: <RiTimerLine />,
         value: "09:26",
       },
-    ],
-  },
-  {
-    title: "Times",
-    stats: [
       {
-        label: "Best Time",
-        icon: <RiTimerFlashLine />,
-        value: "00:00",
+        label: "Another Time",
+        icon: <RiTimerLine />,
+        value: "09:26",
       },
       {
-        label: "Average Time",
+        label: "And another Time",
         icon: <RiTimerLine />,
-        value: "00:00",
+        value: "09:26",
       },
     ],
   },
@@ -93,31 +88,27 @@ export default function Statistics() {
     return className;
   };
 
-  const handleGoBack = () => navigate("/");
-
   return (
-    <div className="statistics">
-      <header className="statistics__header">
-        <Header
-          leftContent={<BackButton />}
-          centerContent={<h1 className="statistics__title">Statistics</h1>}
-        />
-        <ul className="statistics__game-types">
-          {gameTypes.map((label) => (
-            <li key={label}>
-              <button
-                className={getGameTypeLabelClasses(label)}
-                onClick={() => handleUpdateGameType(label)}
-              >
-                {label}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </header>
-      <main className="statistics__main">
+    <Layout
+      leftContent={<BackButton />}
+      centerContent={<h1 className="statistics__title">Statistics</h1>}
+      parentClassName="statistics"
+    >
+      <ul className="statistics__game-types">
+        {gameTypes.map((label) => (
+          <li key={label}>
+            <button
+              className={getGameTypeLabelClasses(label)}
+              onClick={() => handleUpdateGameType(label)}
+            >
+              {label}
+            </button>
+          </li>
+        ))}
+      </ul>
+      <div className="statistics__list">
         <StatisticsList statistics={statistics} />
-      </main>
-    </div>
+      </div>
+    </Layout>
   );
 }
