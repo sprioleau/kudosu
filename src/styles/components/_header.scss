@@ -1,11 +1,12 @@
 .header {
-  --padding: 0.125em; 
+  --padding: 0.25em; 
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: min(1em, calc(var(--min-font-size) * 2));
   padding: var(--padding) 3em;
   position: relative;
+  height: var(--header-height);
 
   &__left, &__right {
     position: absolute;

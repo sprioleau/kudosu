@@ -1,5 +1,5 @@
 .statistics {
-  --header-height: 75px;
+  --game-types-height: 46px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -8,9 +8,7 @@
   &__header {
     position: absolute;
     top: 0;
-    height: var(--header-height);
     width: 100%;
-    padding-top: 0.25em;
   }
 
   &__title {
@@ -25,6 +23,7 @@
     gap: 2em;
     padding: 0.25em;
     overflow-x: auto;
+    height: var(--game-types-height);
 
     &::after {
       content: "";
@@ -68,7 +67,7 @@
 
   &__main {
     position: relative;
-    margin-top: var(--header-height);
+    margin-top: calc(var(--header-height) + var(--game-types-height));
     padding: 1em 0.25em;
     overflow-y: auto;
   }
