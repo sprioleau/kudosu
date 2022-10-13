@@ -24,5 +24,5 @@
   "short_name": "Kudosu",
   "start_url": "/",
   "orientation": "portrait",
-  "theme_color": "#4A0087"
+  "theme_color": "hsl(0, 0%, 14%)"
 }
