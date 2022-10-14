@@ -28,7 +28,7 @@ export default function DifficultySelectModal() {
             <li className="difficulty-select__buttons-list-item">
               <button
                 key={difficulty}
-                className="difficulty-select__button"
+                className="difficulty-select__button rounded-full"
                 onClick={() => handleDifficultySelect(difficulty)}
               >
                 {toTitleCase(difficulty)}

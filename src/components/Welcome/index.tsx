@@ -61,7 +61,7 @@ export default function Welcome() {
       <div className="welcome__buttons">
         {shouldShowContinueButton && (
           <button
-            className="welcome__button"
+            className="welcome__button rounded-full"
             onClick={handleContinueGame}
             autoFocus
           >
@@ -73,7 +73,7 @@ export default function Welcome() {
           </button>
         )}
         <button
-          className="welcome__button ghost"
+          className="welcome__button ghost rounded-full"
           onClick={handleStartNewGame}
         >
           New Game

@@ -53,5 +53,9 @@ button, .button {
       background-color: hsla(var(--c-accent-hsl), 0.3);
     }
   }
+
+  &.rounded-full {
+    border-radius: 100vmax;
+  }
 }
 
