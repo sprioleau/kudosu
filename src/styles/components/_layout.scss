@@ -1,8 +1,22 @@
 .layout {
+  display: flex;
+  flex-direction: column;
   height: 100%;
   width: 100%;
+  padding: 0.25em;
 
   &__main {
-    padding-top: 1em;
-  }  
+    padding: 1.5em 0;
+    flex: 1;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    height: var(--footer-height);
+
+    > * {
+      width: 100%;
+    }
+  }
 }

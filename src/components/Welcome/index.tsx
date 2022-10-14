@@ -41,7 +41,8 @@ export default function Welcome() {
 
   return (
     <Layout
-      rightContent={<OptionsButton />}
+      headerContent={{ right: <OptionsButton /> }}
+      footerContent={<WelcomeToolbar />}
       parentClassName="welcome"
     >
       <DailyChallengeCard />
@@ -78,7 +79,6 @@ export default function Welcome() {
           New Game
         </button>
       </div>
-      <WelcomeToolbar />
       <Modal
         isVisible={shouldShowGameResultModal}
         onClose={handleCloseModal}

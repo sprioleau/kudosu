@@ -37,8 +37,10 @@ export default function OptionsMenu() {
 
   return (
     <Layout
-      leftContent={<BackButton />}
-      centerContent={<h1>Options</h1>}
+      headerContent={{
+        left: <BackButton />,
+        center: <h1>Options</h1>,
+      }}
       parentClassName="options-menu"
     >
       <ul className="options-menu__list">

@@ -1,16 +1,18 @@
-import BackButton from "../BackButton";
-import Layout from "../Layout";
+import { BackButton, Layout, WelcomeToolbar } from "@/components";
 
 type Props = {};
 
 export default function AboutGame({}: Props) {
   return (
     <Layout
-      leftContent={<BackButton />}
-      centerContent={<h1>About Game</h1>}
+      headerContent={{
+        left: <BackButton />,
+        center: <h1>About Game</h1>,
+      }}
+      footerContent={<WelcomeToolbar />}
       parentClassName="about-game"
     >
-      Some elements
+      About the game
     </Layout>
   );
 }

@@ -3,10 +3,7 @@ import { MdOutlineGridOn } from "react-icons/md";
 import { FiAward } from "react-icons/fi";
 import { RiTimerLine, RiTimerFlashLine } from "react-icons/ri";
 import { TbAward, TbCrown } from "react-icons/tb";
-import StatisticsList from "../StatisticsList";
-import { useNavigate } from "react-router-dom";
-import BackButton from "../BackButton/index";
-import Layout from "../Layout";
+import { StatisticsList, WelcomeToolbar, Layout, BackButton } from "@/components";
 
 const gameTypes = ["Easy", "Medium", "Hard", "Expert", "Daily Challenges"];
 
@@ -76,7 +73,6 @@ const statistics: IStatisticsList[] = [
 
 export default function Statistics() {
   const [gameType, setGameType] = useState(gameTypes[0]);
-  const navigate = useNavigate();
 
   const handleUpdateGameType = (type: string) => {
     setGameType(type);
@@ -90,8 +86,11 @@ export default function Statistics() {
 
   return (
     <Layout
-      leftContent={<BackButton />}
-      centerContent={<h1 className="statistics__title">Statistics</h1>}
+      headerContent={{
+        left: <BackButton />,
+        center: <h1 className="statistics__title">Statistics</h1>,
+      }}
+      footerContent={<WelcomeToolbar />}
       parentClassName="statistics"
     >
       <ul className="statistics__game-types">

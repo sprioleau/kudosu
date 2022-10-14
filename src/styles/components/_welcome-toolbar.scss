@@ -24,7 +24,7 @@
     min-height: 2.25em;
     color: var(--c-text);
     
-    &:focus {
+    &:hover, &:focus {
       background-color: hsla(var(--c-accent-hsl), 0.3);
     }
   };

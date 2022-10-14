@@ -1,17 +1,19 @@
 interface IProps {
-  leftContent?: React.ReactNode;
-  centerContent?: React.ReactNode;
-  rightContent?: React.ReactNode;
+  headerContent: {
+    left?: React.ReactNode;
+    center?: React.ReactNode;
+    right?: React.ReactNode;
+  };
 }
 
-const Header = ({ leftContent, rightContent, centerContent }: IProps) => {
-  if (!leftContent && !rightContent && !centerContent) return null;
+const Header = ({ headerContent: { left, right, center } }: IProps) => {
+  if (!left && !center && !right) return null;
 
   return (
     <header className="header">
-      {leftContent && <div className="header__left">{leftContent}</div>}
-      {centerContent && <div className="header__center">{centerContent}</div>}
-      {rightContent && <div className="header__right">{rightContent}</div>}
+      {left && <div className="header__left">{left}</div>}
+      {center && <div className="header__center">{center}</div>}
+      {right && <div className="header__right">{right}</div>}
     </header>
   );
 };

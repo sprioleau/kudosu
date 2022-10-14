@@ -53,9 +53,11 @@ export default function HowToPlay() {
 
   return (
     <Layout
-      leftContent={<BackButton />}
-      centerContent={<h1>How to play</h1>}
-      rightContent={<OptionsButton />}
+      headerContent={{
+        left: <BackButton />,
+        center: <h1>How to play</h1>,
+        right: <OptionsButton />,
+      }}
       parentClassName="how-to-play"
     >
       <div

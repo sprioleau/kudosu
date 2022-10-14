@@ -5,8 +5,8 @@
   flex-direction: column;
   justify-content: center;
   position: relative;
-  width: min(calc(var(--board-size) + 2 * var(--padding)), 100vw);
-  padding: 1.25em;
+  width: min(var(--board-size), 100vw - 2 * var(--padding));
+  margin: var(--padding);
   aspect-ratio: 9 / 16;
   box-shadow: 0 0 0 1px hsla(var(--c-accent-hsl), var(--border-opacity));
   background-color: var(--c-ui-bg);

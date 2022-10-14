@@ -18,6 +18,30 @@
 
   &__main {
     padding: 0 0.25em;
+    display: flex;
+    flex-direction: column;
+    flex: unset;
+    overflow-y: scroll;
+    position: relative;
+
+    &::before, 
+    &::after {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 1em;
+      z-index: 1;
+    }
+
+    &::before {
+      top: 43px;
+      background: linear-gradient(to top, hsla(0, 0%, 11%, 0), hsla(0, 0%, 11%, 1));
+    }
+    
+    &::after {
+      bottom: 0;
+      background: linear-gradient(to bottom, hsla(0, 0%, 11%, 0), hsla(0, 0%, 11%, 1));
+    }
   }
 
   &__game-types {
@@ -28,7 +52,6 @@
     overflow-x: auto;
     width: 100%;
     height: var(--game-types-height);
-    position: absolute;
     top: var(--header-height);
     margin: 0;
     left: 0;
@@ -39,7 +62,7 @@
       position: absolute;
       right: 0;
       width: 1.5em;
-      height: 100%;
+      height: var(--game-types-height);
       background: linear-gradient(to right, hsla(0, 0%, 11%, 0), hsla(0, 0%, 11%, 1));
     }
   }
@@ -50,7 +73,7 @@
     width: max-content;
     position: relative;
     background-color: transparent;
-    padding: 0.5em;
+    padding: 0.325em 0.5em;
     border-radius: 0.0625em;
 
     &::after {
@@ -75,11 +98,10 @@
   }
 
   &__list {
-    position: absolute;
-    top: calc(var(--header-height) + var(--game-types-height));
+    position: relative;
     height: 100%;
     width: 100%;
     overflow-y: auto;
-    padding: 0.75em 0 0;
+    padding: 1em 0;
   }
 }

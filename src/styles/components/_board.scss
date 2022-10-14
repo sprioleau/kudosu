@@ -1,6 +1,6 @@
 .board {
-  width: var(--board-size);
-  height: var(--board-size);
+  width: min(100%, var(--board-size));
+  aspect-ratio: 1 / 1;
   margin-bottom: 1.5em;
   position: relative;
 

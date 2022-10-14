@@ -1,32 +1,29 @@
 import Header from "../Header";
 
 interface Props {
-  leftContent?: React.ReactNode;
-  centerContent?: React.ReactNode;
-  rightContent?: React.ReactNode;
   children: React.ReactNode;
+  headerContent: {
+    left?: React.ReactNode;
+    center?: React.ReactNode;
+    right?: React.ReactNode;
+  };
+  footerContent?: React.ReactNode;
   parentClassName?: string;
 }
 
-export default function Layout({
-  children,
-  parentClassName,
-  leftContent,
-  centerContent,
-  rightContent,
-}: Props) {
+export default function Layout({ children, headerContent, footerContent, parentClassName }: Props) {
+  const layoutClasses = ["layout", parentClassName].join(" ");
+  const mainClasses = ["layout__main", parentClassName ? `${parentClassName}__main` : ""].join(" ");
+  const footerClasses = [
+    "layout__footer",
+    parentClassName ? `${parentClassName}__footer` : "",
+  ].join(" ");
+
   return (
-    <div className={["layout", parentClassName].join(" ")}>
-      <Header
-        leftContent={leftContent}
-        centerContent={centerContent}
-        rightContent={rightContent}
-      />
-      <main
-        className={["layout__main", parentClassName ? `${parentClassName}__main` : ""].join(" ")}
-      >
-        {children}
-      </main>
+    <div className={layoutClasses}>
+      <Header headerContent={headerContent} />
+      <main className={mainClasses}>{children}</main>
+      {footerContent && <footer className={footerClasses}>{footerContent}</footer>}
     </div>
   );
 }

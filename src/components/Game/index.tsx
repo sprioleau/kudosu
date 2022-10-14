@@ -12,9 +12,11 @@ import BackButton from "../BackButton/index";
 export default function Game() {
   return (
     <Layout
-      leftContent={<BackButton />}
-      centerContent={<Logo />}
-      rightContent={<OptionsButton />}
+      headerContent={{
+        left: <BackButton />,
+        center: <Logo />,
+        right: <OptionsButton />,
+      }}
       parentClassName="game"
     >
       <GameInfo />
