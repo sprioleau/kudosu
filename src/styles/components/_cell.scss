@@ -16,13 +16,14 @@
     padding: 0;
     border-radius: 0;
     color: var(--c-text);
+    outline-offset: 0;
   
     &[data-region="odd"] {
       --opacity: 0.05;
     }
 
     &:focus {
-      box-shadow: none;
+      outline: none;
     }
 
     &[data-region-selected="true"],
@@ -51,13 +52,13 @@
       --opacity: 0.5;
       --border-opacity: 1;
       --border-width: min(0.175em, 4px);
-      box-shadow: 0 0 0 var(--border-width) hsla(var(--c-accent-hsl), var(--border-opacity));
+      outline: var(--border-width) solid hsla(var(--c-accent-hsl), var(--border-opacity));
     }
     
     &[data-value-incorrect="true"] {
       --opacity: 0.25;
       --border-opacity: 0.8;
-      box-shadow: 0 0 0 var(--border-width) hsl(var(--c-incorrect-h), var(--c-accent-s), var(--c-accent-l));
+      outline: var(--border-width) solid hsl(var(--c-incorrect-h), var(--c-accent-s), var(--c-accent-l));
       background-color: hsla(var(--c-incorrect-h), var(--c-accent-s), var(--c-accent-l), var(--opacity));
     }
     

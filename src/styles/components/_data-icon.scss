@@ -13,7 +13,7 @@
     font-weight: 700;
     text-transform: uppercase;
     background-color: var(--c-ui-bg);
-    box-shadow: 0 0 0 0.125em var(--c-text);
+    outline: 0.125em solid var(--c-text);
     border-radius: 100vmax;
     color: var(--c-text);
     padding: 0.325em 0.35em 0.125em;

@@ -2,13 +2,14 @@ button, .button {
   --border-opacity: 0;
   --border-width: 3px;
   border: none;
-  box-shadow: 0 0 0 var(--border-width) hsla(var(--c-accent-hsl), var(--border-opacity));
+  outline: var(--border-width) solid hsla(var(--c-accent-hsl), var(--border-opacity));
+  outline-offset: 3px;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
   cursor: pointer;
-  transition: box-shadow 0.25s, transform 0.25s;
+  transition: outline 0.25s, transform 0.25s;
   user-select: none;
   color: var(--c-text);
   background-color: var(--c-accent);
@@ -30,15 +31,12 @@ button, .button {
   &:focus,
   &:focus-visible {
     --border-opacity: 1;
-    outline: none;
   }
 
   &:not(.cell__button):hover, 
   &:not(.cell__button):focus {
     --border-width: 2px;
-    box-shadow: 
-      0 0 0 var(--border-width) var(--c-ui-bg),
-      0 0 0 calc(var(--border-width) * 2) hsla(var(--c-accent-hsl), var(--border-opacity));
+    --border-opacity: 1;
   }
   
   &:active {

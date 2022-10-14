@@ -13,7 +13,7 @@
   }
 
   &__left {
-    left: var(--padding);
+    left: calc(var(--padding) + 0.125em);
   }
 
   &__center {
@@ -23,6 +23,6 @@
   }
 
   &__right {
-    right: var(--padding);
+    right: calc(var(--padding) + 0.125em);
   }
 }
