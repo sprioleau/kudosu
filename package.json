@@ -22,16 +22,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "focus-trap-react": "^10.0.0",
-    "js-confetti": "^0.10.2",
+    "dayjs": "1.11.5",
+    "focus-trap-react": "10.0.0",
+    "js-confetti": "0.10.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
     "react-router-dom": "^6.4.1",
-    "react-timer-hook": "^3.0.5",
+    "react-timer-hook": "3.0.5",
     "sass": "^1.54.5",
-    "sudoku-gen": "^1.0.0",
-    "use-elapsed-time": "^3.0.4",
+    "sudoku-gen": "1.0.0",
+    "use-elapsed-time": "3.0.4",
     "zustand": "^4.1.1"
   },
   "devDependencies": {
