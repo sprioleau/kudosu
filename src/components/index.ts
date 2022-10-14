@@ -15,6 +15,7 @@ export { default as DailyChallengeCard } from "./DailyChallengeCard";
 export { default as Logo } from "./Logo";
 export { default as DifficultySelectModal } from "./DifficultySelectModal";
 export { default as DailyChallenges } from "./DailyChallenges";
+export { default as DailyChallengesCalendar } from "./DailyChallengesCalendar";
 export { default as Statistics } from "./Statistics";
 export { default as StatisticsList } from "./StatisticsList";
 export { default as OptionsMenu } from "./OptionsMenu";

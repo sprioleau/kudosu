@@ -9,4 +9,12 @@
     aspect-ratio: 5 / 3;
     background: linear-gradient(to bottom right, var(--c-accent), rgb(255, 0, 115));
   }
+
+  &__calendar {
+    flex: 1;
+  }
+
+  &__play-button {
+    margin: 0 0.5em;
+  }
 }
