@@ -12,6 +12,10 @@
   background-color: var(--c-ui-bg);
   transition: box-shadow 0.25s ease;
   overflow: hidden;
+
+  &[data-is-mobile="true"] {
+    height: 100vh;
+  }
 }
 
 @media (max-width: 700px) {

@@ -67,8 +67,15 @@ function App() {
     return () => window.removeEventListener("keydown", handleShortcut);
   }, [pauseGame, selectAction]);
 
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent,
+  );
+
   return (
-    <div className="app">
+    <div
+      className="app"
+      data-is-mobile={isMobile}
+    >
       <BrowserRouter>
         <Routes>
           <Route
