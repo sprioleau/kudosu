@@ -1,0 +1,12 @@
+.daily-challenges {
+  &__main {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+  }
+
+  &__image {
+    aspect-ratio: 5 / 3;
+    background: linear-gradient(to bottom right, var(--c-accent), rgb(255, 0, 115));
+  }
+}
