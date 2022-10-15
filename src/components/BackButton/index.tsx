@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { RiArrowLeftSLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import IconButton from "../IconButton";
+import { IconButton } from "@/components";
 
 export default function BackButton() {
   const navigate = useNavigate();

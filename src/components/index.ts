@@ -13,6 +13,7 @@ export { default as Welcome } from "./Welcome";
 export { default as WelcomeToolbar } from "./WelcomeToolbar";
 export { default as DailyChallengeCard } from "./DailyChallengeCard";
 export { default as Logo } from "./Logo";
+export { default as IconButton } from "./IconButton";
 export { default as DifficultySelectModal } from "./DifficultySelectModal";
 export { default as DailyChallenges } from "./DailyChallenges";
 export { default as DailyChallengesCalendar } from "./DailyChallengesCalendar";
