@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import { IconButton } from "@/components";
+import { useCallback } from "react";
 
 interface IProps {
   selectedDate: dayjs.Dayjs;
@@ -15,9 +16,13 @@ export default function DailyChallengesCalendar({
 }: IProps) {
   const currentDate = dayjs();
   const daysInMonth = selectedDate.daysInMonth();
-  // console.log("Calendar selectedDate:", selectedDate.format("MMMM d"));
   const dates = [...Array.from({ length: daysInMonth }).keys()].map((index) => index + 1);
   const firstDayOfMonthIndex = selectedDate.startOf("month").format("d");
+
+  // prettier-ignore
+  const handleDateSelect = useCallback((dayOfMonth: number) => {
+    return () => onDateSelect(dayOfMonth);
+  }, [onDateSelect]);
 
   return (
     <div className="daily-challenges-calendar">
@@ -47,7 +52,7 @@ export default function DailyChallengesCalendar({
           <button
             key={dayOfMonth}
             disabled={dayOfMonth > currentDate.date()}
-            onClick={() => onDateSelect(dayOfMonth)}
+            onClick={handleDateSelect(dayOfMonth)}
             className="daily-challenges-calendar__date-button rounded-full"
             data-is-selected={dayOfMonth === selectedDate.date()}
           >

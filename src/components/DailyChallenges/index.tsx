@@ -17,7 +17,6 @@ export default function DailyChallenges() {
   // prettier-ignore
   const handleSelectDate = (dayOfMonth: number) => {
     const newSelectedDate = selectedDate.date(dayOfMonth);
-    console.log('dayOfMonth:', {dayOfMonth, newSelectedDate: newSelectedDate.format('MMMM Do')});
     setSelectedDate(newSelectedDate);
   };
 
@@ -26,7 +25,6 @@ export default function DailyChallenges() {
     let newSelectedDate = selectedDate;
     if (direction === -1) newSelectedDate = dayjs(selectedDate).subtract(1, "month");
     if (direction === 1) newSelectedDate = dayjs(selectedDate).add(1, "month");
-    console.log("handleAdvanceMonth newSelectedDate:", newSelectedDate.format("MMMM Do"));
     setSelectedDate(newSelectedDate);
   };
 
@@ -51,8 +49,8 @@ export default function DailyChallenges() {
         className="daily-challenges__image"
         style={{
           background: `radial-gradient(
-            hsl(${hue}, 100%, 65%), 
-            hsl(${hue + 10}, 100%, 45%)
+            hsl(${hue}, 85%, 65%), 
+            hsl(${hue + 10}, 85%, 46%)
           )`,
         }}
       >
