@@ -2,12 +2,36 @@
   &__main {
     display: flex;
     flex-direction: column;
-    gap: 1.5em;
   }
 
   &__image {
-    aspect-ratio: 5 / 3;
-    background: linear-gradient(to bottom right, var(--c-accent), rgb(255, 0, 115));
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    aspect-ratio: 405 / 235;
+    justify-content: center;
+    mix-blend-mode: screen;
+  }
+
+  &__logo-outlined {
+    z-index: 1;
+    width: 100px;
+  }
+
+  &__rays {
+    position: absolute;
+    width: 100%;
+    opacity: 0.15;
+    filter: blur(1px);
+
+    &.rays-1 {
+      animation: 13s linear infinite normal spin;
+    }
+    
+    &.rays-2 {
+      animation: 10s linear infinite reverse spin;
+    }
   }
 
   &__calendar {
@@ -15,6 +39,11 @@
   }
 
   &__play-button {
-    margin: 0 0.5em;
+    margin: 0 1.5em;
   }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg) }
+  100% { transform: rotate(360deg) }
 }
