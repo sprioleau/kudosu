@@ -11,7 +11,8 @@
     align-items: center;
     aspect-ratio: 405 / 235;
     justify-content: center;
-    mix-blend-mode: color-dodge;
+    border-radius: 1em;
+    background: radial-gradient(hsl(var(--c-accent-hsl)), hsl(calc(var(--c-accent-h) - 10), var(--c-accent-s), 30%));
   }
 
   &__logo-outlined {
@@ -22,7 +23,7 @@
   &__rays {
     position: absolute;
     width: 100%;
-    opacity: 0.1;
+    opacity: 0.075;
 
     &.rays-1 {
       animation: 13s linear infinite normal spin;

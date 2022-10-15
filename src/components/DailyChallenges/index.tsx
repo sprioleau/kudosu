@@ -33,9 +33,6 @@ export default function DailyChallenges() {
     createBoard(EDifficulty.easy, () => navigate("/game"));
   };
 
-  const hues = [233, 273, 333, 22];
-  const hue = hues[selectedDate.month() % hues.length];
-
   return (
     <Layout
       headerContent={{
@@ -45,15 +42,7 @@ export default function DailyChallenges() {
       footerContent={<WelcomeToolbar />}
       parentClassName="daily-challenges"
     >
-      <div
-        className="daily-challenges__image"
-        style={{
-          background: `radial-gradient(
-            hsl(${hue}, 85%, 65%), 
-            hsl(${hue + 10}, 85%, 46%)
-          )`,
-        }}
-      >
+      <div className="daily-challenges__image">
         <img
           src="images/logo_outline.svg"
           alt="kudosu logo outlined"
