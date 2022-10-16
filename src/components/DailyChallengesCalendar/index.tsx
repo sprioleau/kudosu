@@ -27,6 +27,14 @@ export default function DailyChallengesCalendar({
   const shouldDisablePreviousMonthButton = selectedDate.isSame(dayjs("2022-01-01"), "month");
   const shouldDisableNextMonthButton = selectedDate.isSame(currentDate, "month");
 
+  const getShouldDisableDateButton = useCallback(
+    (dayOfMonth: number) => {
+      const date = dayjs(`${selectedDate.format("YYYY-MM")}-${dayOfMonth}`);
+      return date.isAfter(currentDate);
+    },
+    [currentDate, selectedDate],
+  );
+
   return (
     <div className="daily-challenges-calendar">
       <div className="daily-challenges-calendar__nav">
@@ -52,13 +60,15 @@ export default function DailyChallengesCalendar({
             gridColumn: `span ${firstDayOfMonthIndex}`,
           }}
         />
-
         {dates.map((dayOfMonth) => (
           <button
             key={dayOfMonth}
-            disabled={dayOfMonth > currentDate.date()}
+            disabled={getShouldDisableDateButton(dayOfMonth)}
             onClick={handleDateSelect(dayOfMonth)}
-            className="daily-challenges-calendar__date-button rounded-full"
+            className={[
+              "daily-challenges-calendar__date-button rounded-full",
+              `${dayOfMonth === selectedDate.date() ? "selected" : ""}`,
+            ].join(" ")}
             data-is-selected={dayOfMonth === selectedDate.date()}
           >
             {dayOfMonth}
