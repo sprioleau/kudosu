@@ -1,7 +1,7 @@
-import useStore from "@/store";
+import useGameStore from "@/store";
 
 export default function PauseModal() {
-  const resumeGame = useStore((s) => s.resumeGame);
+  const resumeGame = useGameStore((s) => s.resumeGame);
 
   const handleResume = () => {
     resumeGame();

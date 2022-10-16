@@ -1,4 +1,4 @@
-import useStore from "@/store";
+import useGameStore from "@/store";
 
 import { BsEraser } from "react-icons/bs";
 import { AiOutlineUndo } from "react-icons/ai";
@@ -37,9 +37,9 @@ const availableActions: IAction[] = [
 ];
 
 const ActionToolbar = () => {
-  const selectAction = useStore((s) => s.selectAction);
-  const hintsRemaining = useStore((s) => s.hintsRemaining);
-  const previousMoves = useStore((s) => s.previousMoves);
+  const selectAction = useGameStore((s) => s.selectAction);
+  const hintsRemaining = useGameStore((s) => s.hintsRemaining);
+  const previousMoves = useGameStore((s) => s.previousMoves);
 
   const handleActionSelect = (action: EAction) => {
     selectAction(action);

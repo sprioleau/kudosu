@@ -1,20 +1,20 @@
-import useStore, { EDifficulty } from "@/store";
+import useGameStore, { EDifficulty } from "@/store";
 import { toTitleCase } from "@/utils";
 import { useNavigate } from "react-router-dom";
 
 export default function DifficultySelectModal() {
-  const createBoard = useStore((s) => s.createBoard);
-  const timerResetFunction = useStore((s) => s.timerResetFunction);
-  const resetGame = useStore((s) => s.resetGame);
+  const createBoard = useGameStore((s) => s.createBoard);
+  const timerResetFunction = useGameStore((s) => s.timerResetFunction);
+  const resetGame = useGameStore((s) => s.resetGame);
   const navigate = useNavigate();
 
   const handleDifficultySelect = (difficulty: string) => {
     resetGame();
     createBoard(EDifficulty[difficulty as EDifficulty], () => {
       if (timerResetFunction) timerResetFunction();
-      navigate("/game")
+      navigate("/game");
     });
-  }
+  };
 
   return (
     <div className="difficulty-select">

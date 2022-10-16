@@ -3,15 +3,15 @@ import dayjs from "dayjs";
 import { DailyChallengesCalendar } from "@/components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useStore, { EDifficulty } from "@/store";
+import useGameStore, { EDifficulty } from "@/store";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 
 dayjs.extend(advancedFormat);
 
 export default function DailyChallenges() {
   const [selectedDate, setSelectedDate] = useState(dayjs());
-  const resetGame = useStore((s) => s.resetGame);
-  const createBoard = useStore((s) => s.createBoard);
+  const resetGame = useGameStore((s) => s.resetGame);
+  const createBoard = useGameStore((s) => s.createBoard);
   const navigate = useNavigate();
 
   // prettier-ignore

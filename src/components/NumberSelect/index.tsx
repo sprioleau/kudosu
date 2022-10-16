@@ -1,9 +1,9 @@
-import useStore from "@/store";
+import useGameStore from "@/store";
 import { getNumberOptions } from "@/utils";
 
 const NumberSelect = () => {
-  const selectNumberOption = useStore((s) => s.selectNumberOption);
-  const remainingNumberOptions = useStore((s) => s.remainingNumberOptions);
+  const selectNumberOption = useGameStore((s) => s.selectNumberOption);
+  const remainingNumberOptions = useGameStore((s) => s.remainingNumberOptions);
   const options = getNumberOptions();
 
   if (!remainingNumberOptions) return null;

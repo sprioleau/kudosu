@@ -1,8 +1,8 @@
-import useStore from "@/store";
+import useGameStore from "@/store";
 import { BsPencil, BsPencilFill } from "react-icons/bs";
 
 const NotesIcon = () => {
-  const notesModeActive = useStore((s) => s.notesModeActive);
+  const notesModeActive = useGameStore((s) => s.notesModeActive);
   const notesLabel = notesModeActive ? "On" : "";
 
   return (

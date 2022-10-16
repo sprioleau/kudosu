@@ -1,8 +1,8 @@
-import useStore from "@/store";
+import useGameStore from "@/store";
 import { BsLightbulb } from "react-icons/bs";
 
 const HintIcon = () => {
-  const hintsRemaining = useStore((s) => s.hintsRemaining);
+  const hintsRemaining = useGameStore((s) => s.hintsRemaining);
 
   return (
     <div

@@ -1,4 +1,4 @@
-import useStore from "@/store";
+import useGameStore from "@/store";
 import { IPuzzleCell } from "@/utils/getBoard";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,9 +7,9 @@ import { Modal, PauseModal } from "@/components";
 
 const Board = () => {
   const navigate = useNavigate();
-  const board = useStore((s) => s.board);
-  const resumeGame = useStore((s) => s.resumeGame);
-  const isPaused = useStore((s) => s.isPaused);
+  const board = useGameStore((s) => s.board);
+  const resumeGame = useGameStore((s) => s.resumeGame);
+  const isPaused = useGameStore((s) => s.isPaused);
 
   useEffect(() => {
     if (!board || !localStorage.getItem("gameState")) {

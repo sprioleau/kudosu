@@ -1,4 +1,4 @@
-import useStore, { EGameResult } from "@/store";
+import useGameStore, { EGameResult } from "@/store";
 import {
   getCellButtonClasses,
   getIsTruthyEqual,
@@ -14,12 +14,12 @@ export interface IProps {
 }
 
 const Cell = ({ cell }: IProps) => {
-  const selectCell = useStore((s) => s.selectCell);
-  const selectedCell = useStore((s) => s.selectedCell);
-  const selectNumberOption = useStore((s) => s.selectNumberOption);
-  const navigateToNextCell = useStore((s) => s.navigateToNextCell);
-  const isPaused = useStore((s) => s.isPaused);
-  const result = useStore((s) => s.result);
+  const selectCell = useGameStore((s) => s.selectCell);
+  const selectedCell = useGameStore((s) => s.selectedCell);
+  const selectNumberOption = useGameStore((s) => s.selectNumberOption);
+  const navigateToNextCell = useGameStore((s) => s.navigateToNextCell);
+  const isPaused = useGameStore((s) => s.isPaused);
+  const result = useGameStore((s) => s.result);
   const cellRef = createRef<HTMLButtonElement>();
 
   useEffect(() => {
@@ -85,6 +85,6 @@ const Cell = ({ cell }: IProps) => {
       </button>
     </li>
   );
-};;
+};
 
 export default Cell;

@@ -1,12 +1,12 @@
-import useStore from "@/store";
+import useGameStore from "@/store";
 import { formatTime } from "@/utils";
 import { DifficultySelectModal, Modal } from "@/components";
 import { useState } from "react";
 
 const GameResultModal = () => {
   const [shouldShowModal, setShouldShowModal] = useState(false);
-  const result = useStore((s) => s.result);
-  const elapsedTimeSeconds = useStore((s) => s.elapsedTimeSeconds);
+  const result = useGameStore((s) => s.result);
+  const elapsedTimeSeconds = useGameStore((s) => s.elapsedTimeSeconds);
 
   const handleStartNewGame = () => {
     setShouldShowModal(true);

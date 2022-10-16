@@ -72,7 +72,7 @@ const initialState: IInitialState = {
   lastSelectedCell: undefined,
 };
 
-const useStore = create(
+const useGameStore = create(
   persist<IGlobalState >((set) => ({
       ...initialState,
 
@@ -313,4 +313,4 @@ const useStore = create(
     }
 ));
 
-export default useStore;
+export default useGameStore;

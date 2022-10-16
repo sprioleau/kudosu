@@ -1,10 +1,10 @@
-import useStore from "@/store";
-import {getRandomDifficulty} from "@/utils";
+import useGameStore from "@/store";
+import { getRandomDifficulty } from "@/utils";
 import { BsCalendar4Event } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
 export default function DailyChallengeCard() {
-  const createBoard = useStore((s) => s.createBoard);
+  const createBoard = useGameStore((s) => s.createBoard);
 
   const date = new Date().toLocaleString("en-US", {
     month: "long",
@@ -15,7 +15,7 @@ export default function DailyChallengeCard() {
 
   const handleStartDailyChallenge = () => {
     const randomDifficulty = getRandomDifficulty();
-    createBoard(randomDifficulty, () => navigate("/game"))
+    createBoard(randomDifficulty, () => navigate("/game"));
   };
 
   return (

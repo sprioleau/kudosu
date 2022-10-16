@@ -10,17 +10,17 @@ import {
   OptionsButton,
   WelcomeToolbar,
 } from "@/components";
-import useStore from "@/store";
+import useGameStore from "@/store";
 import { formatTime, toTitleCase } from "@/utils";
 import { useState } from "react";
 
 export default function Welcome() {
   const [shouldShowModal, setShouldShowModal] = useState(false);
   const navigate = useNavigate();
-  const elapsedTimeSeconds = useStore((s) => s.elapsedTimeSeconds);
-  const result = useStore((s) => s.result);
-  const resumeGame = useStore((s) => s.resumeGame);
-  const difficulty = useStore((s) => s.difficulty);
+  const elapsedTimeSeconds = useGameStore((s) => s.elapsedTimeSeconds);
+  const result = useGameStore((s) => s.result);
+  const resumeGame = useGameStore((s) => s.resumeGame);
+  const difficulty = useGameStore((s) => s.difficulty);
 
   const handleStartNewGame = () => {
     setShouldShowModal(true);

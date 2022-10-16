@@ -10,20 +10,20 @@ import {
   SettingsMenu,
 } from "@/components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import useStore, { EGameResult } from "@/store";
+import useGameStore, { EGameResult } from "@/store";
 import { showConfetti } from "@/utils";
 import { useActionOnBlur } from "./hooks";
 import { useEffect } from "react";
 import { EAction } from "./components/ActionToolbar";
 
 function App() {
-  const result = useStore((s) => s.result);
-  const pauseGame = useStore((s) => s.pauseGame);
-  const selectCell = useStore((s) => s.selectCell);
-  const selectedCell = useStore((s) => s.selectedCell);
-  const board = useStore((s) => s.board);
-  const isPaused = useStore((s) => s.isPaused);
-  const selectAction = useStore((s) => s.selectAction);
+  const result = useGameStore((s) => s.result);
+  const pauseGame = useGameStore((s) => s.pauseGame);
+  const selectCell = useGameStore((s) => s.selectCell);
+  const selectedCell = useGameStore((s) => s.selectedCell);
+  const board = useGameStore((s) => s.board);
+  const isPaused = useGameStore((s) => s.isPaused);
+  const selectAction = useGameStore((s) => s.selectAction);
 
   useEffect(() => {
     if (!result) return;

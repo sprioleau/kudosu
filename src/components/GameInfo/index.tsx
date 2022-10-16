@@ -1,4 +1,4 @@
-import useStore from "@/store";
+import useGameStore from "@/store";
 import { formatTime, toTitleCase } from "@/utils";
 import { useEffect } from "react";
 import { useElapsedTime } from "use-elapsed-time";
@@ -7,14 +7,14 @@ import { AiOutlinePause } from "react-icons/ai";
 
 const GameInfo = () => {
   const navigate = useNavigate();
-  const [mistakes, totalMistakes] = useStore((s) => s.mistakes);
-  const difficulty = useStore((s) => s.difficulty);
-  const result = useStore((s) => s.result);
-  const isPaused = useStore((s) => s.isPaused);
-  const elapsedTimeSeconds = useStore((s) => s.elapsedTimeSeconds);
-  const setTimerResetFunction = useStore((s) => s.setTimerResetFunction);
-  const pauseGame = useStore((s) => s.pauseGame);
-  const updateElapsedTimeSeconds = useStore((s) => s.updateElapsedTimeSeconds);
+  const [mistakes, totalMistakes] = useGameStore((s) => s.mistakes);
+  const difficulty = useGameStore((s) => s.difficulty);
+  const result = useGameStore((s) => s.result);
+  const isPaused = useGameStore((s) => s.isPaused);
+  const elapsedTimeSeconds = useGameStore((s) => s.elapsedTimeSeconds);
+  const setTimerResetFunction = useGameStore((s) => s.setTimerResetFunction);
+  const pauseGame = useGameStore((s) => s.pauseGame);
+  const updateElapsedTimeSeconds = useGameStore((s) => s.updateElapsedTimeSeconds);
 
   const { elapsedTime, reset } = useElapsedTime({
     isPlaying: !isPaused,
