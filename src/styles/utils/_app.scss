@@ -9,10 +9,10 @@
   padding: var(--padding);
   margin: var(--padding);
   aspect-ratio: 9 / 16;
-  outline: 1px solid hsla(var(--c-accent-hsl), var(--border-opacity));
+  box-shadow: 0 0 0 1px hsla(var(--c-accent-hsl), var(--border-opacity));
   border-radius: 0.25em;
   background-color: var(--c-ui-bg);
-  transition: outline 0.3s ease, padding 0.5s ease;
+  transition: box-shadow 0.3s ease, padding 0.5s ease;
   overflow: hidden;
 
   &[data-is-mobile="true"] {
