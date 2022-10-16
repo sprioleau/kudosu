@@ -18,7 +18,7 @@
     gap: calc(var(--board-gap));
     background-color: transparent;
     transition: background-color 0.3s ease-out;
-    font-size: 0.8em;
+    font-size: 0.75em;
     padding: 0.5em 1em;
     border-radius: 100vmax;
     min-height: 2.25em;
@@ -30,7 +30,7 @@
   };
 
   &__icon {
-    font-size: 1.25em;
+    font-size: 1.5em;
     display: flex;
     align-items: center;
     justify-content: center;
