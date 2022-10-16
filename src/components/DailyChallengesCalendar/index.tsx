@@ -24,6 +24,9 @@ export default function DailyChallengesCalendar({
     return () => onDateSelect(dayOfMonth);
   }, [onDateSelect]);
 
+  const shouldDisablePreviousMonthButton = selectedDate.isSame(dayjs("2022-01-01"), "month");
+  const shouldDisableNextMonthButton = selectedDate.isSame(currentDate, "month");
+
   return (
     <div className="daily-challenges-calendar">
       <div className="daily-challenges-calendar__nav">
@@ -31,12 +34,14 @@ export default function DailyChallengesCalendar({
           <IconButton
             icon={<RiArrowLeftSLine />}
             onClick={() => onAdvanceMonth(-1)}
+            disabled={shouldDisablePreviousMonthButton}
           />
         </div>
         <div className="daily-challenges-calendar__nav-button-wrapper next">
           <IconButton
             icon={<RiArrowRightSLine />}
             onClick={() => onAdvanceMonth(1)}
+            disabled={shouldDisableNextMonthButton}
           />
         </div>
       </div>
