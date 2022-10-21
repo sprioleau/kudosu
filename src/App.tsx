@@ -9,7 +9,7 @@ import {
   AboutGame,
   SettingsMenu,
 } from "@/components";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import useGameStore, { EGameResult } from "@/store";
 import { showConfetti } from "@/utils";
 import { useActionOnBlur } from "./hooks";
@@ -94,7 +94,7 @@ function App() {
             path="/statistics"
             element={<Statistics />}
           />
-          <Route path="/options">
+          <Route path="options">
             <Route
               index
               element={<OptionsMenu />}
@@ -112,6 +112,10 @@ function App() {
               element={<AboutGame />}
             />
           </Route>
+          <Route
+            path="*"
+            element={<Navigate to="/" />}
+          />
         </Routes>
       </BrowserRouter>
     </div>
