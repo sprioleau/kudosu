@@ -25,11 +25,18 @@
     justify-content: flex-end;
   }
 
-  &__pause-resume-button {
+  &__pause-button {
     display: flex;
     align-items: center;
     gap: 0.25em;
     background-color: transparent;
     padding: 0.125em;
+    padding-left: 0.25em;
+  }
+
+  &__pause-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

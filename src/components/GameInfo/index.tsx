@@ -43,9 +43,9 @@ const GameInfo = () => {
 
   useEffect(() => {
     const handleShortcut = (e: KeyboardEvent) => {
-      if (!["b"].includes(e.key)) return;
+      if (!["b", "o"].includes(e.key)) return;
       if (e.key === "b") navigate("/");
-      // if (e.key === "s") // handle open settings
+      if (e.key === "o") navigate("/options");
     };
 
     window.addEventListener("keydown", handleShortcut);
@@ -62,10 +62,13 @@ const GameInfo = () => {
       <span className="game-info__attempts">Mistakes: {`${mistakes}/${totalMistakes}`}</span>
       <span className="game-info__time">
         <button
-          className="game-info__pause-resume-button"
+          className="game-info__pause-button"
           onClick={handlePause}
         >
-          Time: {formatTime(elapsedTime)} <AiOutlinePause />
+          Time: {formatTime(elapsedTime)}{" "}
+          <span className="game-info__pause-icon">
+            <AiOutlinePause />
+          </span>
         </button>
       </span>
     </div>
