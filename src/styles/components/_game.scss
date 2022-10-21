@@ -1,6 +1,12 @@
 .game {
   height: 100%;
 
+  &__main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
   &__header {
     margin-bottom: 1.5em;
   }
