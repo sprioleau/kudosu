@@ -1,5 +1,5 @@
 import { AiOutlineHome, AiOutlineCalendar, AiOutlineBarChart } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export enum EAction {
   Home = "Home",
@@ -43,13 +43,14 @@ const WelcomeToolbar = () => {
               key={label}
               className="welcome-toolbar__option"
             >
-              <Link
+              <NavLink
+                end
                 to={path}
                 className="welcome-toolbar__link button"
               >
                 <span className="welcome-toolbar__icon">{icon}</span>
                 <span className="welcome-toolbar__label">{label}</span>
-              </Link>
+              </NavLink>
             </li>
           );
         })}

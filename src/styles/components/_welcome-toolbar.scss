@@ -1,36 +1,66 @@
 .welcome-toolbar {
-  padding: 0.5em 0;
-
   &__options {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: calc(2 * var(--board-gap));
+    gap: 0.75em;
     width: 100%;
   }
 
   &__link {
+    --opacity: 0.55;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     width: 100%;
     margin: 0;
-    gap: calc(var(--board-gap));
+    gap: 0.125em;
     background-color: transparent;
-    transition: background-color 0.3s ease-out;
+    opacity: var(--opacity);
+    transition: color 0.3s ease-out, opacity 0.3s ease-out;
     font-size: 0.75em;
     padding: 0.5em 1em;
     border-radius: 100vmax;
     min-height: 2.25em;
     color: var(--c-text);
+    position: relative;
+
+    &.active {
+      --opacity: 1;
+      color: var(--c-text);
+
+      .welcome-toolbar__icon {
+        color: var(--c-accent-text);
+      }
+    }
+
+    &::after {
+      --height: 3px;
+      --scaleY: 0;
+      content: "";
+      position: absolute;
+      bottom: calc(-1 * var(--height));
+      left: 0;
+      width: 100%;
+      height: var(--height);
+      background-color: var(--c-accent-text);
+      transform: scaleY(var(--scaleY));
+      transition: transform 0.3s ease-out;
+    }
     
     &:hover, &:focus {
-      background-color: hsla(var(--c-accent-hsl), 0.3);
+      --border-opacity: 0;
+      --opacity: 0.9;
+      
+      &::after {
+        --scaleY: 100%;
+      }
     }
-  };
+  }
 
   &__icon {
-    font-size: 1.5em;
+    font-size: 1.65em;
     display: flex;
     align-items: center;
     justify-content: center;
