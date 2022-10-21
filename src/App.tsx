@@ -15,6 +15,10 @@ import { showConfetti } from "@/utils";
 import { useActionOnBlur } from "./hooks";
 import { useEffect } from "react";
 import { EAction } from "./components/ActionToolbar";
+import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+
+dayjs.extend(advancedFormat);
 
 function App() {
   const result = useGameStore((s) => s.result);
