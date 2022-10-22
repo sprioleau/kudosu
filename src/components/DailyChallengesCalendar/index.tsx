@@ -89,7 +89,7 @@ export default function DailyChallengesCalendar({
                 stroke="var(--c-accent-text)"
                 fill="none"
                 strokeWidth={8}
-                strokeOpacity={disabled ? 0 : 1}
+                strokeOpacity={disabled || progress === 0 ? 0 : 1}
               >
                 <circle
                   cx="54"
