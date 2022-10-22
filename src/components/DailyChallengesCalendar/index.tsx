@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import { IconButton } from "@/components";
 import { useCallback } from "react";
-import { TProgressMap } from "../DailyChallenges";
+import { TProgressMap } from "@/utils/getGameProgressByDayOfYear";
 
 interface IProps {
   selectedDate: dayjs.Dayjs;
