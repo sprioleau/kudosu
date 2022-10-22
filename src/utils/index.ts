@@ -11,3 +11,4 @@ export { default as getCellButtonClasses } from "./getCellButtonClasses";
 export { default as handleSelectCellWithKeyboard } from "./handleSelectCellWithKeyboard";
 export { default as toTitleCase } from "./toTitleCase";
 export { default as getRandomDifficulty } from "./getRandomDifficulty";
+export { default as getBoardId } from "./getBoardId";
