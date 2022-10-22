@@ -9,14 +9,12 @@ const GameInfo = () => {
   const navigate = useNavigate();
   const [mistakes, totalMistakes] = useGameStore((s) => s.mistakes);
   const difficulty = useGameStore((s) => s.difficulty);
-  const result = useGameStore((s) => s.result);
   const isPaused = useGameStore((s) => s.isPaused);
   const elapsedTimeSeconds = useGameStore((s) => s.elapsedTimeSeconds);
-  const setTimerResetFunction = useGameStore((s) => s.setTimerResetFunction);
   const pauseGame = useGameStore((s) => s.pauseGame);
   const updateElapsedTimeSeconds = useGameStore((s) => s.updateElapsedTimeSeconds);
 
-  const { elapsedTime, reset } = useElapsedTime({
+  const { elapsedTime } = useElapsedTime({
     isPlaying: !isPaused,
     updateInterval: 1, // in secondss
     startAt: elapsedTimeSeconds,
@@ -24,10 +22,6 @@ const GameInfo = () => {
       updateElapsedTimeSeconds(elapsedTime);
     },
   });
-
-  useEffect(() => {
-    setTimerResetFunction(() => reset(0));
-  }, [result]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

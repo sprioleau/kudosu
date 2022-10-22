@@ -4,15 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 export default function DifficultySelectModal() {
   const createBoard = useGameStore((s) => s.createBoard);
-  const timerResetFunction = useGameStore((s) => s.timerResetFunction);
-  const resetGame = useGameStore((s) => s.resetGame);
   const navigate = useNavigate();
 
   const handleDifficultySelect = (difficulty: string) => {
-    resetGame();
-    createBoard(EDifficulty[difficulty as EDifficulty], () => {
-      if (timerResetFunction) timerResetFunction();
-      navigate("/game");
+    createBoard({
+      difficulty: EDifficulty[difficulty as EDifficulty],
+      onBoardCreated: () => navigate("/game"),
     });
   };
 
@@ -25,9 +22,11 @@ export default function DifficultySelectModal() {
       <main className="difficulty-select__main">
         <ol className="difficulty-select__buttons-list">
           {Object.keys(EDifficulty).map((difficulty) => (
-            <li className="difficulty-select__buttons-list-item">
+            <li
+              key={difficulty}
+              className="difficulty-select__buttons-list-item"
+            >
               <button
-                key={difficulty}
                 className="difficulty-select__button rounded-full"
                 onClick={() => handleDifficultySelect(difficulty)}
               >

@@ -1,8 +1,6 @@
-import useGameStore from "@/store";
 import FocusTrap from "focus-trap-react";
 import React, { useEffect } from "react";
 import { createPortal } from "react-dom";
-import { useNavigate } from "react-router-dom";
 
 interface IProps {
   children: React.ReactNode;
@@ -11,12 +9,8 @@ interface IProps {
 }
 
 export default function Modal({ children, isVisible, onClose }: IProps) {
-  const result = useGameStore((s) => s.result);
-  const navigate = useNavigate();
-
   const handleClose = () => {
     onClose();
-    if (result) navigate("/");
   };
 
   useEffect(() => {

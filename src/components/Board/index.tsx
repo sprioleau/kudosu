@@ -3,19 +3,26 @@ import { IPuzzleCell } from "@/utils/getBoard";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cell from "../Cell";
-import { Modal, PauseModal } from "@/components";
+import { GameResultModal, Modal, PauseModal } from "@/components";
+import { usePersistGameData } from "@/hooks";
 
 const Board = () => {
   const navigate = useNavigate();
   const board = useGameStore((s) => s.board);
+  const result = useGameStore((s) => s.result);
   const resumeGame = useGameStore((s) => s.resumeGame);
   const isPaused = useGameStore((s) => s.isPaused);
 
+  usePersistGameData();
+
   useEffect(() => {
-    if (!board || !localStorage.getItem("gameState")) {
-      navigate("/");
-    }
+    if (!board) navigate("/");
   }, []);
+
+  const handleNavigateToHome = () => navigate("/");
+
+  const shouldShowPauseModal = isPaused && !Boolean(result);
+  const shouldShowGameResultModal = isPaused && Boolean(result);
 
   if (!board) return null;
 
@@ -36,10 +43,16 @@ const Board = () => {
         <li className="board__grid-line vertical"></li>
       </ul>
       <Modal
-        isVisible={isPaused}
+        isVisible={shouldShowPauseModal}
         onClose={resumeGame}
       >
         <PauseModal />
+      </Modal>
+      <Modal
+        isVisible={shouldShowGameResultModal}
+        onClose={handleNavigateToHome}
+      >
+        <GameResultModal />
       </Modal>
     </div>
   );

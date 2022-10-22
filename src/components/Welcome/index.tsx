@@ -1,9 +1,9 @@
 import { BiTimeFive } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import {
+  ClearPersistedStateButton,
   DailyChallengeCard,
   DifficultySelectModal,
-  GameResultModal,
   Layout,
   Logo,
   Modal,
@@ -15,19 +15,19 @@ import { formatTime, toTitleCase } from "@/utils";
 import { useState } from "react";
 
 export default function Welcome() {
-  const [shouldShowModal, setShouldShowModal] = useState(false);
+  const [shouldShowDifficultySelectModal, setShouldShowDifficultySelectModal] = useState(false);
   const navigate = useNavigate();
   const elapsedTimeSeconds = useGameStore((s) => s.elapsedTimeSeconds);
   const result = useGameStore((s) => s.result);
   const resumeGame = useGameStore((s) => s.resumeGame);
   const difficulty = useGameStore((s) => s.difficulty);
 
-  const handleStartNewGame = () => {
-    setShouldShowModal(true);
+  const handleShowDifficultySelectModal = () => {
+    setShouldShowDifficultySelectModal(true);
   };
 
   const handleCloseModal = () => {
-    setShouldShowModal(false);
+    setShouldShowDifficultySelectModal(false);
   };
 
   const handleContinueGame = () => {
@@ -36,8 +36,6 @@ export default function Welcome() {
   };
 
   const shouldShowContinueButton = elapsedTimeSeconds > 0 && !result;
-  const shouldShowGameResultModal = shouldShowModal && Boolean(result);
-  const shouldShowDifficltySelectModal = shouldShowModal && !Boolean(result);
 
   return (
     <Layout
@@ -74,23 +72,18 @@ export default function Welcome() {
         )}
         <button
           className="welcome__button ghost rounded-full"
-          onClick={handleStartNewGame}
+          onClick={handleShowDifficultySelectModal}
         >
           New Game
         </button>
       </div>
       <Modal
-        isVisible={shouldShowGameResultModal}
-        onClose={handleCloseModal}
-      >
-        <GameResultModal />
-      </Modal>
-      <Modal
-        isVisible={shouldShowDifficltySelectModal}
+        isVisible={shouldShowDifficultySelectModal}
         onClose={handleCloseModal}
       >
         <DifficultySelectModal />
       </Modal>
+      <ClearPersistedStateButton />
     </Layout>
   );
 }

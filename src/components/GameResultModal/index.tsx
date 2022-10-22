@@ -1,20 +1,13 @@
 import useGameStore from "@/store";
 import { formatTime } from "@/utils";
-import { DifficultySelectModal, Modal } from "@/components";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const GameResultModal = () => {
-  const [shouldShowModal, setShouldShowModal] = useState(false);
+export default function GameResultModal() {
   const result = useGameStore((s) => s.result);
   const elapsedTimeSeconds = useGameStore((s) => s.elapsedTimeSeconds);
+  const navigate = useNavigate();
 
-  const handleStartNewGame = () => {
-    setShouldShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShouldShowModal(false);
-  };
+  const handleCloseModal = () => navigate("/");
 
   return (
     <div className="game-result">
@@ -22,18 +15,10 @@ const GameResultModal = () => {
       <p className="game-result__time">Time: {formatTime(elapsedTimeSeconds)}</p>
       <button
         className="game-result__button"
-        onClick={handleStartNewGame}
+        onClick={handleCloseModal}
       >
         Start a New Game
       </button>
-      <Modal
-        isVisible={shouldShowModal}
-        onClose={handleCloseModal}
-      >
-        <DifficultySelectModal />
-      </Modal>
     </div>
   );
 };
-
-export default GameResultModal;
