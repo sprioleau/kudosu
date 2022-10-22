@@ -12,3 +12,5 @@ export { default as handleSelectCellWithKeyboard } from "./handleSelectCellWithK
 export { default as toTitleCase } from "./toTitleCase";
 export { default as getRandomDifficulty } from "./getRandomDifficulty";
 export { default as getBoardId } from "./getBoardId";
+export { default as getGameProgressByDayOfYear } from "./getGameProgressByDayOfYear";
+export { default as getGamesPlayed } from "./getGamesPlayed";
