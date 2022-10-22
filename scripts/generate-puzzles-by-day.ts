@@ -7,12 +7,13 @@ function generatePuzzlesByDate() {
   const puzzles: Record<string, string> = {};
 
   Array.from(Array(DAYS_IN_YEAR)).forEach((_, index) => {
-    const difficulties = ['easy', 'medium', 'hard', 'expert'];
+    const difficulties = ["easy", "medium", "hard", "expert"];
     const randomDifficulty = difficulties[Math.floor(Math.random() * difficulties.length)];
-    
+
     const { puzzle, solution, difficulty } = getSudoku(randomDifficulty);
-    
-    puzzles[index] = `${difficulties.indexOf(difficulty)}${puzzle.replace(/-/g, "0")}${solution}`;
+
+    // prettier-ignore
+    puzzles[index + 1] = `${difficulties.indexOf(difficulty)}${puzzle.replace(/-/g, "0")}${solution}`;
   });
   
   try {
