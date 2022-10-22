@@ -18,11 +18,13 @@ import { EAction } from "./components/ActionToolbar";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import dayOfYear from "dayjs/plugin/dayOfYear";
+import duration from "dayjs/plugin/duration";
 import { STORAGE_KEYS } from "@/constants";
 import localforage from "localforage";
 
 dayjs.extend(advancedFormat);
 dayjs.extend(dayOfYear);
+dayjs.extend(duration);
 
 localforage.config({
   name: STORAGE_KEYS.INDEXEDDB.NAME,

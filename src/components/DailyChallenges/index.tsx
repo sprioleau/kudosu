@@ -3,34 +3,14 @@ import dayjs from "dayjs";
 import { DailyChallengesCalendar } from "@/components";
 import { useEffect, useState } from "react";
 import { useDailyChallenge } from "@/hooks";
-import localforage from "localforage";
-import { IInitialState } from "@/store";
-import { SUDOKU_PUZZLE_SIZE } from "@/constants";
-
-export type TProgressMap = Record<number, number>;
-
-async function getGameProgressByDayIndex(callback: (data: TProgressMap) => void) {
-  const gameProgressByDayIndex: TProgressMap = {};
-
-  await localforage.iterate((gameState: IInitialState) => {
-    if (!gameState || !gameState.dailyChallengeDayIndex) return;
-
-    const progress =
-      (100 * (SUDOKU_PUZZLE_SIZE - (gameState.remainingNumberOptions?.length ?? 0))) /
-      SUDOKU_PUZZLE_SIZE;
-
-    gameProgressByDayIndex[gameState.dailyChallengeDayIndex] = progress;
-  });
-
-  return callback(gameProgressByDayIndex);
-}
+import { getGameProgressByDayOfYear } from "@/utils";
 
 export default function DailyChallenges() {
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [progressByDayIndex, setProgressByDayIndex] = useState<Record<number, number>>();
 
   useEffect(() => {
-    getGameProgressByDayIndex(setProgressByDayIndex);
+    getGameProgressByDayOfYear(setProgressByDayIndex);
   }, []);
 
   const handleSelectDate = (dayOfMonth: number) => {
