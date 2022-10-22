@@ -1,11 +1,37 @@
 import { BackButton, Layout, WelcomeToolbar } from "@/components";
 import dayjs from "dayjs";
 import { DailyChallengesCalendar } from "@/components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDailyChallenge } from "@/hooks";
+import localforage from "localforage";
+import { IInitialState } from "@/store";
+import { SUDOKU_PUZZLE_SIZE } from "@/constants";
+
+export type TProgressMap = Record<number, number>;
+
+async function getGameProgressByDayIndex(callback: (data: TProgressMap) => void) {
+  const gameProgressByDayIndex: TProgressMap = {};
+
+  await localforage.iterate((gameState: IInitialState) => {
+    if (!gameState || !gameState.dailyChallengeDayIndex) return;
+
+    const progress =
+      (100 * (SUDOKU_PUZZLE_SIZE - (gameState.remainingNumberOptions?.length ?? 0))) /
+      SUDOKU_PUZZLE_SIZE;
+
+    gameProgressByDayIndex[gameState.dailyChallengeDayIndex] = progress;
+  });
+
+  return callback(gameProgressByDayIndex);
+}
 
 export default function DailyChallenges() {
   const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [progressByDayIndex, setProgressByDayIndex] = useState<Record<number, number>>();
+
+  useEffect(() => {
+    getGameProgressByDayIndex(setProgressByDayIndex);
+  }, []);
 
   const handleSelectDate = (dayOfMonth: number) => {
     const newSelectedDate = selectedDate.date(dayOfMonth);
@@ -18,6 +44,9 @@ export default function DailyChallenges() {
     if (direction === 1) newSelectedDate = dayjs(selectedDate).add(1, "month");
     setSelectedDate(newSelectedDate);
   };
+
+  const progressForSelectedDate = progressByDayIndex?.[selectedDate.dayOfYear()] ?? 0;
+  const shouldShowContinue = progressForSelectedDate > 0;
 
   const { onStartDailyChallenge } = useDailyChallenge({ date: selectedDate });
 
@@ -52,13 +81,14 @@ export default function DailyChallenges() {
           selectedDate={selectedDate}
           onDateSelect={handleSelectDate}
           onAdvanceMonth={handleAdvanceMonth}
+          progressByDayIndex={progressByDayIndex}
         />
       </div>
       <button
         className="daily-challenges__play-button rounded-full"
         onClick={onStartDailyChallenge}
       >
-        Play {selectedDate.format("MMMM Do")}
+        {shouldShowContinue ? "Continue" : "Play"} {selectedDate.format("MMMM Do")}
       </button>
     </Layout>
   );
