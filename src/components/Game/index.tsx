@@ -1,12 +1,14 @@
 import {
   ActionToolbar,
   Board,
+  ClearPersistedStateButton,
   GameInfo,
   Layout,
   Logo,
   NumberSelect,
   OptionsButton,
 } from "@/components";
+import { Link } from "react-router-dom";
 import BackButton from "../BackButton/index";
 
 export default function Game() {
@@ -14,7 +16,11 @@ export default function Game() {
     <Layout
       headerContent={{
         left: <BackButton />,
-        center: <Logo />,
+        center: (
+          <Link to="/">
+            <Logo />
+          </Link>
+        ),
         right: <OptionsButton />,
       }}
       parentClassName="game"
@@ -23,6 +29,7 @@ export default function Game() {
       <Board />
       <ActionToolbar />
       <NumberSelect />
+      <ClearPersistedStateButton />
     </Layout>
   );
 }
