@@ -1,10 +1,18 @@
-import { EAction } from "@/components/ActionToolbar";
-import { SUDOKU_PUZZLE_SIZE } from "@/constants";
-import { getBoard, checkGameIsWon, getRemainingOptions, getMatchingCells } from "@/utils";
-import { TBoard, IPuzzleCell } from "@/utils/getBoard";
-import { getSudoku } from "sudoku-gen";
 import create from "zustand";
-import { persist } from 'zustand/middleware'
+import { persist } from "zustand/middleware";
+import { getSudoku } from "sudoku-gen";
+import { EAction } from "@/components/ActionToolbar";
+import { STORAGE_KEYS, SUDOKU_PUZZLE_SIZE } from "@/constants";
+import {
+  getBoard,
+  checkGameIsWon,
+  getRemainingOptions,
+  getMatchingCells,
+  getBoardId,
+} from "@/utils";
+import { TBoard, IPuzzleCell } from "@/utils/getBoard";
+import puzzlesByDay from "@/constants/puzzlesByDay.json";
+import localforage from "localforage";
 
 export enum EDifficulty {
   easy = "easy",
@@ -23,9 +31,11 @@ export enum EGameResult {
 
 type TNumberTuple = [number, number];
 
-interface IInitialState {
+export interface IInitialState {
   selectedCell: IPuzzleCell | undefined;
   board: TBoard | undefined;
+  boardId: string | undefined;
+  dailyChallengeDayIndex: number | undefined;
   difficulty: EDifficulty;
   mistakes: TNumberTuple;
   result: EGameResult | undefined;
@@ -34,23 +44,34 @@ interface IInitialState {
   hintsRemaining: number;
   previousMoves: IPuzzleCell[];
   elapsedTimeSeconds: number;
-  timerResetFunction: () => void;
   isPaused: boolean;
   lastSelectedCell: IPuzzleCell | undefined;
 }
 
 const MISTAKES_ALLOWED = 3;
-const HINTS_ALLOWED = 3;
+export const HINTS_ALLOWED = 3;
+
+interface ICreateBoardOptions {
+  difficulty: EDifficulty;
+  puzzle?: string;
+  solution?: string;
+  onBoardCreated?: () => void;
+}
+
+interface ICreateBoardFromDayIndexOptions {
+  dayIndex: number;
+  onBoardCreated?: () => void;
+}
 
 interface IGlobalState extends IInitialState {
-  createBoard: (difficulty: EDifficulty, callback?: () => void) => void;
+  createBoard: ({ difficulty, onBoardCreated }: ICreateBoardOptions) => void;
+  createBoardFromDayIndex: ({ dayIndex, onBoardCreated }: ICreateBoardFromDayIndexOptions) => void;
   selectCell: (cell: IPuzzleCell | undefined) => void;
   selectNumberOption: (value: number) => void;
   resetGame: () => void;
   navigateToNextCell: (direction: TDirection) => void;
   selectAction: (action: EAction) => void;
   updateElapsedTimeSeconds: (elapsedTime: number) => void;
-  setTimerResetFunction: (timerResetFunction: () => void) => void;
   pauseGame: () => void;
   resumeGame: () => void;
   setElapsedTimeSeconds: (elapsedTimeSeconds: number) => void;
@@ -59,6 +80,8 @@ interface IGlobalState extends IInitialState {
 const initialState: IInitialState = {
   selectedCell: undefined,
   board: undefined,
+  boardId: undefined,
+  dailyChallengeDayIndex: undefined,
   difficulty: EDifficulty.easy,
   mistakes: [0, MISTAKES_ALLOWED],
   result: undefined,
@@ -67,28 +90,64 @@ const initialState: IInitialState = {
   hintsRemaining: HINTS_ALLOWED,
   previousMoves: [],
   elapsedTimeSeconds: 0,
-  timerResetFunction: () => {},
   isPaused: false,
   lastSelectedCell: undefined,
 };
 
 const useGameStore = create(
-  persist<IGlobalState >((set) => ({
+  persist<IGlobalState>(
+    (set) => ({
       ...initialState,
 
-      createBoard: (difficulty, callback) => {
+      createBoard: ({ difficulty, onBoardCreated }) => {
         const { puzzle, solution, difficulty: appliedDifficulty } = getSudoku(difficulty);
         const board = getBoard(puzzle, solution);
-
+        const boardId = getBoardId({ puzzle, solution, difficulty: appliedDifficulty });
         const remainingNumberOptions = getRemainingOptions(board);
 
         set({
+          ...initialState,
           board,
+          boardId,
           difficulty: EDifficulty[appliedDifficulty],
           remainingNumberOptions,
         });
 
-        if (callback) callback();
+        if (onBoardCreated) onBoardCreated();
+      },
+
+      createBoardFromDayIndex: async ({ dayIndex, onBoardCreated }) => {
+        const PUZZLE_START_INDEX = 1;
+        const puzzleString: string = (puzzlesByDay as Record<string, string>)[String(dayIndex)];
+        const existingGameState = await localforage.getItem(puzzleString);
+
+        if (existingGameState) {
+          set({ ...existingGameState });
+          if (onBoardCreated) return onBoardCreated();
+          return;
+        }
+
+        const puzzleDifficultyIndex = Number(puzzleString[0]);
+        const difficulty = Object.values(EDifficulty)[puzzleDifficultyIndex];
+        const puzzle = puzzleString
+          .slice(PUZZLE_START_INDEX, Math.pow(SUDOKU_PUZZLE_SIZE, 2) + PUZZLE_START_INDEX)
+          .replace(/0/g, "-");
+
+        const solution = puzzleString.slice(Math.pow(SUDOKU_PUZZLE_SIZE, 2) + PUZZLE_START_INDEX);
+
+        const board = getBoard(puzzle, solution);
+        const boardId = getBoardId({ puzzle, solution, difficulty });
+
+        set({
+          ...initialState,
+          board,
+          boardId,
+          difficulty,
+          dailyChallengeDayIndex: dayIndex,
+          remainingNumberOptions: getRemainingOptions(board),
+        });
+
+        if (onBoardCreated) onBoardCreated();
       },
 
       selectCell: (cell) => set({ selectedCell: cell }),
@@ -142,12 +201,12 @@ const useGameStore = create(
 
           let newMistakes: TNumberTuple = [mistakes, totalMistakes];
           let newResult = checkGameIsWon(newBoard) ? EGameResult.Win : s.result;
-          
+
           if (!s.notesModeActive && newCell.value !== currentCell.correctValue) {
             newMistakes[0] = Math.min(mistakes + 1, totalMistakes);
             if (newMistakes[0] === totalMistakes) newResult = EGameResult.Lose;
           }
-          
+
           const gameIsWon = newResult === EGameResult.Win;
 
           const newPreviousMoves = [currentCell, ...s.previousMoves];
@@ -177,7 +236,7 @@ const useGameStore = create(
       },
 
       resetGame: () => {
-        set({...initialState});
+        set({ ...initialState });
       },
 
       navigateToNextCell: (direction) => {
@@ -285,10 +344,6 @@ const useGameStore = create(
         set({ elapsedTimeSeconds: elapsedTime });
       },
 
-      setTimerResetFunction: (timerResetFunction) => {
-        set({ timerResetFunction });
-      },
-
       pauseGame: () => {
         set((s) => ({
           isPaused: true,
@@ -303,14 +358,15 @@ const useGameStore = create(
           selectedCell: s.lastSelectedCell,
         }));
       },
-      
+
       setElapsedTimeSeconds: (elapsedTimeSeconds) => {
         set({ elapsedTimeSeconds });
-      }
+      },
     }),
     {
-      name: 'gameState',
-    }
-));
+      name: STORAGE_KEYS.LOCAL_STORAGE.CURRENT_GAME_STATE,
+    },
+  ),
+);
 
 export default useGameStore;
