@@ -8,6 +8,6 @@ export const STORAGE_KEYS = {
   },
   INDEXEDDB: {
     NAME: "kudosu",
-    STORAGE_NAME: "games_played",
+    STORE_NAME: "games_played",
   }
 }
