@@ -17,8 +17,17 @@ import { useEffect } from "react";
 import { EAction } from "./components/ActionToolbar";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
+import dayOfYear from "dayjs/plugin/dayOfYear";
+import { STORAGE_KEYS } from "@/constants";
+import localforage from "localforage";
 
 dayjs.extend(advancedFormat);
+dayjs.extend(dayOfYear);
+
+localforage.config({
+  name: STORAGE_KEYS.INDEXEDDB.NAME,
+  storeName: STORAGE_KEYS.INDEXEDDB.STORE_NAME,
+});
 
 function App() {
   const result = useGameStore((s) => s.result);
