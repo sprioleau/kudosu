@@ -1,27 +1,19 @@
-import useGameStore from "@/store";
-import { getRandomDifficulty } from "@/utils";
+import dayjs from "dayjs";
 import { BsCalendar4Event } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { useDailyChallenge } from "@/hooks";
 
 export default function DailyChallengeCard() {
-  const createBoard = useGameStore((s) => s.createBoard);
-
   const date = new Date().toLocaleString("en-US", {
     month: "long",
     day: "numeric",
   });
 
-  const navigate = useNavigate();
-
-  const handleStartDailyChallenge = () => {
-    const randomDifficulty = getRandomDifficulty();
-    createBoard(randomDifficulty, () => navigate("/game"));
-  };
+  const { onStartDailyChallenge } = useDailyChallenge({ date: dayjs() });
 
   return (
     <button
       className="daily-challenge-card"
-      onClick={handleStartDailyChallenge}
+      onClick={onStartDailyChallenge}
     >
       <header className="daily-challenge-card__header">
         <div className="daily-challenge-card__icon">
