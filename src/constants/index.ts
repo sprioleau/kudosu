@@ -11,3 +11,8 @@ export const STORAGE_KEYS = {
     STORE_NAME: "games_played",
   }
 }
+
+export const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+  navigator.userAgent,
+);
+

@@ -19,7 +19,7 @@ import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import dayOfYear from "dayjs/plugin/dayOfYear";
 import duration from "dayjs/plugin/duration";
-import { STORAGE_KEYS } from "@/constants";
+import { isMobileDevice, STORAGE_KEYS } from "@/constants";
 import localforage from "localforage";
 
 dayjs.extend(advancedFormat);
@@ -82,14 +82,10 @@ function App() {
     return () => window.removeEventListener("keydown", handleShortcut);
   }, [pauseGame, selectAction]);
 
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent,
-  );
-
   return (
     <div
       className="app"
-      data-is-mobile={isMobile}
+      data-is-mobile={isMobileDevice}
     >
       <BrowserRouter>
         <Routes>
