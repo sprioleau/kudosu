@@ -1,5 +1,7 @@
 export const SUDOKU_PUZZLE_SIZE = 9;
 
+export const MINIMUM_PROGRESS_PERCENTAGE = 15;
+
 export const DAYS_IN_YEAR = 365;
 
 export const STORAGE_KEYS = {

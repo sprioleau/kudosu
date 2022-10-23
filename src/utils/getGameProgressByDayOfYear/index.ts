@@ -1,6 +1,6 @@
 import localforage from "localforage";
 import { IInitialState } from "@/store";
-import { SUDOKU_PUZZLE_SIZE } from "@/constants";
+import { MINIMUM_PROGRESS_PERCENTAGE, SUDOKU_PUZZLE_SIZE } from "@/constants";
 
 export type TProgressMap = Record<number, number>;
 
@@ -8,13 +8,19 @@ export default async function getGameProgressByDayOfYear(callback: (data: TProgr
   const gameProgressByDayOfYearMap: TProgressMap = {};
 
   await localforage.iterate((gameState: IInitialState) => {
-    if (!gameState || !gameState.dailyChallengeDayIndex) return;
+    if (!gameState || !gameState.dailyChallengeData?.dayOfYear) return;
+
+    const { dailyChallengeData, elapsedTimeSeconds, remainingNumberOptions, result } = gameState;
+
+    const numbersSolved = SUDOKU_PUZZLE_SIZE - (remainingNumberOptions?.length ?? 0);
+    const percentComplete = (100 * numbersSolved) / SUDOKU_PUZZLE_SIZE;
 
     const progress =
-      (100 * (SUDOKU_PUZZLE_SIZE - (gameState.remainingNumberOptions?.length ?? 0))) /
-      SUDOKU_PUZZLE_SIZE;
+      percentComplete > 0 || (!result && elapsedTimeSeconds > 0)
+        ? Math.max(percentComplete, MINIMUM_PROGRESS_PERCENTAGE)
+        : 0;
 
-    gameProgressByDayOfYearMap[gameState.dailyChallengeDayIndex] = progress;
+    gameProgressByDayOfYearMap[dailyChallengeData.dayOfYear] = progress;
   });
 
   return callback(gameProgressByDayOfYearMap);

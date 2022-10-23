@@ -68,7 +68,7 @@ export default function DailyChallengesCalendar({
           const progress = Math.round(progressByDayIndex?.[dayOfYear] ?? 0);
           const disabled = getShouldDisableDateButton(dayOfMonth);
           const STROKE_LENGTH = 320;
-          const arcLength = (STROKE_LENGTH * (progress > 0 ? Math.max(progress, 20) : 0)) / 100;
+          const arcLength = (STROKE_LENGTH * progress) / 100;
 
           return (
             <button
