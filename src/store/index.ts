@@ -13,6 +13,7 @@ import {
 import { TBoard, IPuzzleCell } from "@/utils/getBoard";
 import puzzlesByDay from "@/constants/puzzlesByDay.json";
 import localforage from "localforage";
+import { TExsistingGameState } from "@/hooks/usePersistGameData";
 
 export enum EDifficulty {
   easy = "easy",
@@ -31,11 +32,16 @@ export enum EGameResult {
 
 type TNumberTuple = [number, number];
 
+interface IDailyChallengeData {
+  dayOfYear: number;
+  hasSolved: boolean;
+}
+
 export interface IInitialState {
   selectedCell: IPuzzleCell | undefined;
   board: TBoard | undefined;
   boardId: string | undefined;
-  dailyChallengeDayIndex: number | undefined;
+  dailyChallengeData: IDailyChallengeData | undefined;
   difficulty: EDifficulty;
   mistakes: TNumberTuple;
   result: EGameResult | undefined;
@@ -59,13 +65,16 @@ interface ICreateBoardOptions {
 }
 
 interface ICreateBoardFromDayIndexOptions {
-  dayIndex: number;
+  dayOfYear: number;
   onBoardCreated?: () => void;
 }
 
 interface IGlobalState extends IInitialState {
   createBoard: ({ difficulty, onBoardCreated }: ICreateBoardOptions) => void;
-  createBoardFromDayIndex: ({ dayIndex, onBoardCreated }: ICreateBoardFromDayIndexOptions) => void;
+  createBoardFromDayOfYear: ({
+    dayOfYear,
+    onBoardCreated,
+  }: ICreateBoardFromDayIndexOptions) => void;
   selectCell: (cell: IPuzzleCell | undefined) => void;
   selectNumberOption: (value: number) => void;
   resetGame: () => void;
@@ -81,7 +90,7 @@ const initialState: IInitialState = {
   selectedCell: undefined,
   board: undefined,
   boardId: undefined,
-  dailyChallengeDayIndex: undefined,
+  dailyChallengeData: undefined,
   difficulty: EDifficulty.easy,
   mistakes: [0, MISTAKES_ALLOWED],
   result: undefined,
@@ -116,12 +125,14 @@ const useGameStore = create(
         if (onBoardCreated) onBoardCreated();
       },
 
-      createBoardFromDayIndex: async ({ dayIndex, onBoardCreated }) => {
+      createBoardFromDayOfYear: async ({ dayOfYear, onBoardCreated }) => {
         const PUZZLE_START_INDEX = 1;
-        const puzzleString: string = (puzzlesByDay as Record<string, string>)[String(dayIndex)];
-        const existingGameState = await localforage.getItem(puzzleString);
+        const puzzleString: string = (puzzlesByDay as Record<string, string>)[String(dayOfYear)];
+        const existingGameState: TExsistingGameState | null = await localforage.getItem(
+          puzzleString,
+        );
 
-        if (existingGameState) {
+        if (existingGameState && existingGameState.result !== EGameResult.Lose) {
           set({ ...existingGameState });
           if (onBoardCreated) return onBoardCreated();
           return;
@@ -138,12 +149,17 @@ const useGameStore = create(
         const board = getBoard(puzzle, solution);
         const boardId = getBoardId({ puzzle, solution, difficulty });
 
+        const dailyChallengeData = {
+          dayOfYear,
+          hasSolved: false,
+        };
+
         set({
           ...initialState,
           board,
           boardId,
           difficulty,
-          dailyChallengeDayIndex: dayIndex,
+          dailyChallengeData,
           remainingNumberOptions: getRemainingOptions(board),
         });
 
@@ -157,6 +173,7 @@ const useGameStore = create(
           if (!s.board || !s.selectedCell) return s;
           if (s.selectedCell.isCorrect) return s;
           if (Boolean(s.selectedCell.value)) return s;
+
           const currentCell = s.board[s.selectedCell.key];
           const [mistakes, totalMistakes] = s.mistakes;
 
@@ -212,11 +229,21 @@ const useGameStore = create(
 
           const newPreviousMoves = [currentCell, ...s.previousMoves];
 
+          let newDailyChallengeData = s.dailyChallengeData;
+
+          if (s.dailyChallengeData) {
+            newDailyChallengeData = {
+              ...s.dailyChallengeData,
+              hasSolved: gameIsWon,
+            };
+          }
+
           if (gameIsWon) {
             return {
               board: newBoard,
               result: newResult,
               mistakes: newMistakes,
+              dailyChallengeData: newDailyChallengeData,
               remainingNumberOptions,
               isPaused: true,
               selectedCell: undefined,

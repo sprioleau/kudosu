@@ -1,6 +1,18 @@
 import { useEffect } from "react";
-import useGameStore from "@/store";
+import useGameStore, { IInitialState } from "@/store";
 import localforage from "localforage";
+
+export type TExsistingGameState = Pick<
+  IInitialState,
+  | "board"
+  | "dailyChallengeData"
+  | "difficulty"
+  | "mistakes"
+  | "result"
+  | "remainingNumberOptions"
+  | "hintsRemaining"
+  | "elapsedTimeSeconds"
+>;
 
 export default function usePersistGameData() {
   const board = useGameStore((s) => s.board);
@@ -10,7 +22,7 @@ export default function usePersistGameData() {
     const unsubscribe = useGameStore.subscribe(
       async ({
         board,
-        dailyChallengeDayIndex,
+        dailyChallengeData,
         difficulty,
         mistakes,
         result,
@@ -22,7 +34,7 @@ export default function usePersistGameData() {
 
         await localforage.setItem(boardId, {
           board,
-          dailyChallengeDayIndex,
+          dailyChallengeData,
           difficulty,
           mistakes,
           result,
