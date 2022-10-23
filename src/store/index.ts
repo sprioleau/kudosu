@@ -156,6 +156,7 @@ const useGameStore = create(
         set((s) => {
           if (!s.board || !s.selectedCell) return s;
           if (s.selectedCell.isCorrect) return s;
+          if (Boolean(s.selectedCell.value)) return s;
           const currentCell = s.board[s.selectedCell.key];
           const [mistakes, totalMistakes] = s.mistakes;
 
