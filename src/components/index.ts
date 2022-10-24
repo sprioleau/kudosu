@@ -27,3 +27,5 @@ export { default as Layout } from "./Layout";
 export { default as SettingsMenu } from "./SettingsMenu";
 export { default as AboutGame } from "./AboutGame";
 export { default as ClearPersistedStateButton } from "./ClearPersistedStateButton";
+export { default as SolvePuzzleButton } from "./SolvePuzzleButton";
+export { default as DevelopmentButtons } from "./DevelopmentButtons";

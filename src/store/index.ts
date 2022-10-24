@@ -52,6 +52,7 @@ export interface IInitialState {
   elapsedTimeSeconds: number;
   isPaused: boolean;
   lastSelectedCell: IPuzzleCell | undefined;
+  solvePuzzle: () => void;
 }
 
 const MISTAKES_ALLOWED = 3;
@@ -389,6 +390,45 @@ const useGameStore = create(
 
       setElapsedTimeSeconds: (elapsedTimeSeconds) => {
         set({ elapsedTimeSeconds });
+      },
+
+      solvePuzzle: () => {
+        set((s) => {
+          if (!s.board) return s;
+
+          let totalToSolve = Object.values(s.board).filter(
+            (cell) => !cell.isGiven && cell.value !== cell.correctValue,
+          ).length;
+
+          const newBoard = Object.values(s.board).reduce(
+            (acc: Record<number, IPuzzleCell>, cell: IPuzzleCell) => {
+              if (cell.isGiven || totalToSolve === 1) {
+                acc[cell.key] = cell;
+              } else {
+                acc[cell.key] = {
+                  ...cell,
+                  value: cell.correctValue,
+                  isCorrect: true,
+                };
+              }
+
+              totalToSolve--;
+
+              return acc;
+            },
+            {},
+          );
+
+          const newSelectedCell = Object.values(newBoard).find(
+            (cell) => cell.value !== cell.correctValue,
+          );
+
+          return {
+            board: newBoard,
+            remainingNumberOptions: getRemainingOptions(newBoard),
+            selectedCell: newSelectedCell,
+          };
+        });
       },
     }),
     {

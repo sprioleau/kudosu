@@ -1,7 +1,7 @@
 import {
   ActionToolbar,
   Board,
-  ClearPersistedStateButton,
+  DevelopmentButtons,
   GameInfo,
   Layout,
   Logo,
@@ -29,7 +29,7 @@ export default function Game() {
       <Board />
       <ActionToolbar />
       <NumberSelect />
-      <ClearPersistedStateButton />
+      <DevelopmentButtons />
     </Layout>
   );
 }

@@ -8,6 +8,7 @@ import { getGameProgressByDayOfYear } from "@/utils";
 export default function DailyChallenges() {
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [progressByDayOfYear, setProgressByDayIndex] = useState<Record<number, number>>();
+  const { onStartDailyChallenge } = useDailyChallenge({ date: selectedDate });
 
   useEffect(() => {
     getGameProgressByDayOfYear(setProgressByDayIndex);
@@ -25,10 +26,16 @@ export default function DailyChallenges() {
     setSelectedDate(newSelectedDate);
   };
 
-  const progressForSelectedDate = progressByDayOfYear?.[selectedDate.dayOfYear()] ?? 0;
-  const shouldShowContinue = progressForSelectedDate > 0;
+  const getButtonLabel = () => {
+    let label = "Play";
+    const formattedDate = selectedDate.format("MMMM Do");
+    const progressForSelectedDate = progressByDayOfYear?.[selectedDate.dayOfYear()] ?? 0;
 
-  const { onStartDailyChallenge } = useDailyChallenge({ date: selectedDate });
+    if (progressForSelectedDate === 100) return `Solve ${formattedDate} again`;
+    if (progressForSelectedDate > 0) label = "Continue";
+
+    return `${label} ${formattedDate}`;
+  };
 
   return (
     <Layout
@@ -68,7 +75,7 @@ export default function DailyChallenges() {
         className="daily-challenges__play-button rounded-full"
         onClick={onStartDailyChallenge}
       >
-        {shouldShowContinue ? "Continue" : "Play"} {selectedDate.format("MMMM Do")}
+        {getButtonLabel()}
       </button>
     </Layout>
   );

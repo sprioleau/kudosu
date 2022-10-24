@@ -1,8 +1,8 @@
 import { BiTimeFive } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import {
-  ClearPersistedStateButton,
   DailyChallengeCard,
+  DevelopmentButtons,
   DifficultySelectModal,
   Layout,
   Logo,
@@ -83,7 +83,7 @@ export default function Welcome() {
       >
         <DifficultySelectModal />
       </Modal>
-      <ClearPersistedStateButton />
+      <DevelopmentButtons />
     </Layout>
   );
 }
