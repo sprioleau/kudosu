@@ -17,7 +17,6 @@ export default function DailyChallengesCalendar({
   onAdvanceMonth,
   progressByDayOfYear,
 }: IProps) {
-  console.log("progressByDayOfYear:", progressByDayOfYear);
   const currentDate = dayjs();
   const daysInMonth = selectedDate.daysInMonth();
   const dates = [...Array.from({ length: daysInMonth }).keys()].map((index) => index + 1);
