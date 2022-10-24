@@ -15,11 +15,12 @@ export default function index({
   progressPercentage,
   handleDateSelect,
 }: IProps) {
-  if (progressPercentage > 0) console.log(progressPercentage);
+  const isSolved = progressPercentage === 100;
 
   const buttonClasses = [
     "daily-challenges-date-button rounded-full",
     `${selected ? "selected" : ""}`,
+    `${isSolved ? "solved" : ""}`,
   ].join(" ");
 
   const arcLength = (PROGRESS_STROKE_LENGTH * progressPercentage) / 100;
@@ -31,7 +32,7 @@ export default function index({
       onClick={handleDateSelect(dayOfMonth)}
       className={buttonClasses}
     >
-      {progressPercentage === 100 ? (
+      {isSolved ? (
         <svg
           className="daily-challenges-date-button__completed-icon"
           width="110"

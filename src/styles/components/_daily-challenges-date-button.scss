@@ -18,6 +18,10 @@
     background-color: hsla(var(--c-accent-hsl), 0.7);
   }
 
+  &.solved {
+    background-color: transparent;
+  }
+
   &__progress, &__completed-icon {
     position: absolute;
     left: 50%;
