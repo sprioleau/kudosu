@@ -52,7 +52,6 @@ export interface IInitialState {
   elapsedTimeSeconds: number;
   isPaused: boolean;
   lastSelectedCell: IPuzzleCell | undefined;
-  solvePuzzle: () => void;
 }
 
 const MISTAKES_ALLOWED = 3;
@@ -133,7 +132,7 @@ const useGameStore = create(
           puzzleString,
         );
 
-        if (existingGameState && existingGameState.result !== EGameResult.Lose) {
+        if (existingGameState && !existingGameState.result) {
           set({ ...existingGameState });
           if (onBoardCreated) return onBoardCreated();
           return;
