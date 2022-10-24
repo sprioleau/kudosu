@@ -1,0 +1,34 @@
+.daily-challenges-date-button {
+  font-size: 0.9em;
+  aspect-ratio: 1;
+  background-color: transparent;
+  padding: 0;
+  position: relative;
+
+  &:hover, &:focus {
+    background-color: hsla(var(--c-accent-hsl), 0.3);
+  }
+
+  &:disabled {
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  &.selected {
+    background-color: hsla(var(--c-accent-hsl), 0.7);
+  }
+
+  &__progress, &__completed-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    padding: 0.125em;
+  }
+
+  &__completed-icon {
+    padding: 0.5em;
+  }
+}

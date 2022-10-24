@@ -7,7 +7,7 @@ import { getGameProgressByDayOfYear } from "@/utils";
 
 export default function DailyChallenges() {
   const [selectedDate, setSelectedDate] = useState(dayjs());
-  const [progressByDayIndex, setProgressByDayIndex] = useState<Record<number, number>>();
+  const [progressByDayOfYear, setProgressByDayIndex] = useState<Record<number, number>>();
 
   useEffect(() => {
     getGameProgressByDayOfYear(setProgressByDayIndex);
@@ -25,7 +25,7 @@ export default function DailyChallenges() {
     setSelectedDate(newSelectedDate);
   };
 
-  const progressForSelectedDate = progressByDayIndex?.[selectedDate.dayOfYear()] ?? 0;
+  const progressForSelectedDate = progressByDayOfYear?.[selectedDate.dayOfYear()] ?? 0;
   const shouldShowContinue = progressForSelectedDate > 0;
 
   const { onStartDailyChallenge } = useDailyChallenge({ date: selectedDate });
@@ -61,7 +61,7 @@ export default function DailyChallenges() {
           selectedDate={selectedDate}
           onDateSelect={handleSelectDate}
           onAdvanceMonth={handleAdvanceMonth}
-          progressByDayIndex={progressByDayIndex}
+          progressByDayOfYear={progressByDayOfYear}
         />
       </div>
       <button
