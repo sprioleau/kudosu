@@ -24,7 +24,8 @@ export default function index({
   ].join(" ");
 
   const arcLength = (PROGRESS_STROKE_LENGTH * progressPercentage) / 100;
-  const strokeOpacity = disabled || progressPercentage === 0 ? 0 : 1;
+  const strokeOpacityArc = disabled || progressPercentage === 0 ? 0 : 1;
+  const strokeOpacityRing = disabled || progressPercentage === 0 ? 0 : 0.4;
 
   return (
     <button
@@ -51,14 +52,21 @@ export default function index({
             xmlns="http://www.w3.org/2000/svg"
             stroke="var(--c-accent-text)"
             fill="none"
-            strokeWidth={8}
-            strokeOpacity={strokeOpacity}
           >
             <circle
               cx="54"
               cy="54"
               r="50"
+              strokeWidth={8}
+              strokeOpacity={strokeOpacityArc}
               strokeDasharray={`${arcLength} 2000`}
+            />
+            <circle
+              cx="54"
+              cy="54"
+              r="50"
+              strokeWidth={8}
+              strokeOpacity={strokeOpacityRing}
             />
           </svg>
           {dayOfMonth}
