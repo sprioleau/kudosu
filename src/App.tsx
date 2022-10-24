@@ -32,18 +32,12 @@ localforage.config({
 });
 
 function App() {
-  const result = useGameStore((s) => s.result);
   const pauseGame = useGameStore((s) => s.pauseGame);
   const selectCell = useGameStore((s) => s.selectCell);
   const selectedCell = useGameStore((s) => s.selectedCell);
   const board = useGameStore((s) => s.board);
   const isPaused = useGameStore((s) => s.isPaused);
   const selectAction = useGameStore((s) => s.selectAction);
-
-  useEffect(() => {
-    if (!result) return;
-    if (result === EGameResult.Win) showConfetti();
-  }, [result, showConfetti]);
 
   useActionOnBlur({
     onBlur: () => {
