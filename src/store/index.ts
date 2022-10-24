@@ -84,6 +84,7 @@ interface IGlobalState extends IInitialState {
   pauseGame: () => void;
   resumeGame: () => void;
   setElapsedTimeSeconds: (elapsedTimeSeconds: number) => void;
+  solvePuzzle: () => void;
 }
 
 const initialState: IInitialState = {
