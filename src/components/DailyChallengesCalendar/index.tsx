@@ -7,14 +7,12 @@ import { TProgressMap } from "@/utils/getGameProgressByDayOfYear";
 interface IProps {
   selectedDate: dayjs.Dayjs;
   onDateSelect: (date: number) => void;
-  onAdvanceMonth: (direction: -1 | 1) => void;
   progressByDayOfYear: TProgressMap | undefined;
 }
 
 export default function DailyChallengesCalendar({
   selectedDate,
   onDateSelect,
-  onAdvanceMonth,
   progressByDayOfYear,
 }: IProps) {
   const currentDate = dayjs();
@@ -33,27 +31,8 @@ export default function DailyChallengesCalendar({
     return date.isAfter(currentDate);
   }, [currentDate, selectedDate]);
 
-  const shouldDisablePreviousMonthButton = selectedDate.isSame(dayjs("2022-01-01"), "month");
-  const shouldDisableNextMonthButton = selectedDate.isSame(currentDate, "month");
-
   return (
     <div className="daily-challenges-calendar">
-      <div className="daily-challenges-calendar__nav">
-        <div className="daily-challenges-calendar__nav-button-wrapper prev">
-          <IconButton
-            icon={<RiArrowLeftSLine />}
-            onClick={() => onAdvanceMonth(-1)}
-            disabled={shouldDisablePreviousMonthButton}
-          />
-        </div>
-        <div className="daily-challenges-calendar__nav-button-wrapper next">
-          <IconButton
-            icon={<RiArrowRightSLine />}
-            onClick={() => onAdvanceMonth(1)}
-            disabled={shouldDisableNextMonthButton}
-          />
-        </div>
-      </div>
       <div className="daily-challenges-calendar__calendar">
         <div
           className="daily-challenges-calendar__spacer"

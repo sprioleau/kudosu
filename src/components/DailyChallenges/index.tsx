@@ -1,9 +1,10 @@
-import { BackButton, Layout, WelcomeToolbar } from "@/components";
+import { BackButton, IconButton, Layout, WelcomeToolbar } from "@/components";
 import dayjs from "dayjs";
 import { DailyChallengesCalendar } from "@/components";
 import { useEffect, useState } from "react";
 import { useDailyChallenge } from "@/hooks";
 import { getGameProgressByDayOfYear } from "@/utils";
+import { RiArrowLeftLine, RiArrowRightLine } from "react-icons/ri";
 
 export default function DailyChallenges() {
   const [selectedDate, setSelectedDate] = useState(dayjs());
@@ -21,8 +22,8 @@ export default function DailyChallenges() {
 
   const handleAdvanceMonth = (direction: -1 | 1) => {
     let newSelectedDate = selectedDate;
-    if (direction === -1) newSelectedDate = dayjs(selectedDate).subtract(1, "month");
-    if (direction === 1) newSelectedDate = dayjs(selectedDate).add(1, "month");
+    if (direction === -1) newSelectedDate = selectedDate.subtract(1, "month");
+    if (direction === 1) newSelectedDate = selectedDate.add(1, "month");
     setSelectedDate(newSelectedDate);
   };
 
@@ -37,6 +38,12 @@ export default function DailyChallenges() {
     return `${label} ${formattedDate}`;
   };
 
+  const shouldDisablePreviousMonthButton = selectedDate.isSame(dayjs("2022-01-01"), "month");
+  const shouldDisableNextMonthButton = selectedDate.isSame(dayjs(), "month");
+  console.log("selectedDate.month():", selectedDate.month());
+
+  const trophyFilename = `trophy_${((selectedDate.month() + 1) % 8) + 1}.svg`;
+
   return (
     <Layout
       headerContent={{
@@ -46,11 +53,11 @@ export default function DailyChallenges() {
       footerContent={<WelcomeToolbar />}
       parentClassName="daily-challenges"
     >
-      <div className="daily-challenges__image">
+      <div className="daily-challenges__image-wrapper">
         <img
-          src="images/logo_outline.svg"
-          alt="kudosu logo outlined"
-          className="daily-challenges__logo-outlined"
+          src={`images/trophies/${trophyFilename}`}
+          alt="trophy"
+          className="daily-challenges__trophy"
         />
         <img
           src="images/rays_1.svg"
@@ -62,12 +69,27 @@ export default function DailyChallenges() {
           alt="conical rays"
           className="daily-challenges__rays rays-2"
         />
+        <div className="daily-challenges__nav">
+          <div className="daily-challenges__nav-button-wrapper prev">
+            <IconButton
+              icon={<RiArrowLeftLine />}
+              onClick={() => handleAdvanceMonth(-1)}
+              disabled={shouldDisablePreviousMonthButton}
+            />
+          </div>
+          <div className="daily-challenges__nav-button-wrapper next">
+            <IconButton
+              icon={<RiArrowRightLine />}
+              onClick={() => handleAdvanceMonth(1)}
+              disabled={shouldDisableNextMonthButton}
+            />
+          </div>
+        </div>
       </div>
       <div className="daily-challenges__calendar">
         <DailyChallengesCalendar
           selectedDate={selectedDate}
           onDateSelect={handleSelectDate}
-          onAdvanceMonth={handleAdvanceMonth}
           progressByDayOfYear={progressByDayOfYear}
         />
       </div>
