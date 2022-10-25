@@ -40,14 +40,12 @@ export default function DailyChallenges() {
 
   const shouldDisablePreviousMonthButton = selectedDate.isSame(dayjs("2022-01-01"), "month");
   const shouldDisableNextMonthButton = selectedDate.isSame(dayjs(), "month");
-  console.log("selectedDate.month():", selectedDate.month());
 
   const trophyFilename = `trophy_${((selectedDate.month() + 1) % 8) + 1}.svg`;
 
   return (
     <Layout
       headerContent={{
-        left: <BackButton />,
         center: <h1>{selectedDate.format("MMMM YYYY")}</h1>,
       }}
       footerContent={<WelcomeToolbar />}

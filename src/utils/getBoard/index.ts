@@ -8,7 +8,7 @@ export interface IPuzzleCell {
   region: number;
   isGiven: boolean;
   isCorrect?: boolean;
-  value: number | null;
+  value: number | undefined;
   correctValue: number;
   notes: number[];
 }
@@ -35,7 +35,7 @@ export default function getBoard(puzzleString: string, solutionsString: string):
         col: col + 1,
         region: getBoardRegion(count + 1),
         isGiven: initialValue !== null,
-        value: initialValue,
+        value: initialValue !== null ? initialValue : undefined,
         correctValue,
         notes: [],
       };

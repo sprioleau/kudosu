@@ -9,7 +9,7 @@
   &__option {
     flex: 1;
   }
-  
+
   &__button {
     display: flex;
     align-items: center;
@@ -23,11 +23,11 @@
     padding: 0.5em;
     min-height: 2.25em;
     color: var(--c-text);
-    
-    &:active {
+
+    &:active:not(:disabled) {
       background-color: var(--c-accent);
     }
-  };
+  }
 
   &__icon {
     display: flex;

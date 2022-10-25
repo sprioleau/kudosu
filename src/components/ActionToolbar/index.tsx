@@ -47,6 +47,11 @@ const ActionToolbar = () => {
 
   const getIsDisabled = (label: string): boolean => {
     if (label === EAction.Undo) return previousMoves.length === 0;
+    if (label === EAction.Erase)
+      return (
+        previousMoves.length === 0 ||
+        Boolean(previousMoves[0]?.value && previousMoves[0]?.isCorrect)
+      );
     if (label === EAction.Hint) return hintsRemaining === 0;
     return false;
   };

@@ -5,6 +5,7 @@
   --min-font-size: 8px;
   --header-height: 50px;
   --footer-height: 50px;
+  --app-padding: 1.25em;
 
   // Accent color
   --c-accent-h: 273;
@@ -17,10 +18,10 @@
   --c-text-l: 95%;
   --c-text: hsl(var(--c-accent-h), var(--c-accent-s), var(--c-text-l));
   --c-accent-text: hsl(var(--c-accent-h), var(--c-accent-s), 70%);
-  
+
   // Background Color
   --c-ui-bg-l: 11;
   --c-ui-bg: hsl(0, 0%, calc(var(--c-ui-bg-l) * 1%));
-  
+
   --c-incorrect-h: max(calc(var(--c-accent-h) + 100), 345);
 }

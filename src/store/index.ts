@@ -114,6 +114,7 @@ const useGameStore = create(
         const board = getBoard(puzzle, solution);
         const boardId = getBoardId({ puzzle, solution, difficulty: appliedDifficulty });
         const remainingNumberOptions = getRemainingOptions(board);
+        const firstEmptyCell = Object.values(board).find(({ isGiven }) => !isGiven);
 
         set({
           ...initialState,
@@ -121,6 +122,7 @@ const useGameStore = create(
           boardId,
           difficulty: EDifficulty[appliedDifficulty],
           remainingNumberOptions,
+          selectedCell: firstEmptyCell,
         });
 
         if (onBoardCreated) onBoardCreated();
@@ -149,6 +151,7 @@ const useGameStore = create(
 
         const board = getBoard(puzzle, solution);
         const boardId = getBoardId({ puzzle, solution, difficulty });
+        const firstEmptyCell = Object.values(board).find(({ isGiven }) => !isGiven);
 
         const dailyChallengeData = {
           dayOfYear,
@@ -162,6 +165,7 @@ const useGameStore = create(
           difficulty,
           dailyChallengeData,
           remainingNumberOptions: getRemainingOptions(board),
+          selectedCell: firstEmptyCell,
         });
 
         if (onBoardCreated) onBoardCreated();
@@ -173,14 +177,15 @@ const useGameStore = create(
         set((s) => {
           if (!s.board || !s.selectedCell) return s;
           if (s.selectedCell.isCorrect) return s;
-          if (Boolean(s.selectedCell.value)) return s;
+          if (Boolean(s.selectedCell.value) && s.selectedCell.isCorrect) return s;
+          if (s.selectedCell.value === value) return s;
 
           const currentCell = s.board[s.selectedCell.key];
           const [mistakes, totalMistakes] = s.mistakes;
 
           if (currentCell.isGiven) return s;
 
-          let newCell = undefined;
+          let newCell: IPuzzleCell | undefined = undefined;
 
           if (s.notesModeActive) {
             newCell = {
@@ -228,7 +233,9 @@ const useGameStore = create(
 
           const gameIsWon = newResult === EGameResult.Win;
 
-          const newPreviousMoves = [currentCell, ...s.previousMoves];
+          const newPreviousMoves = newCell.isCorrect
+            ? s.previousMoves.filter(({ key }) => key !== newCell?.key)
+            : [currentCell, ...s.previousMoves];
 
           let newDailyChallengeData = s.dailyChallengeData;
 
@@ -292,37 +299,37 @@ const useGameStore = create(
             if (!s.selectedCell || !s.board) return s;
             if (s.previousMoves.length === 0) return s;
 
-            const [previousMove, ...remainingMoves] = s.previousMoves;
-            const cellValueFromLastMove = previousMove;
+            const [mostRecentMove, ...remainingMoves] = s.previousMoves;
 
             const newBoard = {
               ...s.board,
-              [cellValueFromLastMove.key]: cellValueFromLastMove,
+              [mostRecentMove.key]: mostRecentMove,
             };
+
+            const newPreviousMoves = s.selectedCell.isCorrect
+              ? s.previousMoves.filter(({ key }) => key !== mostRecentMove.key)
+              : remainingMoves;
 
             return {
               board: newBoard,
-              selectedCell: cellValueFromLastMove,
-              previousMoves: remainingMoves,
+              selectedCell: mostRecentMove,
+              previousMoves: newPreviousMoves,
             };
           }
 
           if (action === EAction.Erase) {
             if (!s.selectedCell || !s.board) return s;
             if (s.selectedCell.isGiven) return s;
+            if (s.selectedCell.value === s.selectedCell.correctValue) return s;
+            if (s.previousMoves.length === 0) return s;
 
             const currentCell = s.board[s.selectedCell.key];
 
-            const newCell = {
-              ...currentCell,
-              value: null,
-            };
-
-            const newPreviousMoves = [currentCell, ...s.previousMoves];
+            const newPreviousMoves = s.previousMoves.filter(({ key }) => key !== currentCell.key);
 
             const newBoard = {
               ...s.board,
-              [s.selectedCell.key]: newCell,
+              [s.selectedCell.key]: s.previousMoves[0],
             };
 
             return {
@@ -384,7 +391,7 @@ const useGameStore = create(
       resumeGame: () => {
         set((s) => ({
           isPaused: false,
-          selectedCell: s.lastSelectedCell,
+          selectedCell: s.selectedCell || s.lastSelectedCell,
         }));
       },
 

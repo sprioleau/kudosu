@@ -1,4 +1,5 @@
-button, .button {
+button,
+.button {
   --border-opacity: 0;
   --border-width: 3px;
   border: none;
@@ -18,6 +19,7 @@ button, .button {
   &:disabled {
     opacity: 0.575;
     cursor: not-allowed;
+    pointer-events: stroke;
   }
 
   &:disabled:hover {
@@ -27,21 +29,20 @@ button, .button {
   &:hover {
     --border-opacity: 0.8;
   }
-  
+
   &:focus,
   &:focus-visible {
     --border-opacity: 1;
   }
 
-  &:not(.cell__button):hover, 
+  &:not(.cell__button):hover,
   &:not(.cell__button):focus {
     --border-width: 2px;
-    box-shadow: 
-      0 0 0 var(--border-width) var(--c-ui-bg),
+    box-shadow: 0 0 0 var(--border-width) var(--c-ui-bg),
       0 0 0 calc(var(--border-width) * 2) hsla(var(--c-accent-hsl), var(--border-opacity));
   }
-  
-  &:active {
+
+  &:active:not(:disabled) {
     transform: scale(0.95);
   }
 
@@ -49,7 +50,8 @@ button, .button {
     background-color: transparent;
     border: 2px solid hsla(var(--c-accent-hsl));
 
-    &:focus, &:hover {
+    &:focus,
+    &:hover {
       background-color: hsla(var(--c-accent-hsl), 0.3);
     }
   }
@@ -58,4 +60,3 @@ button, .button {
     border-radius: 100vmax;
   }
 }
-
