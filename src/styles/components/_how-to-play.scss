@@ -1,0 +1,54 @@
+.how-to-play {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0 3em;
+    position: relative;
+  }
+
+  &__main {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  &__image {
+    height: 150px;
+    box-shadow: inset 0 0 0 2px var(--c-accent-text);
+    background-color: hsla(var(--c-accent-hsl), 0.3);
+    margin-bottom: 1.5em;
+  }
+
+  &__button-wrapper {
+    position: absolute;
+    top: min(50%, 250px);
+    left: 0;
+    width: 100%;
+    padding: 0.5em;
+    transform: translateY(-50%);
+  }
+
+  &__button {
+    padding: 0.125em;
+    width: 2em;
+    height: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  li {
+    padding-left: 1.5em;
+    position: relative;
+  }
+
+  li::before {
+    content: "•";
+    position: absolute;
+    left: 0.5em;
+  }
+
+  li:not(:last-child) {
+    margin-bottom: 0.5em;
+  }
+}

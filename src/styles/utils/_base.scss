@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -22,11 +24,7 @@
   position: relative;
 }
 
-ol, li {
-  list-style: none;
-}
-
-body { 
+body {
   padding: 2em;
   display: flex;
   flex-direction: column;
@@ -35,6 +33,11 @@ body {
   transition: padding 0.25s ease;
   position: relative;
   overflow: hidden;
+}
+
+ol,
+li {
+  list-style: none;
 }
 
 #root {
@@ -64,9 +67,7 @@ a {
 
   &:focus {
     outline: none;
-    box-shadow: 
-      0 0 0 2px var(--c-ui-bg),
-      0 0 0 4px var(--c-accent);
+    box-shadow: 0 0 0 2px var(--c-ui-bg), 0 0 0 4px var(--c-accent);
   }
 }
 

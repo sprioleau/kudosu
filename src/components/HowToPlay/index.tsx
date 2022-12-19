@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import BackButton from "../BackButton";
+import IconButton from "../IconButton";
 import Layout from "../Layout";
 import OptionsButton from "../OptionsButton";
 
@@ -16,29 +17,45 @@ type TInstructionsPage = {
 
 const pages: TInstructionsPage[] = [
   {
-    title: "Welcome to the game!",
-    content: "How to play Sudoku",
-  },
-  {
-    title: "Page 2",
+    title: "Understanding the board",
     content: (
       <ul>
-        <ol>Sudoku grid consists of 9x9 spaces.</ol>
-        <ol>You can use only numbers from 1 to 9.</ol>
-        <ol>Each 3×3 block can only contain numbers from 1 to 9.</ol>
-        <ol>Each vertical column can only contain numbers from 1 to 9.</ol>
+        <li>Sudoku grid consists of 9x9 spaces.</li>
+        <li>You can use only numbers from 1 to 9.</li>
+        <li>Each 3×3 block can only contain numbers from 1 to 9.</li>
+        <li>Each vertical column can only contain numbers from 1 to 9.</li>
       </ul>
     ),
   },
   {
-    title: "Page 3",
+    title: "Rules to solving a puzzle",
     content: (
       <ul>
-        <ol>Each horizontal row can only contain numbers from 1 to 9.</ol>
-        <ol>
+        <li>Each horizontal row can only contain numbers from 1 to 9.</li>
+        <li>
           Each number in the 3×3 block, vertical column or horizontal row can be used only once.
-        </ol>
-        <ol>The game is over when the whole Sudoku grid is correctly filled with numbers.</ol>
+        </li>
+        <li>The game is over when the whole Sudoku grid is correctly filled with numbers.</li>
+      </ul>
+    ),
+  },
+  {
+    title: "Notes",
+    content: (
+      <ul>
+        <li>
+          Turn on <b>Notes</b> mode to add and remove notes.
+        </li>
+      </ul>
+    ),
+  },
+  {
+    title: "Hints",
+    content: (
+      <ul>
+        <li>
+          If you get stuck, feel free to use a <b>Hint</b> to solve a puzzle cell.
+        </li>
       </ul>
     ),
   },
@@ -61,7 +78,7 @@ export default function HowToPlay() {
       parentClassName="how-to-play"
     >
       <div
-        className="instructions-modal"
+        className="how-to-play__wrapper"
         style={{
           display: "flex",
           flexDirection: "column",
@@ -69,33 +86,31 @@ export default function HowToPlay() {
           width: "100%",
         }}
       >
-        <header className="instructions-modal__header">
-          <h3>Instructions</h3>
-          <span>{pages[currentPageIndex].title}</span>
+        <header className="how-to-play__header">
+          <h3>{pages[currentPageIndex].title}</h3>
         </header>
-        <main className="instructions-modal__main">{pages[currentPageIndex].content}</main>
+        <main className="how-to-play__main">
+          <div className="how-to-play__image"></div>
+          <div className="how-to-play__content">{pages[currentPageIndex].content}</div>
+        </main>
         <div
-          className="instructions-modal__button-wrapper"
+          className="how-to-play__button-wrapper"
           style={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          <button
-            className="instructions-modal__button"
+          <IconButton
+            icon={<BsChevronLeft />}
             onClick={() => handleAdvance(AdvanceDirection.Backwards)}
             disabled={currentPageIndex === 0}
-          >
-            <BsChevronLeft />
-          </button>
-          <button
-            className="instructions-modal__button"
+          />
+          <IconButton
+            icon={<BsChevronRight />}
             onClick={() => handleAdvance(AdvanceDirection.Forwards)}
             disabled={currentPageIndex === pages.length - 1}
-          >
-            <BsChevronRight />
-          </button>
+          />
         </div>
       </div>
     </Layout>
