@@ -12,7 +12,15 @@ export default function SettingsMenu({}: Props) {
       }}
       parentClassName="about-game"
     >
-      Some settings
+      <div className="flex-center flex-column">
+        <span>This page is a work in progress...</span>
+        <span
+          role="img"
+          style={{ fontSize: 24 }}
+        >
+          🚧
+        </span>
+      </div>
     </Layout>
   );
 }
