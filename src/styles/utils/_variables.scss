@@ -14,6 +14,10 @@
   --c-accent-hsl: var(--c-accent-h), var(--c-accent-s), var(--c-accent-l);
   --c-accent: hsl(var(--c-accent-hsl));
 
+  // Complementary color
+  --c-complementary-hsl: 56, 100%, 50%;
+  --c-complementary: hsl(var(--c-complementary-hsl));
+
   // Text Color
   --c-text-l: 95%;
   --c-text: hsl(var(--c-accent-h), var(--c-accent-s), var(--c-text-l));
