@@ -1,0 +1,21 @@
+.about-game {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2em;
+    height: 100%;
+  }
+
+  &__message {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    padding: 0 2em;
+  }
+
+  &__salutation {
+    align-self: flex-end;
+  }
+}

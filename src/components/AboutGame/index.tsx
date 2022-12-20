@@ -1,4 +1,4 @@
-import { BackButton, Layout, WelcomeToolbar } from "@/components";
+import { BackButton, Layout, Logo, WelcomeToolbar } from "@/components";
 
 type Props = {};
 
@@ -12,7 +12,23 @@ export default function AboutGame({}: Props) {
       footerContent={<WelcomeToolbar />}
       parentClassName="about-game"
     >
-      About the game
+      <div className="about-game__wrapper">
+        <Logo />
+        <div className="about-game__message">
+          <p>
+            This game was created after playing several games of Killer Sudoku during a flight.
+            Since my phone was in Airplane mode,
+          </p>
+          <p>
+            I didn't see any ads and it was glorious! I so enjoyed playing with no ads that I
+            decided to build my own version of the game.
+          </p>
+          <p>This is that game.</p>
+          <p className="about-game__salutation">
+            - <a href="https://github.com/sprioleau">San&apos;Quan Prioleau</a>
+          </p>
+        </div>
+      </div>
     </Layout>
   );
 }
