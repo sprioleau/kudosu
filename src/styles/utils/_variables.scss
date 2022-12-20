@@ -15,8 +15,13 @@
   --c-accent: hsl(var(--c-accent-hsl));
 
   // Complementary color
-  --c-complementary-hsl: 56, 100%, 50%;
+  --c-complementary-hsl: 43, 91%, 59%;
   --c-complementary: hsl(var(--c-complementary-hsl));
+
+  // Additional Colors
+  --c-row: #ff5bbe;
+  --c-column: #1aaf8c;
+  --c-block: #a468ed;
 
   // Text Color
   --c-text-l: 95%;

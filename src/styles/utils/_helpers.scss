@@ -8,3 +8,19 @@
 .flex-column {
   flex-direction: column;
 }
+
+.accent-complementary {
+  color: var(--c-complementary);
+}
+
+.color-row {
+  color: var(--c-row);
+}
+
+.color-column {
+  color: var(--c-column);
+}
+
+.color-block {
+  color: var(--c-block);
+}
