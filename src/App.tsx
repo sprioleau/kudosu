@@ -10,8 +10,7 @@ import {
   SettingsMenu,
 } from "@/components";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import useGameStore, { EGameResult } from "@/store";
-import { showConfetti } from "@/utils";
+import useGameStore from "@/store";
 import { useActionOnBlur } from "./hooks";
 import { useEffect } from "react";
 import { EAction } from "./components/ActionToolbar";
