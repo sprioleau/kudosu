@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Cell from "../Cell";
 import { GameResultModal, Modal, PauseModal } from "@/components";
 import { usePersistGameData } from "@/hooks";
+import { SUDOKU_PUZZLE_SIZE } from "@/constants";
 
 const Board = () => {
   const navigate = useNavigate();
@@ -37,10 +38,9 @@ const Board = () => {
         ))}
       </ol>
       <ul className="board__grid">
-        <li className="board__grid-line horizontal"></li>
-        <li className="board__grid-line horizontal"></li>
-        <li className="board__grid-line vertical"></li>
-        <li className="board__grid-line vertical"></li>
+        {Array.from({ length: SUDOKU_PUZZLE_SIZE }).map(() => (
+          <li className="board__grid-cell" />
+        ))}
       </ul>
       <Modal
         isVisible={shouldShowPauseModal}

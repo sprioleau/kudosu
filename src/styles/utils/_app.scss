@@ -4,10 +4,8 @@
   flex-direction: column;
   justify-content: center;
   position: relative;
-  width: min(var(--board-size), 100vw - 2 * var(--app-padding));
-  padding: var(--app-padding);
-  margin: var(--app-padding);
-  aspect-ratio: 9 / 16;
+  height: 100%;
+  width: 100%;
   box-shadow: 0 0 0 1px hsla(var(--c-accent-hsl), var(--border-opacity));
   border-radius: 0.25em;
   background-color: var(--c-ui-bg);

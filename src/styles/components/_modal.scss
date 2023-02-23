@@ -8,6 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 
   &__content {
     position: absolute;
@@ -39,14 +40,10 @@
 
 @keyframes pulse {
   0% {
-    box-shadow: 
-      0 0 0 1px var(--c-accent),
-      0 0 20px var(--c-accent);
+    box-shadow: 0 0 0 1px var(--c-accent), 0 0 20px var(--c-accent);
   }
 
   100% {
-    box-shadow: 
-      0 0 0 1px var(--c-accent),
-      0 0 5px var(--c-accent);
+    box-shadow: 0 0 0 1px var(--c-accent), 0 0 5px var(--c-accent);
   }
 }

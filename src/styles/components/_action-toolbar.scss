@@ -1,9 +1,9 @@
 .action-toolbar {
-  margin-bottom: 1em;
+  padding: 0.25em 0.125em;
 
   &__options {
     display: flex;
-    gap: var(--board-gap);
+    gap: 0.325em;
   }
 
   &__option {
@@ -11,18 +11,24 @@
   }
 
   &__button {
+    --opacity: 0.05;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     margin: 0;
     gap: calc(var(--board-gap));
-    background-color: transparent;
     transition: background-color 0.3s ease-out;
     font-size: clamp(0.675em, 0.5em + 1.75vw, 1.125em);
     padding: 0.5em;
     min-height: 2.25em;
     color: var(--c-text);
+    background-color: hsla(var(--c-text-hsl), var(--opacity));
+
+    &:disabled {
+      --opacity: 0;
+      pointer-events: none;
+    }
 
     &:active:not(:disabled) {
       background-color: var(--c-accent);

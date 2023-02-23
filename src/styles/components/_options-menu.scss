@@ -10,8 +10,8 @@
     width: 100%;
     transition: box-shadow 0.25s ease-out;
     box-shadow: inset 0 0 0 3px transparent;
-    
-    &:active {
+
+    &:active:not(:disabled) {
       transform: unset;
     }
 
@@ -27,7 +27,8 @@
     gap: 0.5em;
   }
 
-  &__icon, &__arrow {
+  &__icon,
+  &__arrow {
     display: flex;
     align-items: center;
     justify-content: center;

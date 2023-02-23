@@ -2,10 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 0.7em;
+  font-size: 0.9em;
   letter-spacing: 0.025em;
-  margin-bottom: 1em;
-
+  padding: 0 0.5em;
 
   & > * {
     width: calc(100% / 3);
@@ -26,12 +25,14 @@
   }
 
   &__pause-button {
+    --opacity: 0.05;
     display: flex;
     align-items: center;
     gap: 0.25em;
     background-color: transparent;
-    padding: 0.125em;
-    padding-left: 0.25em;
+    padding: 0.4em;
+    padding-left: 0.65em;
+    background-color: hsla(var(--c-text-hsl), var(--opacity));
   }
 
   &__pause-icon {
