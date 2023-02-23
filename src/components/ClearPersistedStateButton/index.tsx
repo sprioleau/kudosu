@@ -1,9 +1,9 @@
-import { STORAGE_KEYS } from "@/constants";
+import { isMobileDevice, STORAGE_KEYS } from "@/constants";
 import useGameStore from "@/store";
 import localforage from "localforage";
 
 export default function ClearPersistedStateButton() {
-  if (process.env.NODE_ENV !== "development") return null;
+  if (process.env.NODE_ENV !== "development" || isMobileDevice) return null;
 
   const resetGame = useGameStore((s) => s.resetGame);
 
