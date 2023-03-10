@@ -71,6 +71,6 @@ Give a ⭐️ if you like this project!
 [linkedin]: https://www.linkedin.com/in/sanquanprioleau/
 
 <!-- Project Details -->
-[deployed-url]: https://kudosu.netlify.app
-[social-card-url]: https://kudosu.netlify.app/images/social-card.png "Social Card"
-[screenshot-url]: https://kudosu.netlify.app/images/gameplay.png "Gameplay Screenshot"
+[deployed-url]: https://kudosu.app
+[social-card-url]: https://kudosu.app/images/social-card.png "Social Card"
+[screenshot-url]: https://kudosu.app/images/gameplay.png "Gameplay Screenshot"

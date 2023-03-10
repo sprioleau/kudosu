@@ -14,7 +14,7 @@
     "game",
     "puzzle"
   ],
-  "homepage": "https://kudosu.netlify.app",
+  "homepage": "https://kudosu.app",
   "contributors": [],
   "scripts": {
     "dev": "vite --port=3000",
