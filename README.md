@@ -1,7 +1,5 @@
 ![Social Card][social-card-url]
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/002d0f6e-9c1c-45e3-ba74-1592d6179c43/deploy-status)](https://app.netlify.com/sites/kudosu/deploys)
-
 # Kudosu | An ad-free Sudoku game for enthusiasts.
 
 This game was created after playing several games of Killer Sudoku during a flight.
